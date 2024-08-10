@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\aidan.lei\\OneDrive - WiseTech Global Pty Ltd\\Documents\\uni stuff\\Assignment 2\\Assignment2\\PetPlayApp\\PetPlayApp.Server\\PetPlayApp.Server.csproj": {}
+    "C:\\Users\\Kyan.Grimm\\Source\\Repos\\UTS_31927_Assignment_2\\Assignment2\\PetPlayApp\\PetPlayApp.Server\\PetPlayApp.Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\aidan.lei\\OneDrive - WiseTech Global Pty Ltd\\Documents\\uni stuff\\Assignment 2\\Assignment2\\PetPlayApp\\PetPlayApp.Server\\PetPlayApp.Server.csproj": {
+    "C:\\Users\\Kyan.Grimm\\Source\\Repos\\UTS_31927_Assignment_2\\Assignment2\\PetPlayApp\\PetPlayApp.Server\\PetPlayApp.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\aidan.lei\\OneDrive - WiseTech Global Pty Ltd\\Documents\\uni stuff\\Assignment 2\\Assignment2\\PetPlayApp\\PetPlayApp.Server\\PetPlayApp.Server.csproj",
+        "projectUniqueName": "C:\\Users\\Kyan.Grimm\\Source\\Repos\\UTS_31927_Assignment_2\\Assignment2\\PetPlayApp\\PetPlayApp.Server\\PetPlayApp.Server.csproj",
         "projectName": "PetPlayApp.Server",
-        "projectPath": "C:\\Users\\aidan.lei\\OneDrive - WiseTech Global Pty Ltd\\Documents\\uni stuff\\Assignment 2\\Assignment2\\PetPlayApp\\PetPlayApp.Server\\PetPlayApp.Server.csproj",
-        "packagesPath": "C:\\Users\\aidan.lei\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\aidan.lei\\OneDrive - WiseTech Global Pty Ltd\\Documents\\uni stuff\\Assignment 2\\Assignment2\\PetPlayApp\\PetPlayApp.Server\\obj\\",
+        "projectPath": "C:\\Users\\Kyan.Grimm\\Source\\Repos\\UTS_31927_Assignment_2\\Assignment2\\PetPlayApp\\PetPlayApp.Server\\PetPlayApp.Server.csproj",
+        "packagesPath": "C:\\Users\\Kyan.Grimm\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kyan.Grimm\\Source\\Repos\\UTS_31927_Assignment_2\\Assignment2\\PetPlayApp\\PetPlayApp.Server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\aidan.lei\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Kyan.Grimm\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -38,11 +38,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -52,6 +47,20 @@
             "Microsoft.AspNetCore.SpaProxy": {
               "target": "Package",
               "version": "[8.*-*, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.7, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -77,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
