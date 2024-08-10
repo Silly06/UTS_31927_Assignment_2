@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PetPlayApp.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e2b7e9f88b8d46cc236de6292679b8dfdd3e7596")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+acaa18c4321f9e91d36b72b41f63dde2f7146110")]
 [assembly: System.Reflection.AssemblyProductAttribute("PetPlayApp.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PetPlayApp.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
