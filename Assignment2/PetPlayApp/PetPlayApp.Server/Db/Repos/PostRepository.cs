@@ -1,4 +1,6 @@
-﻿namespace PetPlayApp.Server.Db.Repos
+﻿using PetPlayApp.Server.Models;
+
+namespace PetPlayApp.Server.Db.Repos
 {
     public class PostRepository : Repository<Post>
     {

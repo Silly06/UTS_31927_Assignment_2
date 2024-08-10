@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PetPlayApp.Server.Models;
 
 namespace PetPlayApp.Server.Db
 {
