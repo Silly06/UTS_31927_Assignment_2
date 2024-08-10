@@ -2,6 +2,8 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs
+/.vs/
 /Assignment2/.vs/
+/Assignment2/PetPlayApp/petplayapp.client/obj/
 /Assignment2/PetPlayApp/PetPlayApp.Server/obj/
+/Assignment2/PetPlayApp/PetPlayApp.Server/bin/
