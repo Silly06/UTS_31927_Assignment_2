@@ -1,12 +1,14 @@
 ﻿using System.Linq.Expressions;
 
+#nullable enable
+
 namespace PetPlayApp.Server.Db.Repos
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        protected readonly HospitalContext _context; // Database context instance
+        protected readonly DatabaseContext _context; // Database context instance
 
-        public Repository(HospitalContext context)
+        public Repository(DatabaseContext context)
         {
             _context = context; // Injected database context
         }
