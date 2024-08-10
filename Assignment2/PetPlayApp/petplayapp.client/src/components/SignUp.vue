@@ -2,5 +2,5 @@
 </script>
 
 <template>
-<p>Home page</p>
+<p>Sign up</p>
 </template>
