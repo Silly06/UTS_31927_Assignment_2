@@ -2,9 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PetPlayApp.Server.Controllers
 {
-	[ApiController]
-	[Route("[controller]")]
-	public class HomeController : ControllerBase
+	public class HomeController : Controller
 	{
 		private static readonly string[] Summaries = new[]
 		{
@@ -18,7 +16,7 @@ namespace PetPlayApp.Server.Controllers
 			_logger = logger;
 		}
 
-		[HttpGet("/home/posts")]
+		[HttpGet("/home/getposts")]
 		public IEnumerable<Post> Get(HttpRequest request)
 		{
 			return new List<Post>();
