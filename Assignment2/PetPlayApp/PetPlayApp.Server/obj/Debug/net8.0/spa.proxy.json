@@ -1,0 +1,10 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:5173",
+"RedirectUrl": "",
+"LaunchCommand": "npm run dev",
+"WorkingDirectory": "C:\\Users\\aidan.lei\\OneDrive - WiseTech Global Pty Ltd\\Documents\\uni stuff\\Assignment 2\\Assignment2\\PetPlayApp\\PetPlayApp.Server\\..\\petplayapp.client",
+"MaxTimeoutInSeconds": "120",
+"KeepRunning": "false"
+}
+}

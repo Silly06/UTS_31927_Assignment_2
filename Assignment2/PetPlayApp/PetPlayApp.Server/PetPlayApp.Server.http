@@ -1,0 +1,6 @@
+@PetPlayApp.Server_HostAddress = http://localhost:5240
+
+GET {{PetPlayApp.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

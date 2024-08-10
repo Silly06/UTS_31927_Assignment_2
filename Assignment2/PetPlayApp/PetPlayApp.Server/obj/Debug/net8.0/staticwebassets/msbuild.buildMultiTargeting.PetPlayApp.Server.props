@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\PetPlayApp.Server.props" />
+</Project>
