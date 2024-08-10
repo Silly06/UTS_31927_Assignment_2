@@ -12,9 +12,9 @@ using System;
 using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("PetPlayApp.Server")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("DEBUG")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6c096187d225c43d6b0649d3fc5647fb5d0b2208")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e5a70ae6748afee181edcbec4a7bbf6b2b254b18")]
 [assembly: System.Reflection.AssemblyProductAttribute("PetPlayApp.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PetPlayApp.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
