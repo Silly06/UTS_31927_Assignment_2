@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace PetPlayApp.Server.Db
 {
     public class DatabaseContext : DbContext
     {
-        // DbSet for books table
+        // DbSet for users table
         public DbSet<User> Users { get; set; }
-        // DbSet for authors table
+        // DbSet for posts table
         public DbSet<Post> Posts { get; set; }
         public string DbPath { get; }
 
@@ -15,7 +14,7 @@ namespace PetPlayApp.Server.Db
         {
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
-            DbPath = System.IO.Path.Join(path, "PetPlay.db");
+            DbPath = Path.Join(path, "PetPlay.db");
             Console.WriteLine("Database path:" + DbPath);
         }
 

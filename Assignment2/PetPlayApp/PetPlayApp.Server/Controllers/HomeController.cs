@@ -1,25 +1,32 @@
 using Microsoft.AspNetCore.Mvc;
+using PetPlayApp.Server.Db.Repos;
+using System.Text.Json;
+using System.Net;
 
 namespace PetPlayApp.Server.Controllers
 {
 	public class HomeController : Controller
 	{
-		private static readonly string[] Summaries = new[]
-		{
-			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-		};
-
 		private readonly ILogger<HomeController> _logger;
+		private readonly PostRepository _postRepository;
 
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(ILogger<HomeController> logger, PostRepository postRepository)
 		{
 			_logger = logger;
+			_postRepository = postRepository;
 		}
 
 		[HttpGet("/home/getposts")]
-		public IEnumerable<Post> Get(HttpRequest request)
+		public HttpResponseMessage Get(HttpRequest request)
 		{
-			return new List<Post>();
-;		}
+			var posts = _postRepository.GetAll().OrderBy(x => x.DateTimePosted);
+			var response = new HttpResponseMessage
+			{
+				Content = new StringContent(JsonSerializer.Serialize(posts)),
+				StatusCode = HttpStatusCode.OK
+			};
+
+			return response;
+		}
 	}
 }
