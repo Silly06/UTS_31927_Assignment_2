@@ -4,7 +4,7 @@ import { createApp } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router';
 import App from './App.vue'
 import EditProfile from './components/EditProfile.vue'
-import Home from './components/Home.vue'
+import Home from './components/HomePage.vue'
 import Login from './components/Login.vue'
 import Matches from './components/Matches.vue'
 import NewPost from './components/NewPost.vue'
