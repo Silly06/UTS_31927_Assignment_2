@@ -7,5 +7,8 @@ namespace PetPlayApp.Server.Models
         public User PostCreator { get; set; }
 
         public string? Description { get; set; }
+
+        public List<User>? Likes { get; set; }
     }
 }
+// :)

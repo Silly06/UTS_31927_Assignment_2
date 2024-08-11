@@ -1,4 +1,6 @@
-﻿namespace PetPlayApp.Server.Models.Match
+﻿using PetPlayApp.Server.Models;
+
+namespace PetPlayApp.Server.Extensions
 {
     public static class MatchExtensions
     {

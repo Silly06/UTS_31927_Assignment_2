@@ -1,8 +1,8 @@
 ﻿using PetPlayApp.Server.Db.Repos;
 using PetPlayApp.Server.Models;
-using PetPlayApp.Server.Models.Match;
 
-# nullable enable
+
+#nullable enable
 
 namespace PetPlayApp.Server.Db.Services
 {
@@ -15,12 +15,12 @@ namespace PetPlayApp.Server.Db.Services
             _userRepo = userRepo;
         }
 
-        public User? GetUserByName(string userName)
+        public User? GetUser(string userName)
         {
             return _userRepo.GetAll().Where(u => u.UserName == userName).FirstOrDefault();
         }
 
-        public User? GetUserById(int id)
+        public User? GetUser(int id)
         {
             return _userRepo.GetById(id);
         }
@@ -37,6 +37,27 @@ namespace PetPlayApp.Server.Db.Services
         {
             // Bryan can add log in stuff here
             return true;
+        }
+
+        public void RemoveUser(string name)
+        {
+            var userToRemove = GetUser(name);
+            if (userToRemove != null)
+            {
+                _userRepo.Remove(userToRemove);
+            }
+        }
+
+        public void RemoveUser(int id)
+        {
+            var userToRemove = _userRepo.GetById(id);
+            _userRepo.Remove(userToRemove);
+        }
+
+        public void SeedUsers()
+        {
+            _userRepo.RemoveAll();
+            // plant the seeds
         }
     }
 }

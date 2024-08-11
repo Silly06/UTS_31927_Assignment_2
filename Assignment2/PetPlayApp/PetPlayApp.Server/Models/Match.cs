@@ -1,4 +1,4 @@
-﻿namespace PetPlayApp.Server.Models.Match
+﻿namespace PetPlayApp.Server.Models
 {
     public class Match
     {

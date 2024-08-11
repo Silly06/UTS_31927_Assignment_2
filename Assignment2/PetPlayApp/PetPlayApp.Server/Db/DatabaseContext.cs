@@ -9,6 +9,8 @@ namespace PetPlayApp.Server.Db
         public DbSet<User> Users { get; set; }
         // DbSet for posts table
         public DbSet<Post> Posts { get; set; }
+        // DbSet for matches table
+        public DbSet<Match> Matches { get; set; }
         public string DbPath { get; }
 
         public DatabaseContext()

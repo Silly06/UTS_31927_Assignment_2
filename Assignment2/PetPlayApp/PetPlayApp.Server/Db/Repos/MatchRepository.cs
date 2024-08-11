@@ -1,4 +1,4 @@
-﻿using PetPlayApp.Server.Models.Match;
+﻿using PetPlayApp.Server.Models;
 
 namespace PetPlayApp.Server.Db.Repos
 {
