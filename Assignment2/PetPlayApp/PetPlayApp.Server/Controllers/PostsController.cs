@@ -3,6 +3,7 @@ using PetPlayApp.Server.Db.Repos;
 using PetPlayApp.Server.Models;
 using System.Text.Json;
 using System.Net;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace PetPlayApp.Server.Controllers
 {
@@ -18,23 +19,50 @@ namespace PetPlayApp.Server.Controllers
             _postRepository = postRepository;
         }
 
-        [HttpGet("GetRecentPosts")]
-        public HttpResponseMessage GetRecentPosts()
-        {
-            var posts = _postRepository.GetAll().OrderBy(x => x.DateTimePosted);
-            var response = new HttpResponseMessage
-            {
-                Content = new StringContent(JsonSerializer.Serialize(posts)),
-                StatusCode = HttpStatusCode.OK
-            };
+		[HttpGet("GetRecentPosts")]
+		public HttpResponseMessage GetRecentPosts([FromBody] int page)
+		{
+			var postsIds = _postRepository.GetAll()
+				.OrderBy(x => x.DateTimePosted)
+				.Take(page * 10)
+				.TakeLast(10)
+				.OrderBy(x => x.DateTimePosted)
+				.Select(x => x.Id)
+				.ToList();
 
-            return response;
-        }
+			var response = new HttpResponseMessage
+			{
+				Content = new StringContent(JsonSerializer.Serialize(postsIds)),
+				StatusCode = HttpStatusCode.OK
+			};
+
+			return response;
+		}
 
 		[HttpGet("GetUserPosts")]
-		public HttpResponseMessage GetUserPosts([FromBody] Guid userid)
+		public HttpResponseMessage GetUserPosts([FromBody] int page, [FromBody] Guid userid)
 		{
-			var posts = _postRepository.GetAll().Where(x => x.PostCreatorId == userid).OrderBy(x => x.DateTimePosted);
+			var postsIds = _postRepository.GetAll()
+				.Where(x => x.PostCreatorId == userid)
+				.OrderBy(x => x.DateTimePosted)
+				.Take(page * 10)
+				.TakeLast(10)
+				.OrderBy(x => x.DateTimePosted)
+				.Select(x => x.Id)
+				.ToList();
+
+			var response = new HttpResponseMessage
+			{
+				Content = new StringContent(JsonSerializer.Serialize(postsIds)),
+				StatusCode = HttpStatusCode.OK
+			};
+			return response;
+		}
+
+		[HttpGet("GetPostDetails")]
+		public HttpResponseMessage GetPostDetails([FromBody] Guid postid)
+		{
+			var posts = _postRepository.GetById(postid);
 			var response = new HttpResponseMessage
 			{
 				Content = new StringContent(JsonSerializer.Serialize(posts)),
@@ -43,7 +71,7 @@ namespace PetPlayApp.Server.Controllers
 			return response;
 		}
 
-        [HttpPost("NewPost")]
+		[HttpPost("NewPost")]
         public HttpResponseMessage CreatePost([FromBody] PostRequestModel postRequest)
 		{
             if (postRequest.PostCreatorId == null)

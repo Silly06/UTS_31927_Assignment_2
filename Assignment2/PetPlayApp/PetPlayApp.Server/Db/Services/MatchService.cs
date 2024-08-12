@@ -35,7 +35,7 @@ namespace PetPlayApp.Server.Db.Services
             return _matchRepo.GetAll().ToList();
         }
 
-        public Match GetMatch(int id)
+        public Match GetMatch(Guid id)
         {
             return _matchRepo.GetById(id);
         }

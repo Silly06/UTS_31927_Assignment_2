@@ -22,7 +22,9 @@
         <button class="header-button" @click="navigateToHome">
             <img src="../assets/home.png" style="width: 70px;">
         </button>
-        <button class="header-button" @click="navigateToNotifications">Notifications</button>
+        <button class="header-button" @click="navigateToNotifications">
+            <img src="../assets/notification.png" style="width: 70px;">
+        </button>
     </div>
 </template>
 
@@ -46,14 +48,4 @@
             cursor: pointer;
             background-color: lightskyblue;
         }
-
-    @media (prefers-color-scheme: dark) {
-        .header-button {
-            background-color: darkslateblue;
-        }
-
-            .header-button:hover {
-                background-color: slateblue;
-            }
-    }
 </style>

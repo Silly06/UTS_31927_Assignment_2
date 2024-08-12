@@ -2,7 +2,7 @@ namespace PetPlayApp.Server.Models
 {
     public class Post
     {
-        public Guid PK { get; set; }
+        public Guid Id { get; set; }
 
         public DateTime DateTimePosted { get; set; }
 

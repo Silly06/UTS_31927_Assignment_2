@@ -20,7 +20,7 @@ namespace PetPlayApp.Server.Db.Services
             return _userRepo.GetAll().Where(u => u.UserName == userName).FirstOrDefault();
         }
 
-        public User? GetUser(int id)
+        public User? GetUser(Guid id)
         {
             return _userRepo.GetById(id);
         }
@@ -48,7 +48,7 @@ namespace PetPlayApp.Server.Db.Services
             }
         }
 
-        public void RemoveUser(int id)
+        public void RemoveUser(Guid id)
         {
             var userToRemove = _userRepo.GetById(id);
             _userRepo.Remove(userToRemove);

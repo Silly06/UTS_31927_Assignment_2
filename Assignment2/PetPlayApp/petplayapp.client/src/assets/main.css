@@ -10,13 +10,3 @@
 #router-view {
     background-color: white;
 }
-
-@media (prefers-color-scheme: dark) {
-    #header {
-        background-color: darkslateblue;
-    }
-
-    #router-view {
-        background-color: darkslategray;
-    }
-}
