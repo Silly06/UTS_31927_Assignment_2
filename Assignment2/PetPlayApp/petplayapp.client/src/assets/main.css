@@ -1,35 +1,22 @@
 @import './base.css';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+#header {
+    overflow: hidden;
+    background-color: skyblue;
+    padding: 0px 20px;
+    margin-bottom: 50px;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+#router-view {
+    background-color: white;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
+@media (prefers-color-scheme: dark) {
+    #header {
+        background-color: darkslateblue;
+    }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+    #router-view {
+        background-color: darkslategray;
+    }
 }

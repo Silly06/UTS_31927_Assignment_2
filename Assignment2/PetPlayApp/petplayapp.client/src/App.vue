@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import Home from './components/Home.vue'
+    import Home from './components/Home.vue'
+    import AppHeader from './components/AppHeader.vue'
 </script>
 
 <template>
   <header>
-    Pet Play!
+    <AppHeader></AppHeader>
   </header>
 
   <main>
