@@ -13,7 +13,5 @@ namespace PetPlayApp.Server.Models
         public string? Description { get; set; }
 
         public List<User>? Likes { get; set; }
-
-        public Image? Image { get; set; }
     }
 }
