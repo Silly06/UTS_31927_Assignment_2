@@ -40,15 +40,36 @@ namespace PetPlayApp.Server.Db.Services
             return _matchRepo.GetById(id);
         }
 
-        public void AddMatch(Match match)
+        public void AddMatch(User user1, User user2, int user1Response = (int) UserResponse.Pending, int user2Response = (int)UserResponse.Pending, int overallStatus = (int)MatchStatus.AwaitingResponse)
         {
-            if (ValidateMatch(match))
-            _matchRepo.Add(match);
+
+            if (ValidateMatch(user1, user2, user1Response, user2Response, overallStatus))
+            {
+                _matchRepo.Add(new Match(user1, user2, user1Response, user2Response, overallStatus));
+            }
+            else
+            {
+                //validation error or smt
+            }
         }
 
-        private bool ValidateMatch(Match match)
+        private bool ValidateMatch(User user1, User user2, int user1Response = (int)UserResponse.Pending, int user2Response = (int)UserResponse.Pending, int overallStatus = (int)MatchStatus.AwaitingResponse)
         {
-            return !match.User1.IsMatched() && !match.User2.IsMatched();
+            var validMatch = true;
+            if (user1 == null || user2 == null)
+            {
+                validMatch = false;
+            }
+            if (!(user1Response == (int)UserResponse.Accepted || user1Response == (int)UserResponse.Rejected || user1Response == (int)UserResponse.Pending)
+                || !(user2Response == (int)UserResponse.Accepted || user2Response == (int)UserResponse.Rejected || user2Response == (int)UserResponse.Pending))
+            {
+                validMatch = false;
+            }
+            if (!(overallStatus == (int)MatchStatus.Success || overallStatus == (int)MatchStatus.Failure || overallStatus == (int)MatchStatus.AwaitingResponse))
+            {
+                validMatch = false;
+            }
+            return validMatch;
         }
 
         public void ConfirmMatch(Match match)
@@ -58,6 +79,13 @@ namespace PetPlayApp.Server.Db.Services
                 match.User1.UserStatus = (int)UserStatus.Matched;
                 match.User2.UserStatus = (int)UserStatus.Matched;
             }
+        }
+
+        public void SeedMatches()
+        {
+            _matchRepo.RemoveAll();
+
+            // need to get access to other services/repos here to seed matches with seeded users but too lazy rn
         }
     }
 }

@@ -6,6 +6,7 @@ namespace PetPlayApp.Server.Extensions
     {
         public static bool IsMatched(this User user)
         {
+            if (user.UserStatus == null) return false;
             return (UserStatus)user.UserStatus == UserStatus.Matched;
         }
     }
