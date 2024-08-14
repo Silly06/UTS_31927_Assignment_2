@@ -25,6 +25,11 @@ namespace PetPlayApp.Server.Db.Services
             return _userRepo.GetById(id);
         }
 
+        public IEnumerable<User> GetAllUsers()
+        {
+            return _userRepo.GetAll();
+        }
+
         public void AddUser(User user)
         {
             if (ValidateUser(user))
@@ -52,6 +57,11 @@ namespace PetPlayApp.Server.Db.Services
         {
             var userToRemove = _userRepo.GetById(id);
             _userRepo.Remove(userToRemove);
+        }
+
+        public void UpdateUserData()
+        {
+
         }
 
         public void SeedUsers()

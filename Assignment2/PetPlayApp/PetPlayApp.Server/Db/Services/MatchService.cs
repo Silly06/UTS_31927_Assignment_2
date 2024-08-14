@@ -19,6 +19,7 @@ namespace PetPlayApp.Server.Db.Services
             if (match.CheckUserResponse(1, UserResponse.Accepted) && match.CheckUserResponse(2, UserResponse.Accepted))
             {
                 match.OverallStatus = (int)MatchStatus.Success;
+                ConfirmMatch(match);
             }
             else if (match.IsAwaitingResponse())
             {
@@ -28,6 +29,7 @@ namespace PetPlayApp.Server.Db.Services
             {
                 match.OverallStatus = (int)MatchStatus.Failure;
             }
+            _matchRepo.SaveChanges();
         }
 
         public List<Match> GetAllMatches()
@@ -49,7 +51,7 @@ namespace PetPlayApp.Server.Db.Services
             }
             else
             {
-                //validation error or smt
+                // validation error
             }
         }
 
@@ -85,7 +87,13 @@ namespace PetPlayApp.Server.Db.Services
         {
             _matchRepo.RemoveAll();
 
-            // need to get access to other services/repos here to seed matches with seeded users but too lazy rn
+            List<User> users = ServiceRetriever.UserService.GetAllUsers().ToList();
+
+            AddMatch(users[0], users[1]); // Pending match between Todd and Baldwin
+            AddMatch(users[2], users[3], (int)UserResponse.Accepted, (int)UserResponse.Accepted, (int)MatchStatus.Success); //Accepted match between Aidan and Garfield
+            AddMatch(users[4], users[0], (int)UserResponse.Accepted, (int)UserResponse.Rejected, (int)MatchStatus.Failure); // Failed match between Danny and Todd
+
+            _matchRepo.SaveChanges();
         }
     }
 }

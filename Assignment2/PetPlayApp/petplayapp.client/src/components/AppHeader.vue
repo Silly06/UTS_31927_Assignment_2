@@ -13,6 +13,9 @@
             navigateToNotifications() {
                 this.$router.push('/Notifications')
             },
+            navigateToProfile() {
+                this.$router.push('/Profile')
+            },
         }
     })
 </script>
@@ -24,6 +27,9 @@
         </button>
         <button class="header-button" @click="navigateToNotifications">
             <img src="../assets/notification.png" style="width: 70px;">
+        </button>
+        <button class="header-button" @click="navigateToProfile">
+            <img src="../assets/profile.png" style="width: 70px;">
         </button>
     </div>
 </template>
@@ -43,6 +49,7 @@
         background-color: skyblue;
         color: black;
         border-color: black;
+        max-height: 110px
     }
         .header-button:hover {
             cursor: pointer;
