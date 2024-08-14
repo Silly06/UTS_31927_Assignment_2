@@ -6,6 +6,13 @@ namespace PetPlayApp.Server.Db.Repos
     {
         public PostRepository(DatabaseContext context) : base(context)
         {
-        }
+			
+		}
+		
+		public void LikePost(Post post, User user)
+			{
+				if(GetById(post.Id) != null)
+				GetById(post.Id).Likes.Add(user);
+			}
     }
 }

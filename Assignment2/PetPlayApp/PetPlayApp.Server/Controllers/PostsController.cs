@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PetPlayApp.Server.Db.Repos;
 using PetPlayApp.Server.Models;
-using System.Text.Json;
+using System;
+using System.IO;
 using System.Net;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text.Json;
 
 namespace PetPlayApp.Server.Controllers
 {
@@ -20,7 +22,7 @@ namespace PetPlayApp.Server.Controllers
         }
 
 		[HttpGet("GetRecentPosts")]
-		public HttpResponseMessage GetRecentPosts([FromBody] int page)
+		public IActionResult GetRecentPosts([FromQuery] int page)
 		{
 			var postsIds = _postRepository.GetAll()
 				.OrderBy(x => x.DateTimePosted)
@@ -30,13 +32,7 @@ namespace PetPlayApp.Server.Controllers
 				.Select(x => x.Id)
 				.ToList();
 
-			var response = new HttpResponseMessage
-			{
-				Content = new StringContent(JsonSerializer.Serialize(postsIds)),
-				StatusCode = HttpStatusCode.OK
-			};
-
-			return response;
+			return Ok(postsIds);
 		}
 
 		[HttpGet("GetUserPosts")]
@@ -60,40 +56,37 @@ namespace PetPlayApp.Server.Controllers
 		}
 
 		[HttpGet("GetPostDetails")]
-		public HttpResponseMessage GetPostDetails([FromBody] Guid postid)
+		public IActionResult GetPostDetails([FromQuery] Guid postid)
 		{
-			var posts = _postRepository.GetById(postid);
-			var response = new HttpResponseMessage
-			{
-				Content = new StringContent(JsonSerializer.Serialize(posts)),
-				StatusCode = HttpStatusCode.OK
-			};
-			return response;
+			var post = _postRepository.GetById(postid);
+			return Ok(post);
 		}
 
 		[HttpPost("NewPost")]
-        public HttpResponseMessage CreatePost([FromBody] PostRequestModel postRequest)
+		public async Task<IActionResult> NewPost([FromForm] IFormFile image, [FromForm] string description, [FromForm] Guid postCreatorId)
 		{
-            if (postRequest.PostCreatorId == null)
-            {
-				return new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = "PostCreatorId is missing" };
-			}
-			if (postRequest.Description == null)
+			if (image == null || image.Length == 0)
+				return BadRequest("Image is required");
+
+			byte[] imageData;
+			using (var memoryStream = new MemoryStream())
 			{
-				return new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = "Description is missing" };
+				await image.CopyToAsync(memoryStream);
+				imageData = memoryStream.ToArray();
 			}
+
 			var post = new Post
 			{
+				Id = Guid.NewGuid(),
 				DateTimePosted = DateTime.Now,
-				PostCreatorId = postRequest.PostCreatorId,
-				Description = postRequest.Description
+				PostCreatorId = postCreatorId,
+				Description = description,
+				ImageData = imageData
 			};
+
 			_postRepository.Add(post);
-			var response = new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.OK
-			};
-			return response;
+
+			return Ok(post);
 		}
 	}
 }
