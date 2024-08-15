@@ -31,7 +31,7 @@ namespace PetPlayApp.Server.Db.Services
             {
                 match.OverallStatus = (int)MatchStatus.Failure;
             }
-            matchRepository.SaveChanges();
+            matchRepository.Update(match);
         }
 
         public List<Match> GetAllMatches()
@@ -39,7 +39,7 @@ namespace PetPlayApp.Server.Db.Services
             return matchRepository.GetAll().ToList();
         }
 
-        public Match GetMatch(Guid id)
+        public Match? GetMatch(Guid id)
         {
             return matchRepository.GetById(id);
         }
@@ -80,6 +80,10 @@ namespace PetPlayApp.Server.Db.Services
         {
             if (match.OverallStatus == (int)MatchStatus.Success)
             {
+                if(match.User1 == null || match.User2 == null)
+                {
+                    throw new NullReferenceException();
+				}
                 match.User1.UserStatus = (int)UserStatus.Matched;
                 match.User2.UserStatus = (int)UserStatus.Matched;
             }
@@ -94,8 +98,6 @@ namespace PetPlayApp.Server.Db.Services
             AddMatch(users[0], users[1]); // Pending match between Todd and Baldwin
             AddMatch(users[2], users[3], (int)UserResponse.Accepted, (int)UserResponse.Accepted, (int)MatchStatus.Success); //Accepted match between Aidan and Garfield
             AddMatch(users[4], users[0], (int)UserResponse.Accepted, (int)UserResponse.Rejected, (int)MatchStatus.Failure); // Failed match between Danny and Todd
-
-            matchRepository.SaveChanges();
         }
     }
 }

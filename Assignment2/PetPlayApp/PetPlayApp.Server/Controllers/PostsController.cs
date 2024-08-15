@@ -1,12 +1,6 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PetPlayApp.Server.Db.Repos;
 using PetPlayApp.Server.Db.Services;
 using PetPlayApp.Server.Models;
-using System;
-using System.IO;
-using System.Net;
-using System.Text.Json;
 
 namespace PetPlayApp.Server.Controllers
 {
@@ -64,7 +58,7 @@ namespace PetPlayApp.Server.Controllers
 				ImageData = imageData
 			};
 
-			postRepository.Add(post);
+			postService.AddPost(post);
 
 			return Ok(post);
 		}

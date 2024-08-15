@@ -8,33 +8,33 @@ namespace PetPlayApp.Server.Db.Services
 {
     public class UserService
     {
-        private readonly UserRepository _userRepo;
+        private readonly Repository<User> userRepository;
 
-        public UserService(UserRepository userRepo)
+        public UserService(RepositoryProvider repositoryProvider)
         {
-            _userRepo = userRepo;
+            this.userRepository = repositoryProvider.GetRepository<User>();
         }
 
         public User? GetUser(string userName)
         {
-            return _userRepo.GetAll().Where(u => u.UserName == userName).FirstOrDefault();
+            return userRepository.GetAll().Where(u => u.UserName == userName).FirstOrDefault();
         }
 
         public User? GetUser(Guid id)
         {
-            return _userRepo.GetById(id);
+            return userRepository.GetById(id);
         }
 
         public IEnumerable<User> GetAllUsers()
         {
-            return _userRepo.GetAll();
+            return userRepository.GetAll();
         }
 
         public void AddUser(User user)
         {
             if (ValidateUser(user))
             {
-                _userRepo.Add(user);
+				userRepository.Add(user);
             }
         }
 
@@ -49,14 +49,17 @@ namespace PetPlayApp.Server.Db.Services
             var userToRemove = GetUser(name);
             if (userToRemove != null)
             {
-                _userRepo.Remove(userToRemove);
+				userRepository.Remove(userToRemove);
             }
         }
 
         public void RemoveUser(Guid id)
         {
-            var userToRemove = _userRepo.GetById(id);
-            _userRepo.Remove(userToRemove);
+            var userToRemove = userRepository.GetById(id);
+			if (userToRemove != null)
+			{
+				userRepository.Remove(userToRemove);
+			}
         }
 
         public void UpdateUserData()
@@ -66,11 +69,11 @@ namespace PetPlayApp.Server.Db.Services
 
         public void SeedUsers()
         {
-            // Remove existing users
-            _userRepo.RemoveAll();
+			// Remove existing users
+			userRepository.RemoveAll();
 
-            // Add new users
-			_userRepo.Add(new User
+			// Add new users
+			userRepository.Add(new User
 			{
 				UserName = "ToddTheTurtle",
 				Password = "ToddPassword",
@@ -81,7 +84,7 @@ namespace PetPlayApp.Server.Db.Services
 				Interest = (int)UserInterest.Mammals
 			});
 
-			_userRepo.Add(new User
+			userRepository.Add(new User
 			{
 				UserName = "BaldwinTheBunny",
 				Password = "BaldwinPassword",
@@ -92,7 +95,7 @@ namespace PetPlayApp.Server.Db.Services
 				Interest = (int)UserInterest.Birds
 			});
 
-			_userRepo.Add(new User
+			userRepository.Add(new User
 			{
 				UserName = "AidanTheAlpaca",
 				Password = "AidanPassword",
@@ -103,7 +106,7 @@ namespace PetPlayApp.Server.Db.Services
 				Interest = (int)UserInterest.Mammals
 			});
 
-			_userRepo.Add(new User
+			userRepository.Add(new User
 			{
 				UserName = "Garfield",
 				Password = "GarfieldPassword",
@@ -114,7 +117,7 @@ namespace PetPlayApp.Server.Db.Services
 				Interest = (int)UserInterest.Reptiles
 			});
 
-			_userRepo.Add(new User
+			userRepository.Add(new User
 			{
 				UserName = "DannyTheDog",
 				Password = "DannyPassword",
@@ -125,7 +128,7 @@ namespace PetPlayApp.Server.Db.Services
 				Interest = (int)UserInterest.Amphibians
 			});
 
-			_userRepo.Add(new User
+			userRepository.Add(new User
 			{
 				UserName = "HanselTheHorse",
 				Password = "HanselPassword",
@@ -135,7 +138,6 @@ namespace PetPlayApp.Server.Db.Services
 				UserStatus = (int)UserStatus.NotMatched,
 				Interest = (int)UserInterest.Unlisted
 			});
-            _userRepo.SaveChanges();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace PetPlayApp.Server.Db.Repos
             _context = context; // Injected database context
         }
 
-        public T GetById(Guid id)
+        public T? GetById(Guid id)
         {
             return _context.Set<T>().Find(id); // Find entity by ID
         }
@@ -31,18 +31,20 @@ namespace PetPlayApp.Server.Db.Repos
         public void Add(T entity)
         {
             _context.Set<T>().Add(entity); // Add entity to DbSet
-        }
-
-        public async Task AddAsync(T entity)
-        {
-            await _context.Set<T>().AddAsync(entity);
-            await _context.SaveChangesAsync();
-        }
+			SaveChanges();
+		}
 
         public void Remove(T entity)
         {
             _context.Set<T>().Remove(entity); // Remove entity from DbSet
-        }
+			SaveChanges();
+		}
+
+        public void Update(T entity)
+		{
+			_context.Set<T>().Update(entity); // Update entity in DbSet
+			SaveChanges();
+		}
 
 		public void RemoveAll()
 		{
@@ -54,7 +56,7 @@ namespace PetPlayApp.Server.Db.Repos
 			SaveChanges();
 		}
 
-		public void SaveChanges()
+	    void SaveChanges()
         {
             _context.SaveChanges(); // Save changes to the database
         }

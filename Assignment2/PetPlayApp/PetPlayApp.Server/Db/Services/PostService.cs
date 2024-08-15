@@ -17,14 +17,14 @@ namespace PetPlayApp.Server.Db.Services
 		public void LikePost(Post post, User user)
         {
             post.Likes.Add(user);
-			postRepository.SaveChanges();
+			postRepository.Update(post);
             CheckForMatch(post, user);
         }
 
 		public void UnlikePost(Post post, User user)
 		{
 			post.Likes.Remove(user);
-			postRepository.SaveChanges();
+			postRepository.Update(post);
 		}
 
 		public List<Guid> GetRecentPosts(int page)
@@ -54,10 +54,15 @@ namespace PetPlayApp.Server.Db.Services
 			return postsIds;
 		}
 
-		public Post GetPost(Guid postid)
+		public Post? GetPost(Guid postid)
 		{
 			var post = postRepository.GetById(postid);
 			return post;
+		}
+
+		public void AddPost(Post post)
+		{
+			postRepository.Add(post);
 		}
 
 		public void CheckForMatch(Post post, User user)
