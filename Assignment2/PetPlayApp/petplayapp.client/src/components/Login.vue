@@ -26,6 +26,8 @@
 
             console.log('User ID:', data.UserId);
             localStorage.setItem('userId', data.UserId);
+            this.$router.push('/Home')
+
         } catch (error) {
             errorMessage.value = error.message;
         }

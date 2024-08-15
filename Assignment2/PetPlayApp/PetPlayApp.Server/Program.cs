@@ -18,7 +18,11 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-app.Services.GetRequiredService<SeedService>().SeedData();
+using (var scope = app.Services.CreateScope())
+{
+	var seedService = scope.ServiceProvider.GetRequiredService<SeedService>();
+	seedService.SeedData();
+}
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
