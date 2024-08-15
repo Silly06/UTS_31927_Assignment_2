@@ -31,7 +31,7 @@ namespace PetPlayApp.Server.Db
 			modelBuilder.Entity<Post>()
 				.HasMany(e => e.Likes)
 				.WithMany(e => e.LikedPosts)
-				.UsingEntity<PostLike>();
+				.UsingEntity<Like>();
 
             modelBuilder.Entity<Post>()
                 .HasOne(e => e.PostCreator)

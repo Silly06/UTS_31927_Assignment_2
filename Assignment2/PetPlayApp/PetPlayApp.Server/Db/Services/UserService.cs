@@ -76,7 +76,7 @@ namespace PetPlayApp.Server.Db.Services
 				Password = "ToddPassword",
 				Email = "Todd@gmail.com",
 				Age = 18,
-				Bio = "Likes long walks on the leash",
+				Bio = "Like long walks on the leash",
 				UserStatus = (int)UserStatus.NotMatched,
 				Interest = (int)UserInterest.Mammals
 			});
@@ -87,7 +87,7 @@ namespace PetPlayApp.Server.Db.Services
 				Password = "BaldwinPassword",
 				Email = "Baldwin@gmail.com",
 				Age = 19,
-				Bio = "Likes carrots",
+				Bio = "Like carrots",
 				UserStatus = (int)UserStatus.NotMatched,
 				Interest = (int)UserInterest.Birds
 			});
@@ -98,7 +98,7 @@ namespace PetPlayApp.Server.Db.Services
 				Password = "AidanPassword",
 				Email = "Aidan@gmail.com",
 				Age = 18,
-				Bio = "Likes apples and climbing",
+				Bio = "Like apples and climbing",
 				UserStatus = (int)UserStatus.Matched,
 				Interest = (int)UserInterest.Mammals
 			});
@@ -120,7 +120,7 @@ namespace PetPlayApp.Server.Db.Services
 				Password = "DannyPassword",
 				Email = "Danny@gmail.com",
 				Age = 19,
-				Bio = "Likes dog things",
+				Bio = "Like dog things",
 				UserStatus = (int)UserStatus.NotMatched,
 				Interest = (int)UserInterest.Amphibians
 			});
@@ -131,7 +131,7 @@ namespace PetPlayApp.Server.Db.Services
 				Password = "HanselPassword",
 				Email = "Hansel@gmail.com",
 				Age = 18,
-				Bio = "Likes hay",
+				Bio = "Like hay",
 				UserStatus = (int)UserStatus.NotMatched,
 				Interest = (int)UserInterest.Unlisted
 			});

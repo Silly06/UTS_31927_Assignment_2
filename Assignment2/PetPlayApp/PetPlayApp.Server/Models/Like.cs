@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace PetPlayApp.Server.Models
 {
 	[PrimaryKey("PostId", "UserId")]
-	public class PostLike
+	public class Like
 	{
 		[ForeignKey("Post")]
 		public Guid PostId { get; set; }

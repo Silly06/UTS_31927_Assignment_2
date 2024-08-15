@@ -11,7 +11,7 @@ using PetPlayApp.Server.Db;
 namespace PetPlayApp.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240815015219_InitialCreate")]
+    [Migration("20240815021154_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -19,6 +19,21 @@ namespace PetPlayApp.Server.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
+
+            modelBuilder.Entity("PetPlayApp.Server.Models.Like", b =>
+                {
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PostId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Like");
+                });
 
             modelBuilder.Entity("PetPlayApp.Server.Models.Match", b =>
                 {
@@ -36,9 +51,6 @@ namespace PetPlayApp.Server.Migrations
 
                     b.Property<int>("User2Response")
                         .HasColumnType("INTEGER");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("TEXT");
 
                     b.HasKey("User1Id", "User2Id");
 
@@ -70,21 +82,6 @@ namespace PetPlayApp.Server.Migrations
                     b.HasIndex("PostCreatorId");
 
                     b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("PetPlayApp.Server.Models.PostLike", b =>
-                {
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("PostId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PostLike");
                 });
 
             modelBuilder.Entity("PetPlayApp.Server.Models.User", b =>
@@ -119,6 +116,25 @@ namespace PetPlayApp.Server.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("PetPlayApp.Server.Models.Like", b =>
+                {
+                    b.HasOne("PetPlayApp.Server.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PetPlayApp.Server.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PetPlayApp.Server.Models.Match", b =>
                 {
                     b.HasOne("PetPlayApp.Server.Models.User", "User1")
@@ -145,25 +161,6 @@ namespace PetPlayApp.Server.Migrations
                         .HasForeignKey("PostCreatorId");
 
                     b.Navigation("PostCreator");
-                });
-
-            modelBuilder.Entity("PetPlayApp.Server.Models.PostLike", b =>
-                {
-                    b.HasOne("PetPlayApp.Server.Models.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PetPlayApp.Server.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PetPlayApp.Server.Models.User", b =>
