@@ -1,34 +1,36 @@
-﻿namespace PetPlayApp.Server.Models
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace PetPlayApp.Server.Models
 {
-    public class Match
-    {
-        public User User1 { get; set; }
-        public User User2 { get; set; }
-        public int User1Response { get; set; }
-        public int User2Response { get; set; }
-        public int OverallStatus { get; set; }
+    [PrimaryKey("User1Id", "User2Id")]
+	public class Match
+	{
+		[ForeignKey("User1Id")]
+		public Guid User1Id { get; set; }
+		public User? User1 { get; set; }
 
-        public Match(User user1, User user2, int user1Response, int user2Response, int overallStatus)
-        {
-            User1 = user1;
-            User2 = user2;
-            User1Response = user1Response;
-            User2Response = user2Response;
-            OverallStatus = overallStatus;
-        }
-    }
+		[ForeignKey("User2Id")]
+		public Guid User2Id { get; set; }
+		public User? User2 { get; set; }
 
-    public enum MatchStatus
-    {
-        Success,
-        Failure,
-        AwaitingResponse
-    }
+		public int User1Response { get; set; }
+		public int User2Response { get; set; }
+		public int OverallStatus { get; set; }
+	}
 
-    public enum UserResponse
-    {
-        Accepted,
-        Rejected,
-        Pending
-    }
+	public enum MatchStatus
+	{
+		Success,
+		Failure,
+		AwaitingResponse
+	}
+
+	public enum UserResponse
+	{
+		Accepted,
+		Rejected,
+		Pending
+	}
 }

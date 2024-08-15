@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace PetPlayApp.Server.Models
 {
 	public class Post
@@ -6,9 +8,9 @@ namespace PetPlayApp.Server.Models
 
 		public DateTime DateTimePosted { get; set; }
 
-		public Guid? PostCreatorId { get; set; }
-
 		public User? PostCreator { get; set; }
+
+		public Guid? PostCreatorId { get; set; }
 
 		public string? Description { get; set; }
 

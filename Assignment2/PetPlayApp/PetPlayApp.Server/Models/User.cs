@@ -8,28 +8,20 @@ namespace PetPlayApp.Server.Models
 		[Key]
 		public Guid PK { get; set; }
 
-		public string UserName { get; set; }
-		public string Password { get; set; }
-		public string Email { get; set; }
+		public string? UserName { get; set; }
+		public string? Password { get; set; }
+		public string? Email { get; set; }
 		public int? Age { get; set; }
 		public string? Bio { get; set; }
 		public int? UserStatus { get; set; }
 		public int? Interest { get; set; }
 
-		public List<PostLike> PostLikes { get; set; } = new List<PostLike>();
+		public List<Match>? MatchesInitiated { get; set; }
+		public List<Match>? MatchesReceived { get; set; }
 
-		public List<Post> CreatedPosts { get; set; } = new List<Post>();
+		public List<Post> LikedPosts { get; } = [];
 
-		public User(string name, string pass, string email, int age, string bio = "", int status = 0, int interest = 0)
-		{
-			UserName = name;
-			Password = pass;
-			Email = email;
-			Age = age;
-			Bio = bio;
-			UserStatus = status;
-			Interest = interest;
-		}
+		public List<Post> CreatedPosts { get; } = [];
 	}
 
 	public enum UserStatus

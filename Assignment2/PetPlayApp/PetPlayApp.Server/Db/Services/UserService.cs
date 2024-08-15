@@ -70,12 +70,71 @@ namespace PetPlayApp.Server.Db.Services
             _userRepo.RemoveAll();
 
             // Add new users
-            _userRepo.Add(new User("ToddTheTurtle", "ToddPassword", "Todd@gmail.com", 18, "Likes long walks on the leash", (int)UserStatus.NotMatched, (int)UserInterest.Mammals));
-            _userRepo.Add(new User("BaldwinTheBunny", "BaldwinPassword", "Baldwin@gmail.com", 19, "Likes carrots", (int)UserStatus.NotMatched, (int)UserInterest.Birds));
-            _userRepo.Add(new User("AidanTheAlpaca", "AidanPassword", "Aidan@gmail.com", 18, "Likes apples and climbing", (int)UserStatus.Matched, (int)UserInterest.Mammals));
-            _userRepo.Add(new User("Garfield", "GarfieldPassword", "Garfield@gmail.com", 22, "Eats lasagna", (int)UserStatus.Matched, (int)UserInterest.Reptiles));
-            _userRepo.Add(new User("DannyTheDog", "DannyPassword", "Danny@gmail.com", 19, "Likes dog things", (int)UserStatus.NotMatched, (int)UserInterest.Amphibians));
-            _userRepo.Add(new User("HanselTheHorse", "HanselPassword", "Hansel@gmail.com", 18, "Likes hay", (int)UserStatus.NotMatched, (int)UserInterest.Unlisted));
+			_userRepo.Add(new User
+			{
+				UserName = "ToddTheTurtle",
+				Password = "ToddPassword",
+				Email = "Todd@gmail.com",
+				Age = 18,
+				Bio = "Likes long walks on the leash",
+				UserStatus = (int)UserStatus.NotMatched,
+				Interest = (int)UserInterest.Mammals
+			});
+
+			_userRepo.Add(new User
+			{
+				UserName = "BaldwinTheBunny",
+				Password = "BaldwinPassword",
+				Email = "Baldwin@gmail.com",
+				Age = 19,
+				Bio = "Likes carrots",
+				UserStatus = (int)UserStatus.NotMatched,
+				Interest = (int)UserInterest.Birds
+			});
+
+			_userRepo.Add(new User
+			{
+				UserName = "AidanTheAlpaca",
+				Password = "AidanPassword",
+				Email = "Aidan@gmail.com",
+				Age = 18,
+				Bio = "Likes apples and climbing",
+				UserStatus = (int)UserStatus.Matched,
+				Interest = (int)UserInterest.Mammals
+			});
+
+			_userRepo.Add(new User
+			{
+				UserName = "Garfield",
+				Password = "GarfieldPassword",
+				Email = "Garfield@gmail.com",
+				Age = 22,
+				Bio = "Eats lasagna",
+				UserStatus = (int)UserStatus.Matched,
+				Interest = (int)UserInterest.Reptiles
+			});
+
+			_userRepo.Add(new User
+			{
+				UserName = "DannyTheDog",
+				Password = "DannyPassword",
+				Email = "Danny@gmail.com",
+				Age = 19,
+				Bio = "Likes dog things",
+				UserStatus = (int)UserStatus.NotMatched,
+				Interest = (int)UserInterest.Amphibians
+			});
+
+			_userRepo.Add(new User
+			{
+				UserName = "HanselTheHorse",
+				Password = "HanselPassword",
+				Email = "Hansel@gmail.com",
+				Age = 18,
+				Bio = "Likes hay",
+				UserStatus = (int)UserStatus.NotMatched,
+				Interest = (int)UserInterest.Unlisted
+			});
             _userRepo.SaveChanges();
         }
     }

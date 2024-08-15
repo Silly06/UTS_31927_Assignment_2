@@ -26,5 +26,32 @@ namespace PetPlayApp.Server.Db
             // Configures the context to use SQLite as the database provider
             optionsBuilder.UseSqlite($"Data Source={DbPath}");
         }
-    }
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<Post>()
+				.HasMany(e => e.Likes)
+				.WithMany(e => e.LikedPosts)
+				.UsingEntity<PostLike>();
+
+            modelBuilder.Entity<Post>()
+                .HasOne(e => e.PostCreator)
+                .WithMany(e => e.CreatedPosts);
+
+			modelBuilder.Entity<Match>()
+				.HasKey(m => new { m.User1Id, m.User2Id });
+
+			modelBuilder.Entity<Match>()
+				.HasOne(m => m.User1)
+				.WithMany(u => u.MatchesInitiated)
+				.HasForeignKey(m => m.User1Id)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<Match>()
+				.HasOne(m => m.User2)
+				.WithMany(u => u.MatchesReceived)
+				.HasForeignKey(m => m.User2Id)
+				.OnDelete(DeleteBehavior.Restrict);
+
+		}
+	}
 }

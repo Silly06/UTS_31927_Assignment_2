@@ -6,12 +6,15 @@ namespace PetPlayApp.Server.Db.Services
 {
     public class MatchService
     {
-        private readonly MatchRepository _matchRepo;
+        private readonly MatchRepository matchRepository;
+        private readonly UserService userService;
 
-        public MatchService(MatchRepository matchRepo)
+        public MatchService(MatchRepository matchRepo, UserService userService)
         {
-            _matchRepo = matchRepo;
-        }
+			matchRepository = matchRepo;
+			this.userService = userService;
+
+		}
 
 
         public void UpdateMatchStatus(Match match)
@@ -29,17 +32,17 @@ namespace PetPlayApp.Server.Db.Services
             {
                 match.OverallStatus = (int)MatchStatus.Failure;
             }
-            _matchRepo.SaveChanges();
+            matchRepository.SaveChanges();
         }
 
         public List<Match> GetAllMatches()
         {
-            return _matchRepo.GetAll().ToList();
+            return matchRepository.GetAll().ToList();
         }
 
         public Match GetMatch(Guid id)
         {
-            return _matchRepo.GetById(id);
+            return matchRepository.GetById(id);
         }
 
         public void AddMatch(User user1, User user2, int user1Response = (int) UserResponse.Pending, int user2Response = (int)UserResponse.Pending, int overallStatus = (int)MatchStatus.AwaitingResponse)
@@ -47,7 +50,7 @@ namespace PetPlayApp.Server.Db.Services
 
             if (ValidateMatch(user1, user2, user1Response, user2Response, overallStatus))
             {
-                _matchRepo.Add(new Match(user1, user2, user1Response, user2Response, overallStatus));
+                matchRepository.Add(new Match { User1 = user1, User2 = user2, User1Response = user1Response, User2Response = user2Response, OverallStatus = overallStatus });
             }
             else
             {
@@ -85,15 +88,15 @@ namespace PetPlayApp.Server.Db.Services
 
         public void SeedMatches()
         {
-            _matchRepo.RemoveAll();
+            matchRepository.RemoveAll();
 
-            List<User> users = ServiceRetriever.UserService.GetAllUsers().ToList();
+            List<User> users = userService.GetAllUsers().ToList();
 
             AddMatch(users[0], users[1]); // Pending match between Todd and Baldwin
             AddMatch(users[2], users[3], (int)UserResponse.Accepted, (int)UserResponse.Accepted, (int)MatchStatus.Success); //Accepted match between Aidan and Garfield
             AddMatch(users[4], users[0], (int)UserResponse.Accepted, (int)UserResponse.Rejected, (int)MatchStatus.Failure); // Failed match between Danny and Todd
 
-            _matchRepo.SaveChanges();
+            matchRepository.SaveChanges();
         }
     }
 }
