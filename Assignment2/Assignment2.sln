@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetPlayApp.Server", "PetPlayApp\PetPlayApp.Server\PetPlayApp.Server.csproj", "{0B955184-2A98-41EF-8967-4FF8A6EC75BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetPlayApp.Server", "PetPlayApp\PetPlayApp.Server\PetPlayApp.Server.csproj", "{0B955184-2A98-41EF-8967-4FF8A6EC75BC}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "petplayapp.client", "PetPlayApp\petplayapp.client\petplayapp.client.esproj", "{6505608A-9895-448C-AD89-6BDD294EAC75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetPlayApp.Test", "PetPlayApp.Test\PetPlayApp.Test.csproj", "{BCB2BC63-304B-4E55-9B71-C40449350E15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{6505608A-9895-448C-AD89-6BDD294EAC75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6505608A-9895-448C-AD89-6BDD294EAC75}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6505608A-9895-448C-AD89-6BDD294EAC75}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{BCB2BC63-304B-4E55-9B71-C40449350E15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCB2BC63-304B-4E55-9B71-C40449350E15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCB2BC63-304B-4E55-9B71-C40449350E15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCB2BC63-304B-4E55-9B71-C40449350E15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

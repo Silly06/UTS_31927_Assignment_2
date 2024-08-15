@@ -8,11 +8,11 @@ using PetPlayApp.Server.Db.Services;
 namespace PetPlayApp.Server.Controllers
 {
     [Route("posts")]
-    public class ProfileController : Controller
+    public class UserController : Controller
     {
         private readonly Repository<User> userRepository;
 
-        public ProfileController(ILogger<ProfileController> logger, RepositoryProvider repositoryProvider)
+        public UserController(ILogger<UserController> logger, RepositoryProvider repositoryProvider)
         {
             userRepository = repositoryProvider.GetRepository<User>();
         }

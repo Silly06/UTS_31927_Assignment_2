@@ -9,3 +9,5 @@
 /Assignment2/PetPlayApp/PetPlayApp.Server/bin/
 /Assignment2/PetPlayApp/PetPlayApp.Server/obj/Debug/net8.0/spa.proxy.json
 /.vscode
+/Assignment2/PetPlayApp.Test/bin/Debug/net8.0
+/Assignment2/PetPlayApp.Test/obj
