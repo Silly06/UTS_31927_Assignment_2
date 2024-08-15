@@ -16,6 +16,8 @@ namespace PetPlayApp.Server.Models
 		public User? Subject { get; set; }
 		public Guid SubjectId { get; set; }
 
+		public DateTime Timestamp { get; set; }
+
 		public NotificationType? NotificationType { get; set; }
 	}
 
