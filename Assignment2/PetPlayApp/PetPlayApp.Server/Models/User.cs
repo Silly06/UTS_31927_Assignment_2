@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace PetPlayApp.Server.Models
@@ -13,14 +14,15 @@ namespace PetPlayApp.Server.Models
 		public string? Email { get; set; }
 		public int? Age { get; set; }
 		public string? Bio { get; set; }
-		public int? UserStatus { get; set; }
-		public int? Interest { get; set; }
+		public UserStatus? UserStatus { get; set; }
+		public UserInterest? Interest { get; set; }
 
 		public List<Match>? MatchesInitiated { get; set; }
 		public List<Match>? MatchesReceived { get; set; }
 
 		public List<Post> LikedPosts { get; } = [];
 
+		[InverseProperty("PostCreator")]
 		public List<Post> CreatedPosts { get; } = [];
 	}
 

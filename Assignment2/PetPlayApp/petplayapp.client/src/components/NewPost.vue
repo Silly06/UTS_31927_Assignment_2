@@ -22,11 +22,12 @@
     };
 
     const createPost = async () => {
-        const formData = new FormData();
-        formData.append('image', image.value);
-        formData.append('description', description.value);
-        const postCreatorId = localStorage.getItem('userId');
-        formData.append('postCreatorId', postCreatorId);
+        const userId = localStorage.getItem('userId');
+        const response = await axios.post('/users/login', {
+            image: image.value,
+            description: description.value
+            userId: userId.value
+        });
 
         try {
             const response = await axios.post('/posts/CreatePost', formData, {

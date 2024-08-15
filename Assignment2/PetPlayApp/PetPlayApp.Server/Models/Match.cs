@@ -15,9 +15,9 @@ namespace PetPlayApp.Server.Models
 		public Guid User2Id { get; set; }
 		public User? User2 { get; set; }
 
-		public int User1Response { get; set; }
-		public int User2Response { get; set; }
-		public int OverallStatus { get; set; }
+		public UserResponse User1Response { get; set; }
+		public UserResponse User2Response { get; set; }
+		public MatchStatus OverallStatus { get; set; }
 	}
 
 	public enum MatchStatus

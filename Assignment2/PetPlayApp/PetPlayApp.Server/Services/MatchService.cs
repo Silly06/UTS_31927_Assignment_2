@@ -20,16 +20,16 @@ namespace PetPlayApp.Server.Db.Services
         {
             if (match.CheckUserResponse(1, UserResponse.Accepted) && match.CheckUserResponse(2, UserResponse.Accepted))
             {
-                match.OverallStatus = (int)MatchStatus.Success;
+                match.OverallStatus = MatchStatus.Success;
                 ConfirmMatch(match);
             }
             else if (match.IsAwaitingResponse())
             {
-                match.OverallStatus = (int)MatchStatus.AwaitingResponse;
+                match.OverallStatus = MatchStatus.AwaitingResponse;
             }
             else if (match.IsMatchRejected())
             {
-                match.OverallStatus = (int)MatchStatus.Failure;
+                match.OverallStatus = MatchStatus.Failure;
             }
             matchRepository.Update(match);
         }
@@ -44,7 +44,7 @@ namespace PetPlayApp.Server.Db.Services
             return matchRepository.GetById(id);
         }
 
-        public void AddMatch(User user1, User user2, int user1Response = (int) UserResponse.Pending, int user2Response = (int)UserResponse.Pending, int overallStatus = (int)MatchStatus.AwaitingResponse)
+        public void AddMatch(User user1, User user2, UserResponse user1Response = UserResponse.Pending, UserResponse user2Response = UserResponse.Pending, MatchStatus overallStatus = MatchStatus.AwaitingResponse)
         {
 
             if (ValidateMatch(user1, user2, user1Response, user2Response, overallStatus))
@@ -57,19 +57,19 @@ namespace PetPlayApp.Server.Db.Services
             }
         }
 
-        private bool ValidateMatch(User user1, User user2, int user1Response = (int)UserResponse.Pending, int user2Response = (int)UserResponse.Pending, int overallStatus = (int)MatchStatus.AwaitingResponse)
+        private bool ValidateMatch(User user1, User user2, UserResponse user1Response = UserResponse.Pending, UserResponse user2Response = UserResponse.Pending, MatchStatus overallStatus = MatchStatus.AwaitingResponse)
         {
             var validMatch = true;
             if (user1 == null || user2 == null)
             {
                 validMatch = false;
             }
-            if (!(user1Response == (int)UserResponse.Accepted || user1Response == (int)UserResponse.Rejected || user1Response == (int)UserResponse.Pending)
-                || !(user2Response == (int)UserResponse.Accepted || user2Response == (int)UserResponse.Rejected || user2Response == (int)UserResponse.Pending))
+            if (!(user1Response == UserResponse.Accepted || user1Response == UserResponse.Rejected || user1Response == UserResponse.Pending)
+                || !(user2Response == UserResponse.Accepted || user2Response == UserResponse.Rejected || user2Response == UserResponse.Pending))
             {
                 validMatch = false;
             }
-            if (!(overallStatus == (int)MatchStatus.Success || overallStatus == (int)MatchStatus.Failure || overallStatus == (int)MatchStatus.AwaitingResponse))
+            if (!(overallStatus == MatchStatus.Success || overallStatus == MatchStatus.Failure || overallStatus == MatchStatus.AwaitingResponse))
             {
                 validMatch = false;
             }
@@ -78,26 +78,15 @@ namespace PetPlayApp.Server.Db.Services
 
         public void ConfirmMatch(Match match)
         {
-            if (match.OverallStatus == (int)MatchStatus.Success)
+            if (match.OverallStatus == MatchStatus.Success)
             {
                 if(match.User1 == null || match.User2 == null)
                 {
                     throw new NullReferenceException();
 				}
-                match.User1.UserStatus = (int)UserStatus.Matched;
-                match.User2.UserStatus = (int)UserStatus.Matched;
+                match.User1.UserStatus = UserStatus.Matched;
+                match.User2.UserStatus = UserStatus.Matched;
             }
-        }
-
-        public void SeedMatches()
-        {
-            matchRepository.RemoveAll();
-
-            List<User> users = userService.GetAllUsers().ToList();
-
-            AddMatch(users[0], users[1]); // Pending match between Todd and Baldwin
-            AddMatch(users[2], users[3], (int)UserResponse.Accepted, (int)UserResponse.Accepted, (int)MatchStatus.Success); //Accepted match between Aidan and Garfield
-            AddMatch(users[4], users[0], (int)UserResponse.Accepted, (int)UserResponse.Rejected, (int)MatchStatus.Failure); // Failed match between Danny and Todd
         }
     }
 }

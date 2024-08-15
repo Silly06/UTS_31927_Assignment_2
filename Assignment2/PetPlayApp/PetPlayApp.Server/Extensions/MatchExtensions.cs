@@ -8,11 +8,11 @@ namespace PetPlayApp.Server.Extensions
         {
             if (user == 1)
             {
-                return match.User1Response == (int)response;
+                return match.User1Response == response;
             }
             else if (user == 2)
             {
-                return match.User2Response == (int)response;
+                return match.User2Response == response;
             }
             return false;
         }

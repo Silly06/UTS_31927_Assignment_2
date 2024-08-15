@@ -9,10 +9,6 @@
     const login = async () => {
         errorMessage.value = '';
         try {
-            const formData = new FormData();
-            formData.append('username', username.value);
-            formData.append('password', password.value);
-
             const response = await axios.post('/users/login', {
                 username: username.value,
                 password: password.value

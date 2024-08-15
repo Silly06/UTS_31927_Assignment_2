@@ -11,7 +11,7 @@ using PetPlayApp.Server.Db;
 namespace PetPlayApp.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240815073613_InitialCreate")]
+    [Migration("20240815082546_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

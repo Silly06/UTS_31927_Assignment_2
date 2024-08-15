@@ -46,6 +46,22 @@ export default defineConfig({
             '^/users/login': {
                 target,
                 secure: false
+            },
+            '^/posts/GetRecentPosts': {
+                target,
+                secure: false
+            },
+            '^/posts/GetUserPosts': {
+                target,
+                secure: false
+            },
+            '^/posts/GetPostDetails': {
+                target,
+                secure: false
+            },
+            '^/posts/NewPost': {
+                target,
+                secure: false
             }
         },
         port: 5173,

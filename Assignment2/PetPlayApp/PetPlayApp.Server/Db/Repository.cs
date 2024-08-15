@@ -53,7 +53,6 @@ namespace PetPlayApp.Server.Db.Repos
 			{
 				_context.Remove(entity);
 			}
-			SaveChanges();
 		}
 
 	    void SaveChanges()
