@@ -1,17 +1,18 @@
 // File: PetPlayApp/PetPlayApp.Server/Db/Services/CommentService.cs
 using PetPlayApp.Server.Db;
 using PetPlayApp.Server.Models;
+using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Services
 {
-    public class CommentService
+    public class CommentService : ICommentService
     {
-        private readonly Repository<Comment> commentRepository;
-        private readonly Repository<Post> postRepository;
-		private readonly Repository<User> userRepository;
-        private readonly NotificationService notificationService;
+        private readonly IRepository<Comment> commentRepository;
+        private readonly IRepository<Post> postRepository;
+		private readonly IRepository<User> userRepository;
+        private readonly INotificationService notificationService;
 		
-        public CommentService(RepositoryProvider repositoryProvider, NotificationService notificationService)
+        public CommentService(IRepositoryProviderService repositoryProvider, INotificationService notificationService)
         {
             commentRepository = repositoryProvider.GetRepository<Comment>();
             postRepository = repositoryProvider.GetRepository<Post>();

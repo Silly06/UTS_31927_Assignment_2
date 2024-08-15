@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
-using PetPlayApp.Server.Services;
+using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Controllers
 {
     [Route("users")]
     public class UserController : Controller
     {
-        private readonly UserService userService;
+        private readonly IUserService userService;
 
-        public UserController(UserService userService)
+        public UserController(IUserService userService)
         {
             this.userService = userService;
         }

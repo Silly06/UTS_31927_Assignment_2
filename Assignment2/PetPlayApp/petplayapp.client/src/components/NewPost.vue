@@ -23,17 +23,13 @@
 
     const createPost = async () => {
         const userId = localStorage.getItem('userId');
-        const response = await axios.post('/users/login', {
-            image: image.value,
-            description: description.value
-            userId: userId.value
-        });
+        
 
         try {
-            const response = await axios.post('/posts/CreatePost', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+            const response = await axios.post('/posts/CreatePost', {
+                image: image.value,
+                description: description.value,
+                userId: userId.value
             });
             console.log('Post created:', response.data);
         } catch (error) {

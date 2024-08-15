@@ -7,14 +7,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services
-    .AddDbContext<DatabaseContext>()
-    .AddScoped<RepositoryProvider>()
+	.AddDbContext<DatabaseContext>()
+	.AddScoped<IRepositoryProviderService, RepositoryProviderService>()
 	.AddScoped<IPostService, PostService>()
-	.AddScoped<UserService>()
-    .AddScoped<MatchService>()
-	.AddScoped<CommentService>()
-	.AddScoped<NotificationService>()
-    .AddScoped<SeedService>();
+	.AddScoped<IUserService, UserService>()
+	.AddScoped<IMatchService, MatchService>()
+	.AddScoped<ICommentService, CommentService>()
+	.AddScoped<INotificationService, NotificationService>()
+	.AddScoped<ISeedService, SeedService>();
 
 builder.Services.AddControllers();
 
@@ -22,7 +22,7 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-	var seedService = scope.ServiceProvider.GetRequiredService<SeedService>();
+	var seedService = scope.ServiceProvider.GetRequiredService<ISeedService>();
 	seedService.SeedData();
 }
 

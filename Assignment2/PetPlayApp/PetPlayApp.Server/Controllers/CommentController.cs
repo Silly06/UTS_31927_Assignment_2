@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PetPlayApp.Server.Services;
-using PetPlayApp.Server.Models;
+using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Controllers
 {
 	[Route("comments")]
 	public class CommentController : Controller
 	{
-		private readonly CommentService commentService;
+		private readonly ICommentService commentService;
 
-		public CommentController(CommentService commentService)
+		public CommentController(ICommentService commentService)
 		{
 			this.commentService = commentService;
 		}

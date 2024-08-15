@@ -1,6 +1,9 @@
+using PetPlayApp.Server.Services.Abstractions;
+
 namespace PetPlayApp.Server.Services
+
 {
-    public class NotificationService
+    public class NotificationService : INotificationService
     {
         public void NotifyCommentCreated(Guid postId, Guid userId, string content)
         {
