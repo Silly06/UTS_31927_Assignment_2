@@ -11,7 +11,7 @@ using PetPlayApp.Server.Db;
 namespace PetPlayApp.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240815021154_InitialCreate")]
+    [Migration("20240815073613_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,12 +25,12 @@ namespace PetPlayApp.Server.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("PostId", "Id");
+                    b.HasKey("PostId", "UserId");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Like");
                 });
@@ -126,7 +126,7 @@ namespace PetPlayApp.Server.Migrations
 
                     b.HasOne("PetPlayApp.Server.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

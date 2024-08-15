@@ -1,6 +1,7 @@
 using PetPlayApp.Server.Db;
 using PetPlayApp.Server.Db.Repos;
 using PetPlayApp.Server.Db.Services;
+using PetPlayApp.Server.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,11 +11,14 @@ builder.Services
     .AddDbContext<DatabaseContext>()
     .AddScoped<RepositoryProvider>()
     .AddScoped<UserService>()
-    .AddScoped<MatchService>();
+    .AddScoped<MatchService>()
+    .AddScoped<SeedService>();
 
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+app.Services.GetRequiredService<SeedService>().SeedData();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

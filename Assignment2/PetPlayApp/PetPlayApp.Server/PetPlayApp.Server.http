@@ -1,6 +1,16 @@
 @PetPlayApp.Server_HostAddress = http://localhost:5240
 
-GET {{PetPlayApp.Server_HostAddress}}/weatherforecast/
+GET {{PetPlayApp.Server_HostAddress}}/posts/GetRecentPosts
 Accept: application/json
 
-###
+GET {{PetPlayApp.Server_HostAddress}}/posts/GetUserPosts
+Accept: application/json
+
+GET {{PetPlayApp.Server_HostAddress}}/posts/GetPostDetails
+Accept: application/json
+
+POST {{PetPlayApp.Server_HostAddress}}/posts/NewPost
+Accept: application/json
+
+POST {{PetPlayApp.Server_HostAddress}}/users/login
+Accept: application/json

@@ -15,7 +15,7 @@ namespace PetPlayApp.Server.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    PK = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", nullable: true),
                     Password = table.Column<string>(type: "TEXT", nullable: true),
                     Email = table.Column<string>(type: "TEXT", nullable: true),
@@ -26,7 +26,7 @@ namespace PetPlayApp.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.PK);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,7 +103,7 @@ namespace PetPlayApp.Server.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Like_UserId",
                 table: "Like",
-                column: "Id");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Matches_User2Id",

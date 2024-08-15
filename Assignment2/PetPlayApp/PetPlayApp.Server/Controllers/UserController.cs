@@ -7,28 +7,34 @@ using PetPlayApp.Server.Db.Services;
 
 namespace PetPlayApp.Server.Controllers
 {
-    [Route("posts")]
+    [Route("users")]
     public class UserController : Controller
     {
-        private readonly Repository<User> userRepository;
+        private readonly UserService userService;
 
-        public UserController(ILogger<UserController> logger, RepositoryProvider repositoryProvider)
+        public UserController(UserService userService)
         {
-            userRepository = repositoryProvider.GetRepository<User>();
+            this.userService = userService;
         }
 
-		[HttpGet("GetUsers")]
-		public HttpResponseMessage GetUsers([FromBody] int page)
+		[HttpPost("login")]
+		public IActionResult Login([FromBody] LoginRequest loginRequest)
 		{
-			var userIds = userRepository.GetAll();
-
-			var response = new HttpResponseMessage
+			if (string.IsNullOrWhiteSpace(loginRequest.Username) || string.IsNullOrWhiteSpace(loginRequest.Password))
 			{
-				Content = new StringContent(JsonSerializer.Serialize(userIds)),
-				StatusCode = HttpStatusCode.OK
-			};
+				return BadRequest("Username or password was empty or missing");
+			}
+			if (userService.TryValidateUser(loginRequest.Username, loginRequest.Password, out var userId))
+			{
+				return Ok(new { UserId = userId });
+			}
+			return Unauthorized();
+		}
 
-			return response;
+		public class LoginRequest
+		{
+			public string? Username { get; set; }
+			public string? Password { get; set; }
 		}
 	}
 }
