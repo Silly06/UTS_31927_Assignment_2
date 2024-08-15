@@ -5,11 +5,11 @@ using PetPlayApp.Server.Models;
 
 namespace PetPlayApp.Server.Db.Services
 {
-    public class PostService
+    public class PostService : IPostService
     {
 		private readonly Repository<Post> postRepository;
 
-		public PostService(ILogger<PostsController> logger, RepositoryProvider repositoryProvider)
+		public PostService(RepositoryProvider repositoryProvider)
 		{
 			postRepository = repositoryProvider.GetRepository<Post>();
 		}

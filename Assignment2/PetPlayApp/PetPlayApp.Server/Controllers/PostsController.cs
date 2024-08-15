@@ -7,12 +7,11 @@ namespace PetPlayApp.Server.Controllers
     [Route("posts")]
     public class PostsController : Controller
     {
-        private readonly PostService postService;
+        private readonly IPostService postService;
 
-        public PostsController(PostService postService)
+        public PostsController(IPostService postService)
         {
 			this.postService = postService;
-
 		}
 
 		[HttpGet("GetRecentPosts")]
@@ -37,10 +36,14 @@ namespace PetPlayApp.Server.Controllers
 		}
 
 		[HttpPost("NewPost")]
-		public async Task<IActionResult> NewPost([FromForm] IFormFile image, [FromForm] string description, [FromForm] Guid postCreatorId)
+		public async Task<IActionResult> NewPost([FromForm] IFormFile? image, [FromForm] string? description, [FromForm] Guid? postCreatorId)
 		{
 			if (image == null || image.Length == 0)
 				return BadRequest("Image is required");
+			if (description == null)
+				return BadRequest("Description is required");
+			if (postCreatorId == null)
+				return BadRequest("Post creator id is required");
 
 			byte[] imageData;
 			using (var memoryStream = new MemoryStream())

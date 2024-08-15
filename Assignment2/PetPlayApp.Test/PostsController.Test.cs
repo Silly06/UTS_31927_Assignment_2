@@ -1,14 +1,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NUnit.Framework;
 using PetPlayApp.Server.Controllers;
 using PetPlayApp.Server.Db.Services;
 using PetPlayApp.Server.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace PetPlayApp.Test
 {
@@ -22,6 +17,12 @@ namespace PetPlayApp.Test
 		{
 			mockPostService = new Mock<PostService>();
 			postsController = new PostsController(mockPostService.Object);
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			postsController.Dispose();
 		}
 
 		[Test]
@@ -96,7 +97,6 @@ namespace PetPlayApp.Test
 				Description = description,
 				ImageData = []
 			};
-
 			mockPostService.Setup(service => service.AddPost(It.IsAny<Post>())).Verifiable();
 
 			// Act
@@ -129,12 +129,6 @@ namespace PetPlayApp.Test
 				Assert.That(result.StatusCode, Is.EqualTo(400));
 				Assert.That(result.Value, Is.EqualTo("Image is required"));
 			});
-		}
-
-		[TearDown]
-		public void TearDown()
-		{
-			postsController.Dispose();
 		}
 	}
 }
