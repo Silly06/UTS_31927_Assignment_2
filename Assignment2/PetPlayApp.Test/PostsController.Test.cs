@@ -9,13 +9,13 @@ namespace PetPlayApp.Test
 {
 	public class PostsControllerTests
 	{
-		private Mock<PostService> mockPostService;
+		private Mock<IPostService> mockPostService;
 		private PostsController postsController;
 
 		[SetUp]
 		public void Setup()
 		{
-			mockPostService = new Mock<PostService>();
+			mockPostService = new Mock<IPostService>();
 			postsController = new PostsController(mockPostService.Object);
 		}
 
@@ -88,15 +88,7 @@ namespace PetPlayApp.Test
 			// Arrange
 			var postCreatorId = Guid.NewGuid();
 			var description = "Test Description";
-			var image = new FormFile(new MemoryStream([]), 0, 0, "Data", "dummy.png");
-			var post = new Post
-			{
-				Id = Guid.NewGuid(),
-				DateTimePosted = DateTime.Now,
-				PostCreatorId = postCreatorId,
-				Description = description,
-				ImageData = []
-			};
+			var image = new FormFile(new MemoryStream([]), 0, 1, "Data", "dummy.png");
 			mockPostService.Setup(service => service.AddPost(It.IsAny<Post>())).Verifiable();
 
 			// Act
