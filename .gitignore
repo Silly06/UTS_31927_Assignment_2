@@ -11,3 +11,6 @@
 /.vscode
 /Assignment2/PetPlayApp.Test/bin/Debug/net8.0
 /Assignment2/PetPlayApp.Test/obj
+/node_modules
+/package-lock.json
+/package.json
