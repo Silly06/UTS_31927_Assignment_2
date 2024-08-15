@@ -3,27 +3,24 @@ using PetPlayApp.Server.Db.Repos;
 using PetPlayApp.Server.Models;
 using System.Text.Json;
 using System.Net;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using PetPlayApp.Server.Db.Services;
 
 namespace PetPlayApp.Server.Controllers
 {
     [Route("posts")]
     public class ProfileController : Controller
     {
-        private readonly ILogger<ProfileController> _logger;
-        private readonly UserRepository _userRepository;
+        private readonly Repository<User> userRepository;
 
-        public ProfileController(ILogger<ProfileController> logger, UserRepository userRepository)
+        public ProfileController(ILogger<ProfileController> logger, RepositoryProvider repositoryProvider)
         {
-            _logger = logger;
-            _userRepository = userRepository;
+            userRepository = repositoryProvider.GetRepository<User>();
         }
 
 		[HttpGet("GetUsers")]
 		public HttpResponseMessage GetUsers([FromBody] int page)
 		{
-			var userIds = _userRepository.GetAll()
-				.ToList();
+			var userIds = userRepository.GetAll();
 
 			var response = new HttpResponseMessage
 			{

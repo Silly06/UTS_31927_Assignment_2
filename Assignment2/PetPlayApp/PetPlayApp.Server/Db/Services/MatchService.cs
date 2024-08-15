@@ -6,14 +6,13 @@ namespace PetPlayApp.Server.Db.Services
 {
     public class MatchService
     {
-        private readonly MatchRepository matchRepository;
+        private readonly Repository<Match> matchRepository;
         private readonly UserService userService;
 
-        public MatchService(MatchRepository matchRepo, UserService userService)
+        public MatchService(UserService userService, RepositoryProvider repositoryProvider)
         {
-			matchRepository = matchRepo;
+			matchRepository = repositoryProvider.GetRepository<Match>();
 			this.userService = userService;
-
 		}
 
 

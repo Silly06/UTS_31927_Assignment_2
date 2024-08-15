@@ -44,7 +44,17 @@ namespace PetPlayApp.Server.Db.Repos
             _context.Set<T>().Remove(entity); // Remove entity from DbSet
         }
 
-        public void SaveChanges()
+		public void RemoveAll()
+		{
+			var entities = GetAll();
+			foreach (var entity in entities)
+			{
+				_context.Remove(entity);
+			}
+			SaveChanges();
+		}
+
+		public void SaveChanges()
         {
             _context.SaveChanges(); // Save changes to the database
         }

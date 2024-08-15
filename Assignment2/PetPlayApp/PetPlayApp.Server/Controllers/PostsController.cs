@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PetPlayApp.Server.Db.Repos;
+using PetPlayApp.Server.Db.Services;
 using PetPlayApp.Server.Models;
 using System;
 using System.IO;
@@ -12,53 +13,32 @@ namespace PetPlayApp.Server.Controllers
     [Route("posts")]
     public class PostsController : Controller
     {
-        private readonly ILogger<PostsController> _logger;
-        private readonly PostRepository _postRepository;
+        private readonly PostService postService;
 
-        public PostsController(ILogger<PostsController> logger, PostRepository postRepository)
+        public PostsController(PostService postService)
         {
-            _logger = logger;
-            _postRepository = postRepository;
-        }
+			this.postService = postService;
+
+		}
 
 		[HttpGet("GetRecentPosts")]
 		public IActionResult GetRecentPosts([FromQuery] int page)
 		{
-			var postsIds = _postRepository.GetAll()
-				.OrderBy(x => x.DateTimePosted)
-				.Take(page * 10)
-				.TakeLast(10)
-				.OrderBy(x => x.DateTimePosted)
-				.Select(x => x.Id)
-				.ToList();
-
+			var postsIds = postService.GetRecentPosts(page);
 			return Ok(postsIds);
 		}
 
 		[HttpGet("GetUserPosts")]
-		public HttpResponseMessage GetUserPosts([FromBody] int page, [FromBody] Guid userid)
+		public IActionResult GetUserPosts([FromBody] int page, [FromBody] Guid userid)
 		{
-			var postsIds = _postRepository.GetAll()
-				.Where(x => x.PostCreatorId == userid)
-				.OrderBy(x => x.DateTimePosted)
-				.Take(page * 10)
-				.TakeLast(10)
-				.OrderBy(x => x.DateTimePosted)
-				.Select(x => x.Id)
-				.ToList();
-
-			var response = new HttpResponseMessage
-			{
-				Content = new StringContent(JsonSerializer.Serialize(postsIds)),
-				StatusCode = HttpStatusCode.OK
-			};
-			return response;
+			var postsIds = postService.GetUserPosts(page, userid);
+			return Ok(postsIds);
 		}
 
 		[HttpGet("GetPostDetails")]
 		public IActionResult GetPostDetails([FromQuery] Guid postid)
 		{
-			var post = _postRepository.GetById(postid);
+			var post = postService.GetPost(postid);
 			return Ok(post);
 		}
 
@@ -84,7 +64,7 @@ namespace PetPlayApp.Server.Controllers
 				ImageData = imageData
 			};
 
-			_postRepository.Add(post);
+			postRepository.Add(post);
 
 			return Ok(post);
 		}
