@@ -6,7 +6,7 @@ namespace PetPlayApp.Server.Models
 	public class User
 	{
 		[Key]
-		public Guid PK { get; set; }
+		public Guid Id { get; set; }
 
 		public string? UserName { get; set; }
 		public string? Password { get; set; }

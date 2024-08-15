@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PetPlayApp.Server.Models
 {
-	[PrimaryKey("PostId", "UserId")]
+	[PrimaryKey("PostId", "Id")]
 	public class Like
 	{
 		[ForeignKey("Post")]

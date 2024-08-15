@@ -25,12 +25,12 @@ namespace PetPlayApp.Server.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("PostId", "UserId");
+                    b.HasKey("PostId", "Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("Id");
 
                     b.ToTable("Like");
                 });
@@ -86,7 +86,7 @@ namespace PetPlayApp.Server.Migrations
 
             modelBuilder.Entity("PetPlayApp.Server.Models.User", b =>
                 {
-                    b.Property<Guid>("PK")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -111,7 +111,7 @@ namespace PetPlayApp.Server.Migrations
                     b.Property<int?>("UserStatus")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("PK");
+                    b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
@@ -126,7 +126,7 @@ namespace PetPlayApp.Server.Migrations
 
                     b.HasOne("PetPlayApp.Server.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

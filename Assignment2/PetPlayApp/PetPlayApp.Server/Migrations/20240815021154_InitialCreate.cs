@@ -46,13 +46,13 @@ namespace PetPlayApp.Server.Migrations
                         name: "FK_Matches_Users_User1Id",
                         column: x => x.User1Id,
                         principalTable: "Users",
-                        principalColumn: "PK",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Matches_Users_User2Id",
                         column: x => x.User2Id,
                         principalTable: "Users",
-                        principalColumn: "PK",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -73,7 +73,7 @@ namespace PetPlayApp.Server.Migrations
                         name: "FK_Posts_Users_PostCreatorId",
                         column: x => x.PostCreatorId,
                         principalTable: "Users",
-                        principalColumn: "PK");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -96,14 +96,14 @@ namespace PetPlayApp.Server.Migrations
                         name: "FK_Like_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "PK",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Like_UserId",
                 table: "Like",
-                column: "UserId");
+                column: "Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Matches_User2Id",

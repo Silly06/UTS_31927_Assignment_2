@@ -30,28 +30,17 @@ namespace PetPlayApp.Server.Db.Services
             return userRepository.GetAll();
         }
 
-        public void AddUser(User user)
-        {
-            if (ValidateUser(user))
-            {
-				userRepository.Add(user);
-            }
-        }
-
-        public bool ValidateUser(User user)
-        {
-            // Bryan can add log in stuff here
-            return true;
-        }
-
-        public void RemoveUser(string name)
-        {
-            var userToRemove = GetUser(name);
-            if (userToRemove != null)
-            {
-				userRepository.Remove(userToRemove);
-            }
-        }
+		public bool TryValidateUser(string username, string password, out Guid userId)
+		{
+			var user = userRepository.GetAll().FirstOrDefault(u => u.UserName == username && u.Password == password);
+			if (user != null)
+			{
+				userId = user.Id;
+				return true;
+			}
+			userId = Guid.Empty;
+			return false;
+		}
 
         public void RemoveUser(Guid id)
         {
