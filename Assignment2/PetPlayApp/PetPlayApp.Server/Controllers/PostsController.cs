@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using PetPlayApp.Server.Db.Services;
+using PetPlayApp.Server.Services.Abstractions;
 using PetPlayApp.Server.Models;
 
 namespace PetPlayApp.Server.Controllers
@@ -9,7 +9,7 @@ namespace PetPlayApp.Server.Controllers
     {
         private readonly IPostService postService;
 
-        public PostsController(IPostService postService)
+		public PostsController(IPostService postService)
         {
 			this.postService = postService;
 		}

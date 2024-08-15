@@ -1,7 +1,6 @@
 using PetPlayApp.Server.Db;
-using PetPlayApp.Server.Db.Repos;
-using PetPlayApp.Server.Db.Services;
 using PetPlayApp.Server.Services;
+using PetPlayApp.Server.Services.Abstractions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddDbContext<DatabaseContext>()
     .AddScoped<RepositoryProvider>()
-    .AddScoped<UserService>()
+	.AddScoped<IPostService, PostService>()
+	.AddScoped<UserService>()
     .AddScoped<MatchService>()
+	.AddScoped<CommentService>()
+	.AddScoped<NotificationService>()
     .AddScoped<SeedService>();
 
 builder.Services.AddControllers();

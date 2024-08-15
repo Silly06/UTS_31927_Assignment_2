@@ -16,6 +16,8 @@ namespace PetPlayApp.Server.Models
 
 		public List<User> Likes { get; } = [];
 
+		public ICollection<Comment> Comments { get; } = [];
+
 		public byte[]? ImageData { get; set; } // Property to store image data
 	}
 }

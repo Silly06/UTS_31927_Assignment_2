@@ -1,5 +1,5 @@
-﻿using PetPlayApp.Server.Db.Repos;
-using PetPlayApp.Server.Db.Services;
+﻿using PetPlayApp.Server.Db;
+using PetPlayApp.Server.Services;
 using PetPlayApp.Server.Models;
 
 namespace PetPlayApp.Server.Services

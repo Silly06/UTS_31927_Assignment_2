@@ -1,9 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using PetPlayApp.Server.Db.Repos;
-using PetPlayApp.Server.Models;
-using System.Text.Json;
-using System.Net;
-using PetPlayApp.Server.Db.Services;
+using PetPlayApp.Server.Services;
 
 namespace PetPlayApp.Server.Controllers
 {

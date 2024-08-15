@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace PetPlayApp.Server.Db.Repos
+namespace PetPlayApp.Server.Db
 {
     public interface IRepository<T> where T : class
     {

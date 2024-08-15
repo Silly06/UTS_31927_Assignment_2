@@ -2,7 +2,7 @@
 
 #nullable enable
 
-namespace PetPlayApp.Server.Db.Repos
+namespace PetPlayApp.Server.Db
 {
     public class Repository<T> : IRepository<T> where T : class
     {

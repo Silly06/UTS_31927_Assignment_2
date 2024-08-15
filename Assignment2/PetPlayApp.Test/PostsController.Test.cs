@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using PetPlayApp.Server.Controllers;
-using PetPlayApp.Server.Db.Services;
+using PetPlayApp.Server.Services.Abstractions;
 using PetPlayApp.Server.Models;
 
 namespace PetPlayApp.Test

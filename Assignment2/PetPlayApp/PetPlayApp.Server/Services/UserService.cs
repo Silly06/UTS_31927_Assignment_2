@@ -1,10 +1,8 @@
-﻿using PetPlayApp.Server.Db.Repos;
+﻿using PetPlayApp.Server.Db;
 using PetPlayApp.Server.Models;
 
 
-#nullable enable
-
-namespace PetPlayApp.Server.Db.Services
+namespace PetPlayApp.Server.Services
 {
     public class UserService
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PetPlayApp.Server.Db.Repos;
+using PetPlayApp.Server.Db;
 
-namespace PetPlayApp.Server.Db.Services
+namespace PetPlayApp.Server.Services
 {
 	public class RepositoryProvider
 	{

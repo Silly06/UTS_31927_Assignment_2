@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using PetPlayApp.Server.Models;
 
-namespace PetPlayApp.Server.Db.Services
+namespace PetPlayApp.Server.Services.Abstractions
 {
     public interface IPostService
     {
