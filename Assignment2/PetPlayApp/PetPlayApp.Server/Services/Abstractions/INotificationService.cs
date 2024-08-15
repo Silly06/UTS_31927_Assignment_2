@@ -6,6 +6,5 @@ namespace PetPlayApp.Server.Services.Abstractions
     {
         void NotifyCommentCreated(Guid postId, Guid userId, string content);
 		List<Notification> GetNotificationsForUser(Guid userId);
-
 	}
 }

@@ -43,5 +43,10 @@ namespace PetPlayApp.Server.Services
 			commentRepository.Add(comment);
             return comment;
         }
-    }
+
+		public List<Comment> GetCommentsForPost(Guid postId)
+		{
+			return commentRepository.GetAll().Where(c => c.PostId == postId).ToList();
+		}
+	}
 }

@@ -27,6 +27,24 @@ namespace PetPlayApp.Server.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
+
+		[HttpGet("GetComments")]
+		public IActionResult LikeComment([FromBody] GetCommentRequest request)
+		{
+			try
+			{
+				var comment = commentService.GetCommentsForPost(request.PostId);
+				return Ok(comment);
+			}
+			catch (ArgumentException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+	}
+	public class GetCommentRequest
+	{
+		public Guid PostId { get; set; }
 	}
 
 	public class AddCommentRequest
