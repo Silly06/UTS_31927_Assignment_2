@@ -16,6 +16,9 @@
               {{ errorMessage }}
             </v-alert>
           </v-card-text>
+          <v-card-actions>
+            <v-btn @click="goBack" color="primary">Go Back</v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -25,10 +28,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 const userId = sessionStorage.getItem('userId') || '';
 const userDetails = ref<{ userName?: string; age?: number; bio?: string } | null>(null);
 const errorMessage = ref('');
+const router = useRouter();
 
 const fetchUserDetails = async () => {
   if (!userId) {
@@ -41,10 +46,14 @@ const fetchUserDetails = async () => {
       params: { userId }
     });
     userDetails.value = response.data;
-    console.log(response.data)
+    console.log(response.data);
   } catch (error) {
     errorMessage.value = 'Error fetching user details: ' + (error instanceof Error ? error.message : 'Unknown error');
   }
+};
+
+const goBack = async () => {
+  await router.push('/Home')
 };
 
 onMounted(async () => {
