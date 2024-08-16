@@ -1,4 +1,41 @@
-<script setup lang="ts">
+<template>
+  <v-container>
+    <v-row justify="center" align="center">
+      <v-col cols="12" sm="6" md="4">
+        <v-card>
+          <v-card-title class="headline">Login</v-card-title>
+          <v-card-text>
+            <v-form @submit.prevent="login">
+              <v-text-field
+                  v-model="username"
+                  label="Username"
+                  outlined
+                  required
+              />
+              <v-text-field
+                  v-model="password"
+                  label="Password"
+                  type="password"
+                  outlined
+                  required
+              />
+              <v-btn type="submit" color="primary">Login</v-btn>
+            </v-form>
+            <v-alert
+                v-if="errorMessage"
+                type="error"
+                class="mt-4"
+            >
+              {{ errorMessage }}
+            </v-alert>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script setup lang="js">
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
@@ -19,9 +56,9 @@ const login = async () => {
 
     const data = response.data;
 
-    console.log('User ID:', data.UserId);
-    localStorage.setItem('userId', data.UserId);
-    router.push('/Home');
+    console.log('User ID:', data.userId);
+    sessionStorage.setItem('userId', data.userId);
+    await router.push('/Home');
 
   } catch (error) {
     errorMessage.value = error instanceof Error ? error.message : 'An unexpected error occurred';
@@ -29,20 +66,9 @@ const login = async () => {
 };
 </script>
 
-<template>
-  <div>
-    <p>Login</p>
-    <form @submit.prevent="login">
-      <div>
-        <label for="username">Username:</label>
-        <input id="username" v-model="username" type="text" required />
-      </div>
-      <div>
-        <label for="password">Password:</label>
-        <input id="password" v-model="password" type="password" required />
-      </div>
-      <button type="submit">Login</button>
-    </form>
-    <p v-if="errorMessage">{{ errorMessage }}</p>
-  </div>
-</template>
+<style scoped>
+.v-card {
+  max-width: 400px;
+  margin: auto;
+}
+</style>

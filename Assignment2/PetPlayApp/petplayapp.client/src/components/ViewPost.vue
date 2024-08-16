@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="js">
     import { ref, onMounted } from 'vue';
     import { useRoute, useRouter } from 'vue-router';
     import axios from 'axios';
@@ -22,7 +22,7 @@
         try {
             await axios.post(`/api/posts/${postId}/like`);
             // Optionally, update the post data to reflect the new like count
-            fetchPost();
+            await fetchPost();
         } catch (error) {
             console.error('Error liking post:', error);
         }
