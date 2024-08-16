@@ -2,20 +2,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using PetPlayApp.Server.Controllers;
-using PetPlayApp.Server.Db.Services;
+using PetPlayApp.Server.Services.Abstractions;
 using PetPlayApp.Server.Models;
 
 namespace PetPlayApp.Test
 {
 	public class PostsControllerTests
 	{
-		private Mock<PostService> mockPostService;
+		private Mock<IPostService> mockPostService;
 		private PostsController postsController;
 
 		[SetUp]
 		public void Setup()
 		{
-			mockPostService = new Mock<PostService>();
+			mockPostService = new Mock<IPostService>();
 			postsController = new PostsController(mockPostService.Object);
 		}
 

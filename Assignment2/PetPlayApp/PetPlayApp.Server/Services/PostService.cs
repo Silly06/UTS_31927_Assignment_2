@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PetPlayApp.Server.Controllers;
-using PetPlayApp.Server.Db.Repos;
+﻿using PetPlayApp.Server.Db;
 using PetPlayApp.Server.Models;
+using PetPlayApp.Server.Services.Abstractions;
 
-namespace PetPlayApp.Server.Db.Services
+namespace PetPlayApp.Server.Services
 {
     public class PostService : IPostService
     {
-		private readonly Repository<Post> postRepository;
+		private readonly IRepository<Post> postRepository;
 
-		public PostService(RepositoryProvider repositoryProvider)
+		public PostService(IRepositoryProviderService repositoryProvider)
 		{
 			postRepository = repositoryProvider.GetRepository<Post>();
 		}

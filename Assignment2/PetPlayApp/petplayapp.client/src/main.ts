@@ -28,7 +28,8 @@ const routes = [
     { path: '/ResetPassword', component: ResetPassword },
     { path: '/Search', component: Search },
     { path: '/SignUp', component: SignUp },
-    { path: '/ViewPost', component: ViewPost },
+    { path: '/ViewPost/:id', component: ViewPost },
+    { path: '/PostComments/:id', component: PostComments },
 ];
 
 const router = createRouter({

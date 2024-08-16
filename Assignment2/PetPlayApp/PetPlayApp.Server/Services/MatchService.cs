@@ -1,15 +1,17 @@
-﻿using PetPlayApp.Server.Db.Repos;
+﻿using PetPlayApp.Server.Db;
 using PetPlayApp.Server.Extensions;
 using PetPlayApp.Server.Models;
+using PetPlayApp.Server.Services.Abstractions;
 
-namespace PetPlayApp.Server.Db.Services
+
+namespace PetPlayApp.Server.Services
 {
-    public class MatchService
+    public class MatchService : IMatchService
     {
-        private readonly Repository<Match> matchRepository;
-        private readonly UserService userService;
+        private readonly IRepository<Match> matchRepository;
+        private readonly IUserService userService;
 
-        public MatchService(UserService userService, RepositoryProvider repositoryProvider)
+        public MatchService(IUserService userService, IRepositoryProviderService repositoryProvider)
         {
 			matchRepository = repositoryProvider.GetRepository<Match>();
 			this.userService = userService;

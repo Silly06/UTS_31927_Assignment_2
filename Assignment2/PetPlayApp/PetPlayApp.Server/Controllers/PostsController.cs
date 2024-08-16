@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
-using PetPlayApp.Server.Db.Services;
 using PetPlayApp.Server.Models;
+using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Controllers
 {
     [Route("posts")]
     public class PostsController : Controller
     {
-        private readonly PostService postService;
+        private readonly IPostService postService;
 
-        public PostsController(PostService postService)
+        public PostsController(IPostService postService)
         {
 			this.postService = postService;
 		}

@@ -1,18 +1,19 @@
-﻿using PetPlayApp.Server.Db.Repos;
-using PetPlayApp.Server.Db.Services;
+﻿using PetPlayApp.Server.Db;
 using PetPlayApp.Server.Models;
+using PetPlayApp.Server.Services.Abstractions;
+
 
 namespace PetPlayApp.Server.Services
 {
-	public class SeedService
+	public class SeedService : ISeedService
 	{
-		Repository<User> UserRepository { get; }
-		Repository<Match> MatchRepository { get; }
-		Repository<Post> PostRepository { get; }
-		MatchService MatchService { get; }
-		UserService UserService { get; }
+		IRepository<User> UserRepository { get; }
+		IRepository<Match> MatchRepository { get; }
+		IRepository<Post> PostRepository { get; }
+		IMatchService MatchService { get; }
+		IUserService UserService { get; }
 
-		public SeedService(RepositoryProvider repositoryProvider, MatchService matchService, UserService userService)
+		public SeedService(IRepositoryProviderService repositoryProvider, IMatchService matchService, IUserService userService)
 		{
 			UserRepository = repositoryProvider.GetRepository<User>();
 			MatchRepository = repositoryProvider.GetRepository<Match>();

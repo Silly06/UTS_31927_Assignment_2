@@ -1,34 +1,23 @@
-﻿using PetPlayApp.Server.Db.Repos;
+﻿using PetPlayApp.Server.Db;
 using PetPlayApp.Server.Models;
+using PetPlayApp.Server.Services.Abstractions;
 
 
-#nullable enable
-
-namespace PetPlayApp.Server.Db.Services
+namespace PetPlayApp.Server.Services
 {
-    public class UserService
-    {
-        private readonly Repository<User> userRepository;
+	public class UserService : IUserService
+	{
+		private readonly IRepository<User> userRepository;
 
-        public UserService(RepositoryProvider repositoryProvider)
-        {
-            this.userRepository = repositoryProvider.GetRepository<User>();
-        }
+		public UserService(IRepositoryProviderService repositoryProvider)
+		{
+			userRepository = repositoryProvider.GetRepository<User>();
+		}
 
-        public User? GetUser(string userName)
-        {
-            return userRepository.GetAll().Where(u => u.UserName == userName).FirstOrDefault();
-        }
-
-        public User? GetUser(Guid id)
-        {
-            return userRepository.GetById(id);
-        }
-
-        public IEnumerable<User> GetAllUsers()
-        {
-            return userRepository.GetAll();
-        }
+		public IEnumerable<User> GetAllUsers()
+		{
+			return userRepository.GetAll();
+		}
 
 		public bool TryValidateUser(string username, string password, out Guid userId)
 		{
@@ -42,18 +31,13 @@ namespace PetPlayApp.Server.Db.Services
 			return false;
 		}
 
-        public void RemoveUser(Guid id)
-        {
-            var userToRemove = userRepository.GetById(id);
+		public void RemoveUser(Guid id)
+		{
+			var userToRemove = userRepository.GetById(id);
 			if (userToRemove != null)
 			{
 				userRepository.Remove(userToRemove);
 			}
-        }
-
-        public void UpdateUserData()
-        {
-
-        }
-    }
+		}
+	}
 }
