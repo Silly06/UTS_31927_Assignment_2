@@ -17,6 +17,7 @@ import SignUp from './components/SignUp.vue'
 import ViewPost from './components/ViewPost.vue'
 
 const routes = [
+    { path: '/', redirect: '/Login' },
     { path: '/EditProfile', component: EditProfile },
     { path: '/Home', component: Home },
     { path: '/Login', component: Login },

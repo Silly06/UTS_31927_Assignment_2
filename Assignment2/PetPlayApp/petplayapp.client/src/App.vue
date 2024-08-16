@@ -1,26 +1,28 @@
 <script setup lang="ts">
-    import Home from './components/Home.vue'
-    import AppHeader from './components/AppHeader.vue'
+import { defineComponent } from 'vue';
+import AppHeader from './components/AppHeader.vue'; // Adjust the path if needed
+
+defineComponent({
+  components: {
+    AppHeader
+  }
+});
 </script>
 
 <template>
-  <header>
-    <AppHeader></AppHeader>
-  </header>
-
-  <main>
-   <router-view></router-view>
-  </main>
+  <div id="app">
+    <header>
+      <AppHeader />
+    </header>
+    <main>
+      <router-view></router-view>
+    </main>
+  </div>
 </template>
 
 <style scoped>
 header {
   line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
 }
 
 @media (min-width: 1024px) {
