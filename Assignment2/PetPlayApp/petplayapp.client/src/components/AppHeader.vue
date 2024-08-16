@@ -4,15 +4,15 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const navigateToHome = () => {
-  router.push('/Home');
+  router.push('/home');
 };
 
 const navigateToNotifications = () => {
-  router.push('/Notifications');
+  router.push('/notifications');
 };
 
 const navigateToProfile = () => {
-  router.push('/Profile');
+  router.push('/profile');
 };
 </script>
 

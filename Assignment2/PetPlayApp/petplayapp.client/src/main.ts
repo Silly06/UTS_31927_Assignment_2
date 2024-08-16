@@ -6,7 +6,7 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
 import { createApp } from 'vue'
-import {createRouter, createWebHashHistory, createWebHistory} from 'vue-router';
+import {createRouter, createWebHistory} from 'vue-router';
 import App from './App.vue'
 import EditProfile from './components/EditProfile.vue'
 import Home from './components/Home.vue'
