@@ -27,12 +27,17 @@ namespace PetPlayApp.Server.Controllers
 			return Unauthorized();
 		}
 		
-		[HttpGet("{userId:guid}/details")]
-		public IActionResult GetUserDetails(Guid userId)
+		[HttpGet("GetUserDetails")]
+		public IActionResult GetUserDetails([FromQuery] Guid userId)
 		{
 			var userDetails = userService.GetUserDetails(userId);
+			if (userDetails == null)
+			{
+				return NotFound();
+			}
 			return Ok(userDetails);
 		}
+
 
 		public class LoginRequest
 		{

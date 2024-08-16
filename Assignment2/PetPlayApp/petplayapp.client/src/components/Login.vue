@@ -56,7 +56,7 @@ const login = async () => {
 
     const data = response.data;
 
-    console.log('User ID:', data.userId);
+    console.log(response.data);
     sessionStorage.setItem('userId', data.userId);
     await router.push('/Home');
 

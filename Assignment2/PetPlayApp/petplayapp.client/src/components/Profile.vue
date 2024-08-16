@@ -37,14 +37,17 @@ const fetchUserDetails = async () => {
   }
 
   try {
-    const response = await axios.get(`/users/${userId}/details`);
+    const response = await axios.get(`/users/GetUserDetails`, {
+      params: { userId }
+    });
     userDetails.value = response.data;
+    console.log(response.data)
   } catch (error) {
     errorMessage.value = 'Error fetching user details: ' + (error instanceof Error ? error.message : 'Unknown error');
   }
 };
 
-onMounted(() => {
-  fetchUserDetails();
+onMounted(async () => {
+  await fetchUserDetails();
 });
 </script>

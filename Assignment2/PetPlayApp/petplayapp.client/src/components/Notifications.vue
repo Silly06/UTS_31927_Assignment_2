@@ -5,14 +5,10 @@
         <v-card>
           <v-card-title>Notifications</v-card-title>
           <v-list>
-            <v-list-item-group>
-              <v-list-item v-for="notification in notifications" :key="notification.id">
-                <v-list-item-content>
-                  <v-list-item-title>{{ notification.message }}</v-list-item-title>
-                  <v-list-item-subtitle>{{ new Date(notification.timestamp).toLocaleString() }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list-item-group>
+            <v-list-item v-for="notification in notifications" :key="notification.id">
+              <v-list-item-title>{{ notification.message }}</v-list-item-title>
+              <v-list-item-subtitle>{{ new Date(notification.timestamp).toLocaleString() }}</v-list-item-subtitle>
+            </v-list-item>
           </v-list>
         </v-card>
       </v-col>
