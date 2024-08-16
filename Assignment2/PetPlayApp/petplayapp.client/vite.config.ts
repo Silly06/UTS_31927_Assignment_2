@@ -66,6 +66,10 @@ export default defineConfig({
             '^/users/GetUserDetails': {
                 target,
                 secure: false
+            },
+            '^/users/UpdateUserDetails': {
+                target,
+                secure: false
             }
         },
         port: 5173,

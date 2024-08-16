@@ -1,18 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using PetPlayApp.Server.Dto;
 using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Controllers
 {
     [Route("users")]
-    public class UserController : Controller
+    public class UserController(IUserService userService) : Controller
     {
-        private readonly IUserService userService;
-
-        public UserController(IUserService userService)
-        {
-            this.userService = userService;
-        }
-
 		[HttpPost("login")]
 		public IActionResult Login([FromBody] LoginRequest loginRequest)
 		{
@@ -31,13 +25,22 @@ namespace PetPlayApp.Server.Controllers
 		public IActionResult GetUserDetails([FromQuery] Guid userId)
 		{
 			var userDetails = userService.GetUserDetails(userId);
-			if (userDetails == null)
-			{
-				return NotFound();
-			}
 			return Ok(userDetails);
 		}
 
+		[HttpPost("UpdateUserDetails")]
+		public IActionResult UpdateUserDetails([FromBody] Guid userId, [FromBody] UserDetailsDto userDetails)
+		{
+			try
+			{
+				userService.UpdateUserDetails(userId, userDetails);
+				return Ok("User details updated successfully.");
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, $"An error occurred while updating user details: {ex.Message}");
+			}
+		}
 
 		public class LoginRequest
 		{

@@ -9,5 +9,7 @@ namespace PetPlayApp.Server.Services.Abstractions
 		public IEnumerable<User> GetAllUsers();
 
 		UserDetailsDto GetUserDetails(Guid userId);
+		
+		void UpdateUserDetails(Guid id, UserDetailsDto userDetails);
     }
 }
