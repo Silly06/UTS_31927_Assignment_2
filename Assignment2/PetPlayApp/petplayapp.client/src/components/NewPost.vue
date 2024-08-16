@@ -1,5 +1,3 @@
-<script setup lang="ts"></script>
-
 <template>
     <div>
         <form @submit.prevent="createPost">
@@ -10,7 +8,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="js">
     import { ref } from 'vue';
     import axios from 'axios';
 
@@ -25,7 +23,7 @@
         const userId = localStorage.getItem('userId');
         const response = await axios.post('/users/login', {
             image: image.value,
-            description: description.value
+            description: description.value,
             userId: userId.value
         });
 

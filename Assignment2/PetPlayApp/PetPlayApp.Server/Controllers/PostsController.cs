@@ -7,9 +7,9 @@ namespace PetPlayApp.Server.Controllers
     [Route("posts")]
     public class PostsController : Controller
     {
-        private readonly IPostService postService;
+        private readonly PostService postService;
 
-        public PostsController(IPostService postService)
+        public PostsController(PostService postService)
         {
 			this.postService = postService;
 		}

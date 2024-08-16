@@ -9,13 +9,13 @@ namespace PetPlayApp.Test
 {
 	public class PostsControllerTests
 	{
-		private Mock<IPostService> mockPostService;
+		private Mock<PostService> mockPostService;
 		private PostsController postsController;
 
 		[SetUp]
 		public void Setup()
 		{
-			mockPostService = new Mock<IPostService>();
+			mockPostService = new Mock<PostService>();
 			postsController = new PostsController(mockPostService.Object);
 		}
 
