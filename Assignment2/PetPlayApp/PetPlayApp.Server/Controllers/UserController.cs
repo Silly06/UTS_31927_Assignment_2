@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PetPlayApp.Server.Dto;
 using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Controllers
@@ -14,13 +15,13 @@ namespace PetPlayApp.Server.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest loginRequest)
+        public IActionResult Login([FromBody] LoginDto login)
         {
-            if (string.IsNullOrWhiteSpace(loginRequest.Username) || string.IsNullOrWhiteSpace(loginRequest.Password))
+            if (string.IsNullOrWhiteSpace(login.Username) || string.IsNullOrWhiteSpace(login.Password))
             {
                 return BadRequest("Username or password was empty or missing");
             }
-            if (_userService.TryValidateUser(loginRequest.Username, loginRequest.Password, out var userId))
+            if (_userService.TryValidateUser(login.Username, login.Password, out var userId))
             {
                 return Ok(new { UserId = userId });
             }
@@ -35,11 +36,11 @@ namespace PetPlayApp.Server.Controllers
         }
 
         [HttpPost("UpdateUserDetails")]
-        public IActionResult UpdateUserDetails([FromBody] UpdateUserDetailsRequest request)
+        public IActionResult UpdateUserDetails([FromBody] UserDetailsDto userDetails)
         {
             try
             {
-                _userService.UpdateUserDetails(request.UserId, request.Username, request.Email, request.Age, request.Bio);
+                _userService.UpdateUserDetails(userDetails.UserId, userDetails.Username, userDetails.Email, userDetails.Age, userDetails.Bio);
                 return Ok("User details updated successfully.");
             }
             catch (Exception ex)
@@ -48,19 +49,26 @@ namespace PetPlayApp.Server.Controllers
             }
         }
 
-        public class LoginRequest
+        [HttpPost("CreateUser")]
+        public IActionResult CreateUser([FromBody] CreateUserDto createUser)
         {
-            public string Username { get; set; } = string.Empty;
-            public string Password { get; set; } = string.Empty;
-        }
+            try
+            {
+                if (string.IsNullOrWhiteSpace(createUser.Username) || string.IsNullOrWhiteSpace(createUser.Password))
+                {
+                    return BadRequest("Username or password cannot be empty.");
+                }
 
-        public class UpdateUserDetailsRequest
-        {
-            public Guid UserId { get; set; }
-            public string Username { get; set; } = string.Empty;
-            public string Email { get; set; } = string.Empty;
-            public int Age { get; set; }
-            public string Bio { get; set; } = string.Empty;
+                _userService.CreateUser(createUser.Username, createUser.Password, createUser.Email, createUser.Age, createUser.Bio);
+
+                _userService.TryValidateUser(createUser.Username, createUser.Password, out var userId);
+                
+                return Ok(new { UserId = userId });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while creating the user: {ex.Message}");
+            }
         }
     }
 }

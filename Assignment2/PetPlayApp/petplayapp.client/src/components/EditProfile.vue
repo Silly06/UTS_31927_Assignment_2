@@ -2,17 +2,18 @@
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import type {UserDetailsDto} from "@/types/models";
+import type { UserDetailsDto } from '@/types/models';
 
 const userId = sessionStorage.getItem('userId') || '';
 const userDetails = ref<UserDetailsDto>({
+  userId: '',
   username: '',
   email: '',
   age: 0,
   bio: ''
 });
-const errorMessage = ref('');
-const successMessage = ref('');
+const errorMessage = ref<string>('');
+const successMessage = ref<string>('');
 const router = useRouter();
 
 const fetchUserDetails = async () => {
@@ -39,6 +40,10 @@ const updateUserDetails = async () => {
     errorMessage.value = 'An error occurred while updating user details.';
     console.error(error);
   }
+};
+
+const goToProfile = async () => {
+  await router.push('/Profile');
 };
 
 onMounted(async () => {
@@ -77,7 +82,7 @@ onMounted(async () => {
                   rows="4"
               ></v-textarea>
               <v-btn type="submit" color="primary" class="mt-4">Update</v-btn>
-              <v-btn color="secondary" class="mt-4" @click="router.go(-1)">Back</v-btn>
+              <v-btn color="secondary" class="mt-4" @click="goToProfile">Go to Profile</v-btn>
             </v-form>
             <v-alert v-if="errorMessage" type="error" dismissible>{{ errorMessage }}</v-alert>
             <v-alert v-if="successMessage" type="success" dismissible>{{ successMessage }}</v-alert>

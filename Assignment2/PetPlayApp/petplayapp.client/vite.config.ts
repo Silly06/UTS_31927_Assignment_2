@@ -70,6 +70,10 @@ export default defineConfig({
             '^/users/UpdateUserDetails': {
                 target,
                 secure: false
+            },
+            '^/users/CreateUser': {
+                target,
+                secure: false
             }
         },
         port: 5173,

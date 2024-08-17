@@ -53,9 +53,9 @@ public class UserService : IUserService
         };
     }
 
-    public void UpdateUserDetails(Guid id, string username, string email, int age, string bio)
+    public void UpdateUserDetails(Guid? id, string? username, string? email, int? age, string? bio)
     {
-        var user = _userRepository.GetById(id);
+        var user = _userRepository.GetById(id ?? Guid.Empty);
         if (user == null)
         {
             throw new Exception("User not found");
@@ -67,5 +67,26 @@ public class UserService : IUserService
         user.Bio = bio;
 
         _userRepository.Update(user);
+    }
+
+    public void CreateUser(string? username, string? password, string? email, int? age, string? bio)
+    {
+        var existingUser = _userRepository.GetAll().FirstOrDefault(u => u.UserName == username || u.Email == email);
+        if (existingUser != null)
+        {
+            throw new Exception("User already exists");
+        }
+        
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            UserName = username,
+            Password = password,
+            Email = email,
+            Age = age,
+            Bio = bio
+        };
+        
+        _userRepository.Add(user);
     }
 }

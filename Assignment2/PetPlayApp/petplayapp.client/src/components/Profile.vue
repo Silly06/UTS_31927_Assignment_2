@@ -19,6 +19,7 @@
           </v-card-text>
           <v-card-actions>
             <v-btn @click="goBack" color="primary">Go Back</v-btn>
+            <v-btn @click="editProfile" color="secondary">Edit Profile</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -48,14 +49,17 @@ const fetchUserDetails = async () => {
       params: { userId }
     });
     userDetails.value = response.data;
-    console.log(response.data);
   } catch (error) {
     errorMessage.value = 'Error fetching user details: ' + (error instanceof Error ? error.message : 'Unknown error');
   }
 };
 
 const goBack = async () => {
-  await router.push('/Home')
+  await router.push('/Home');
+};
+
+const editProfile = async () => {
+  await router.push('/EditProfile');
 };
 
 onMounted(async () => {
