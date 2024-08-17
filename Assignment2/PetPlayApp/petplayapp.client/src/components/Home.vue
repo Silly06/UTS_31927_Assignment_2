@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row justify="center">
       <v-col cols="12" md="8">
-        <p class="text-center">Home Page</p>
+        <p class="text-center">For You</p>
         <v-alert v-if="errorMessage" type="error" dismissible>{{ errorMessage }}</v-alert>
         <v-col v-for="post in posts" :key="post.id" cols="12">
           <v-card class="mx-auto my-4" max-width="600">

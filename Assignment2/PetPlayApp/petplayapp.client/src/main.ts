@@ -25,13 +25,13 @@ import ViewPost from './components/ViewPost.vue'
 const routes = [
     { path: '/', redirect: '/Login' },
     { path: '/EditProfile', component: EditProfile },
-    { path: '/Home', component: Home },
+    { path: '/Home', component: Home, meta: { requiresAuth: true } },
     { path: '/Login', component: Login },
     { path: '/Matches', component: Matches },
     { path: '/NewPost', component: NewPost },
-    { path: '/Notifications', component: Notifications },
+    { path: '/Notifications', component: Notifications, meta: { requiresAuth: true } },
     { path: '/PostComments', component: PostComments },
-    { path: '/Profile', component: Profile },
+    { path: '/Profile', component: Profile, meta: { requiresAuth: true} },
     { path: '/ResetPassword', component: ResetPassword },
     { path: '/Search', component: Search },
     { path: '/SignUp', component: SignUp },
@@ -50,6 +50,18 @@ const vuetify = createVuetify({
     icons: {
         defaultSet: 'mdi',
     },
+});
+
+router.beforeEach((to, from, next) => {
+    const isLoggedIn = !!sessionStorage.getItem('userId');
+    if (to.meta.requiresAuth && !isLoggedIn)
+    {
+        next('/Login#/Home');
+    }
+    else
+    {
+        next();
+    }
 });
 
 createApp(App)
