@@ -4,9 +4,10 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import '@mdi/font/css/materialdesignicons.css'
 
 import { createApp } from 'vue'
-import {createRouter, createWebHistory} from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import EditProfile from './components/EditProfile.vue'
 import Home from './components/Home.vue'
@@ -46,6 +47,9 @@ const router = createRouter({
 const vuetify = createVuetify({
     components,
     directives,
+    icons: {
+        defaultSet: 'mdi',
+    },
 });
 
 createApp(App)

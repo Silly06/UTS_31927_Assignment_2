@@ -1,3 +1,25 @@
+<template>
+  <v-app-bar app>
+    <v-img
+        src="@/assets/logo.png"
+        alt="Logo"
+        max-width="100"
+        class="logo"
+    ></v-img>
+
+    <v-spacer></v-spacer>
+    <v-btn @click="navigateToHome" icon>
+      <v-icon>mdi-home</v-icon>
+    </v-btn>
+    <v-btn @click="navigateToNotifications" icon>
+      <v-icon>mdi-bell</v-icon>
+    </v-btn>
+    <v-btn @click="navigateToProfile" icon>
+      <v-icon>mdi-account</v-icon>
+    </v-btn>
+  </v-app-bar>
+</template>
+
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 
@@ -16,37 +38,20 @@ const navigateToProfile = () => {
 };
 </script>
 
-<template>
-  <div id="header">
-    <button class="header-button" @click="navigateToHome">
-      <img src="../assets/home.png" style="width: 70px;" alt="Home">
-    </button>
-    <button class="header-button" @click="navigateToNotifications">
-      <img src="../assets/notification.png" style="width: 70px;" alt="Notifications">
-    </button>
-    <button class="header-button" @click="navigateToProfile">
-      <img src="../assets/profile.png" style="width: 70px;" alt="Profile">
-    </button>
-  </div>
-</template>
-
 <style scoped>
-.header-button {
-  padding: 18px;
-  margin-left: 100px;
-  margin-top: 15px;
-  float: right;
-  vertical-align: top;
-  font-weight: bold;
-  font-size: larger;
+.v-app-bar {
   background-color: skyblue;
   color: black;
-  border: 2px solid black;
-  max-height: 110px;
+  border-bottom: 2px solid black;
 }
 
-.header-button:hover {
-  cursor: pointer;
+.logo {
+  margin-left: 16px;
+  margin-right: auto;
+  height: 60px; /* Adjust as needed */
+}
+
+.v-app-bar .v-btn:hover {
   background-color: lightskyblue;
 }
 </style>

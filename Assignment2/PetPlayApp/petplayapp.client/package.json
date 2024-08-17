@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
+    "@mui/icons-material": "^5.16.7",
     "axios": "^1.7.4",
     "vue": "^3.4.29",
     "vue-router": "^4.4.3",
