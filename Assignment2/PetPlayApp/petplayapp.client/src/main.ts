@@ -1,5 +1,3 @@
-// import './assets/main.css'
-
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
@@ -23,7 +21,9 @@ import SignUp from './components/SignUp.vue'
 import ViewPost from './components/ViewPost.vue'
 
 const routes = [
-    { path: '/', redirect: '/Login' },
+    { path: '/', redirect: () => {
+            return sessionStorage.getItem('userId') ? '/Home' : '/Login';
+        }},
     { path: '/EditProfile', component: EditProfile },
     { path: '/Home', component: Home, meta: { requiresAuth: true } },
     { path: '/Login', component: Login },
@@ -54,12 +54,12 @@ const vuetify = createVuetify({
 
 router.beforeEach((to, from, next) => {
     const isLoggedIn = !!sessionStorage.getItem('userId');
-    if (to.meta.requiresAuth && !isLoggedIn)
-    {
-        next('/Login#/Home');
-    }
-    else
-    {
+
+    if (to.meta.requiresAuth && !isLoggedIn) {
+        next('/Login');
+    } else if (to.path === '/Login' && isLoggedIn) {
+        next('/Home');
+    } else {
         next();
     }
 });
