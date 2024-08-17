@@ -4,11 +4,11 @@ public class UserDetailsDto
 {
     public Guid? UserId { get; set; }
     
-    public string? Username { get; set; }
+    public string? Username { get; init; }
     
-    public string? Email { get; set; }
+    public string? Email { get; init; }
     
-    public int? Age { get; set; }
+    public int? Age { get; init; }
     
-    public string? Bio { get; set; }
+    public string? Bio { get; init; }
 }

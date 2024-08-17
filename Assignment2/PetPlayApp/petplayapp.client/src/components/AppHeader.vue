@@ -12,6 +12,9 @@
       <v-btn @click="navigateToHome" :icon="true">
         <v-icon>mdi-home</v-icon>
       </v-btn>
+      <v-btn @click="navigateToSearch" :icon="true">
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
       <v-btn @click="navigateToNotifications" :icon="true">
         <v-icon>mdi-bell</v-icon>
       </v-btn>
@@ -25,6 +28,7 @@
   </v-app-bar>
 </template>
 
+
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router';
 import { computed } from 'vue';
@@ -34,6 +38,10 @@ const route = useRoute();
 
 const navigateToHome = () => {
   router.push('/home');
+};
+
+const navigateToSearch = () => {
+  router.push('/search');
 };
 
 const navigateToNotifications = () => {

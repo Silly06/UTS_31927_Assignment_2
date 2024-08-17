@@ -74,6 +74,10 @@ export default defineConfig({
             '^/users/CreateUser': {
                 target,
                 secure: false
+            },
+            '^/users/SearchUsers': {
+                target,
+                secure: false
             }
         },
         port: 5173,

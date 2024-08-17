@@ -13,5 +13,7 @@ namespace PetPlayApp.Server.Services.Abstractions
 		void UpdateUserDetails(Guid? id, string? username, string? email, int? age, string? bio);
 
 		void CreateUser(string? username, string? password, string? email, int? age, string? bio);
+
+		IEnumerable<UserSearchDto> SearchUsers(Guid currentUserId, string query);
     }
 }

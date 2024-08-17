@@ -18,3 +18,8 @@ export class CreateUserDto {
     age?: number;
     bio?: string;
 }
+
+export class UserSearchDto {
+    userId?: string;
+    username?: string;
+}

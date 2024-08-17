@@ -1,4 +1,6 @@
-﻿using PetPlayApp.Server.Db;
+﻿using System.Collections;
+using System.Globalization;
+using PetPlayApp.Server.Db;
 using PetPlayApp.Server.Dto;
 using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Services.Abstractions;
@@ -88,5 +90,46 @@ public class UserService : IUserService
         };
         
         _userRepository.Add(user);
+    }
+    
+    public IEnumerable<UserSearchDto> SearchUsers(Guid currentUserId, string? query)
+    {
+        var users = _userRepository.GetAll().Where(x => x.Id.ToString() != currentUserId.ToString());
+
+        var userSearchResults = users
+            .Select(user => new
+            {
+                User = user,
+                Similarity = CalculateBioSimilarityZScore(query, user.Bio)
+            })
+            .OrderByDescending(result => result.Similarity);
+
+        return string.IsNullOrWhiteSpace(query) 
+            ? userSearchResults.Select(result => new UserSearchDto
+            {
+                UserId = result.User.Id,
+                Username = result.User.UserName
+            })
+            : userSearchResults.Take(10).Select(result => new UserSearchDto
+            {
+                UserId = result.User.Id,
+                Username = result.User.UserName
+            });
+    }
+
+    private static double CalculateBioSimilarityZScore(string? query, string? bio)
+    {
+        if (string.IsNullOrWhiteSpace(query) || string.IsNullOrWhiteSpace(bio))
+        {
+            return 0;
+        }
+
+        var querySet = new HashSet<string>(query.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+        var bioSet = new HashSet<string>(bio.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+
+        var intersection = querySet.Intersect(bioSet).Count();
+        var union = querySet.Union(bioSet).Count();
+
+        return (double)intersection / union;
     }
 }
