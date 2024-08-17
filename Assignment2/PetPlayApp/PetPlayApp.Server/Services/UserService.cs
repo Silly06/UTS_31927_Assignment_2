@@ -50,10 +50,12 @@ public class UserService : IUserService
             Email = user.Email,
             Age = user.Age,
             Bio = user.Bio,
+            Status = user.UserStatus,
+            Interest = user.Interest
         };
     }
 
-    public void UpdateUserDetails(Guid? id, string? username, string? email, int? age, string? bio, byte[]? image)
+    public void UpdateUserDetails(Guid? id, string? username, string? email, int? age, string? bio, UserStatus? status, UserInterest? interest, byte[]? image)
     {
         var user = _userRepository.GetById(id ?? Guid.Empty);
         if (user == null)
@@ -65,6 +67,8 @@ public class UserService : IUserService
         user.Email = email;
         user.Age = age;
         user.Bio = bio;
+        user.UserStatus = status;
+        user.Interest = interest;
         if (image != null)
         {
             user.ProfilePictureData = image;
@@ -106,12 +110,13 @@ public class UserService : IUserService
         if (user != null)
         {
             picture = user.ProfilePictureData;
+            if (picture == null)
+            {
+                picture = File.ReadAllBytes("..\\petplayapp.client\\src\\assets\\SeededProfilePictures\\DefaultProfile.png");
+            }
+            return picture;
         }
-        else
-        {
-            picture = File.ReadAllBytes("..\\..\\petplayapp.client\\src\\assets\\SeededProfilePictures\\DefaultProfile.png");
-        }
-        return picture;
+        return null;
     }
     
     public IEnumerable<UserSearchDto> SearchUsers(Guid currentUserId, string? query)

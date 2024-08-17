@@ -5,18 +5,17 @@ namespace PetPlayApp.Server.Services.Abstractions
 {
     public interface IUserService
     {
-	    bool TryValidateUser(string username, string password, out Guid userId);
-		
-	    IEnumerable<User> GetAllUsers();
+		public bool TryValidateUser(string username, string password, out Guid userId);
+		public IEnumerable<User> GetAllUsers();
 
 		UserDetailsDto GetUserDetails(Guid userId);
 		
-		void UpdateUserDetails(Guid? id, string? username, string? email, int? age, string? bio, byte[]? imageData);
+		void UpdateUserDetails(Guid? id, string? username, string? email, int? age, string? bio, UserStatus? status, UserInterest? interest, byte[]? imageData);
 
 		void CreateUser(string? username, string? password, string? email, int? age, string? bio, byte[]? imageData);
 
-	    byte[]? GetUserPicture(Guid id);
+		public byte[]? GetUserPicture(Guid id);
 
-		IEnumerable<UserSearchDto> SearchUsers(Guid currentUserId, string query);
+        IEnumerable<UserSearchDto> SearchUsers(Guid currentUserId, string query);
     }
 }

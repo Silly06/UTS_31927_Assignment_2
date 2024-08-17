@@ -50,7 +50,7 @@ public class UserController : Controller
                     imageData = memoryStream.ToArray();
                 }
             }
-            _userService.UpdateUserDetails(userDetails.UserId, userDetails.Username, userDetails.Email, userDetails.Age, userDetails.Bio, imageData);
+            _userService.UpdateUserDetails(userDetails.UserId, userDetails.Username, userDetails.Email, userDetails.Age, userDetails.Bio, userDetails.Status, userDetails.Interest, imageData);
             return Ok("User details updated successfully.");
         }
         catch (Exception ex)

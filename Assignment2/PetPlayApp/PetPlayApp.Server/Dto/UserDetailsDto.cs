@@ -1,3 +1,5 @@
+using PetPlayApp.Server.Models;
+
 namespace PetPlayApp.Server.Dto;
 
 public class UserDetailsDto
@@ -13,4 +15,8 @@ public class UserDetailsDto
     public string? Bio { get; init; }
 
     public byte[]? ProfilePicture { get; set; }
+
+    public UserStatus? Status { get; set; }
+
+    public UserInterest? Interest { get; set; }
 }

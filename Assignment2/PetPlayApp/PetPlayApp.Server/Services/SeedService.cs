@@ -47,7 +47,7 @@ namespace PetPlayApp.Server.Services
 				Bio = "Like long walks on the leash",
 				UserStatus = UserStatus.NotMatched,
 				Interest = UserInterest.Mammals,
-				// ProfilePictureData = File.ReadAllBytes("..\\petplayapp.client\\src\\assets\\SeededProfilePictures\\Turtle.png")
+				ProfilePictureData = File.ReadAllBytes("..\\petplayapp.client\\src\\assets\\SeededProfilePictures\\Turtle.png")
 			});
 
 			UserRepository.Add(new User
@@ -58,8 +58,9 @@ namespace PetPlayApp.Server.Services
 				Age = 19,
 				Bio = "Like carrots",
 				UserStatus = UserStatus.NotMatched,
-				Interest = UserInterest.Birds
-			});
+				Interest = UserInterest.Birds,
+                ProfilePictureData = File.ReadAllBytes("..\\petplayapp.client\\src\\assets\\SeededProfilePictures\\Bunny.png")
+            });
 
 			UserRepository.Add(new User
 			{
@@ -69,8 +70,9 @@ namespace PetPlayApp.Server.Services
 				Age = 18,
 				Bio = "Like apples and climbing",
 				UserStatus = UserStatus.Matched,
-				Interest = UserInterest.Mammals
-			});
+				Interest = UserInterest.Mammals,
+                ProfilePictureData = File.ReadAllBytes("..\\petplayapp.client\\src\\assets\\SeededProfilePictures\\Alpaca.png")
+            });
 
 			UserRepository.Add(new User
 			{
@@ -80,8 +82,9 @@ namespace PetPlayApp.Server.Services
 				Age = 22,
 				Bio = "Eats lasagna",
 				UserStatus = UserStatus.Matched,
-				Interest = UserInterest.Reptiles
-			});
+				Interest = UserInterest.Reptiles,
+                ProfilePictureData = File.ReadAllBytes("..\\petplayapp.client\\src\\assets\\SeededProfilePictures\\Garfield.png")
+            });
 
 			UserRepository.Add(new User
 			{
@@ -91,8 +94,9 @@ namespace PetPlayApp.Server.Services
 				Age = 19,
 				Bio = "Like dog things",
 				UserStatus = UserStatus.NotMatched,
-				Interest = UserInterest.Amphibians
-			});
+				Interest = UserInterest.Amphibians,
+                ProfilePictureData = File.ReadAllBytes("..\\petplayapp.client\\src\\assets\\SeededProfilePictures\\Dog.png")
+            });
 
 			UserRepository.Add(new User
 			{
@@ -102,8 +106,9 @@ namespace PetPlayApp.Server.Services
 				Age = 18,
 				Bio = "Like hay",
 				UserStatus = UserStatus.NotMatched,
-				Interest = UserInterest.Unlisted
-			});
+				Interest = UserInterest.Unlisted,
+                ProfilePictureData = File.ReadAllBytes("..\\petplayapp.client\\src\\assets\\SeededProfilePictures\\Horse.png")
+            });
 		}
 
 		public void SeedMatches()
