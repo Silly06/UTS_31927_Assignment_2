@@ -42,7 +42,8 @@ namespace PetPlayApp.Server.Services
 				Age = 18,
 				Bio = "Like long walks on the leash",
 				UserStatus = UserStatus.NotMatched,
-				Interest = UserInterest.Mammals
+				Interest = UserInterest.Mammals,
+				ProfilePictureData = File.ReadAllBytes("..\\petplayapp.client\\src\\assets\\SeededProfilePictures\\Turtle.png")
 			});
 
 			UserRepository.Add(new User

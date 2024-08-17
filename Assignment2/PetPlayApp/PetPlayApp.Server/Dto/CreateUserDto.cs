@@ -11,4 +11,6 @@ public class CreateUserDto
     public int? Age { get; set; }
     
     public string? Bio { get; set; }
+
+    public byte[]? ProfilePicture { get; set; }
 }

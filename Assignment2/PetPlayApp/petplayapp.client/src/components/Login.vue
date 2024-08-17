@@ -50,7 +50,8 @@ const login = async () => {
   try {
     const response = await axios.post('/users/login', loginDto.value);
     const data = response.data;
-    sessionStorage.setItem('userId', data.userId);
+      sessionStorage.setItem('userId', data.userId);
+    sessionStorage.setItem('userPfp', data.userPfp)
     await router.push('/Home');
   } catch (error) {
     errorMessage.value = error instanceof Error ? error.message : 'An unexpected error occurred';

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetPlayApp.Server.Dto;
 using PetPlayApp.Server.Services.Abstractions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PetPlayApp.Server.Controllers
 {
@@ -23,7 +24,8 @@ namespace PetPlayApp.Server.Controllers
             }
             if (_userService.TryValidateUser(login.Username, login.Password, out var userId))
             {
-                return Ok(new { UserId = userId });
+                var picture = _userService.GetUserPicture(userId);
+                return Ok(new { UserId = userId, UserPfp = picture});
             }
             return Unauthorized();
         }
@@ -36,11 +38,20 @@ namespace PetPlayApp.Server.Controllers
         }
 
         [HttpPost("UpdateUserDetails")]
-        public IActionResult UpdateUserDetails([FromBody] UserDetailsDto userDetails)
+        public async Task<IActionResult> UpdateUserDetailsAsync([FromBody] UserDetailsDto userDetails, [FromForm] IFormFile? profilePic)
         {
             try
             {
-                _userService.UpdateUserDetails(userDetails.UserId, userDetails.Username, userDetails.Email, userDetails.Age, userDetails.Bio);
+                byte[] imageData = [];
+                if (profilePic != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await profilePic.CopyToAsync(memoryStream);
+                        imageData = memoryStream.ToArray();
+                    }
+                }
+                _userService.UpdateUserDetails(userDetails.UserId, userDetails.Username, userDetails.Email, userDetails.Age, userDetails.Bio, imageData);
                 return Ok("User details updated successfully.");
             }
             catch (Exception ex)
@@ -59,7 +70,7 @@ namespace PetPlayApp.Server.Controllers
                     return BadRequest("Username or password cannot be empty.");
                 }
 
-                _userService.CreateUser(createUser.Username, createUser.Password, createUser.Email, createUser.Age, createUser.Bio);
+                _userService.CreateUser(createUser.Username, createUser.Password, createUser.Email, createUser.Age, createUser.Bio, createUser.ProfilePicture);
 
                 _userService.TryValidateUser(createUser.Username, createUser.Password, out var userId);
                 
