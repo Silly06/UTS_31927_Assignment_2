@@ -29,4 +29,9 @@
     </ProjectReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Assets\" />
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

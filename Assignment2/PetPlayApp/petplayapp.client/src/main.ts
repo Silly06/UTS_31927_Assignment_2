@@ -20,11 +20,12 @@ import Search from './components/Search.vue'
 import SignUp from './components/SignUp.vue'
 import ViewPost from './components/ViewPost.vue'
 import NewStory from "@/components/NewStory.vue";
+import ViewStory from "@/components/ViewStory.vue";
 
 const routes = [
     { path: '/', redirect: () => {
             return sessionStorage.getItem('userId') ? '/Home' : '/Login';
-        }},
+    }},
     { path: '/EditProfile', component: EditProfile },
     { path: '/Home', component: Home, meta: { requiresAuth: true } },
     { path: '/Login', component: Login },
@@ -38,6 +39,7 @@ const routes = [
     { path: '/Search', component: Search },
     { path: '/SignUp', component: SignUp },
     { path: '/ViewPost/:id', component: ViewPost },
+    { path: '/ViewStory/:id', component: ViewStory },
     { path: '/PostComments/:id', component: PostComments },
 ];
 

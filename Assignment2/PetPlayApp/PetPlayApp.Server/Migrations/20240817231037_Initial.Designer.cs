@@ -11,8 +11,8 @@ using PetPlayApp.Server.Db;
 namespace PetPlayApp.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240817125444_Stories")]
-    partial class Stories
+    [Migration("20240817231037_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -12,9 +12,9 @@ public class Post
 
     public string? Description { get; set; }
 
-    public List<User> Likes { get; } = [];
+    public List<User> Likes { get; init; } = [];
 
-    public ICollection<Comment> Comments { get; } = [];
+    public ICollection<Comment> Comments { get; init; } = [];
 
     public byte[]? ImageData { get; set; } // Property to store image data
 }

@@ -9,7 +9,7 @@
           class="story-item"
       >
         <img
-            :src="story.imageData ? `data:image/png;base64,${story.imageData}` : defaultProfilePicture"
+            :src="`data:image/png;base64,${story.storyProfilePicture}`"
             class="story-avatar"
             alt=""
         />
@@ -70,6 +70,12 @@ const dummyPosts = [
 const fetchStories = async () => {
   try {
     const response = await axios.get('/stories/GetAllStories');
+    const storiesData = response.data as StoryDetailsDto[];
+    
+    for (const story of storiesData) {
+      story.storyProfilePicture = await getStoryProfilePicture(story.storyCreatorId!);
+    }
+    
     stories.value = response.data;
   } catch (error) {
     errorMessage.value = 'Failed to load stories';
@@ -107,6 +113,17 @@ const fetchPostDetails = async (postId: number) => {
     return null;
   }
 };
+
+const getStoryProfilePicture = async (userId: string) => {
+  try {
+    const response = await axios.get('/users/GetUserPicture', {
+      params: { userId }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching profile picture for user ${userId}`, error);
+  }
+}
 
 const viewPost = (postId: number) => {
   router.push(`/ViewPost/${postId}`);

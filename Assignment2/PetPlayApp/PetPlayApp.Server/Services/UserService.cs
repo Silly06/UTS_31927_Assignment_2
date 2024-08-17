@@ -50,6 +50,7 @@ public class UserService : IUserService
             Email = user.Email,
             Age = user.Age,
             Bio = user.Bio,
+            ProfilePicture = user.ProfilePictureData,
             Status = user.UserStatus,
             Interest = user.Interest
         };
@@ -84,10 +85,7 @@ public class UserService : IUserService
         {
             throw new Exception("User already exists");
         }
-        if (imagedata == null)
-        {
-            imagedata = File.ReadAllBytes("..\\..\\petplayapp.client\\src\\assets\\SeededProfilePictures\\DefaultProfile.png");
-        }
+        imagedata ??= File.ReadAllBytes("Assets/SeededProfilePictures/DefaultProfile.png");
 
         var user = new User
         {
@@ -106,17 +104,9 @@ public class UserService : IUserService
     public byte[]? GetUserPicture(Guid id)
     {
         var user = _userRepository.GetById(id);
-        byte[]? picture;
-        if (user != null)
-        {
-            picture = user.ProfilePictureData;
-            if (picture == null)
-            {
-                picture = File.ReadAllBytes("..\\petplayapp.client\\src\\assets\\SeededProfilePictures\\DefaultProfile.png");
-            }
-            return picture;
-        }
-        return null;
+        if (user == null) return null;
+        var picture = user.ProfilePictureData ?? File.ReadAllBytes(@"Assets/SeededProfilePictures/DefaultProfile.png");
+        return picture;
     }
     
     public IEnumerable<UserSearchDto> SearchUsers(Guid currentUserId, string? query)

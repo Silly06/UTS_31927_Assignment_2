@@ -21,12 +21,10 @@ public class UserController : Controller
         {
             return BadRequest("Username or password was empty or missing");
         }
-        if (_userService.TryValidateUser(login.Username, login.Password, out var userId))
-        {
-            var picture = _userService.GetUserPicture(userId);
-            return Ok(new { UserId = userId, UserPfp = picture});
-        }
-        return Unauthorized();
+
+        if (!_userService.TryValidateUser(login.Username, login.Password, out var userId)) return Unauthorized();
+        var picture = _userService.GetUserPicture(userId);
+        return Ok(new { UserId = userId, UserPfp = picture});
     }
 
     [HttpGet("GetUserDetails")]
@@ -92,5 +90,18 @@ public class UserController : Controller
         }
 
         return Ok(searchResults);
+    }
+
+    [HttpGet("GetUserPicture")]
+    public IActionResult GetUserPicture([FromQuery] Guid userId)
+    {
+        var picture = _userService.GetUserPicture(userId);
+        
+        if (picture == null)
+        {
+            return NotFound("Profile picture not found.");
+        }
+        
+        return Ok(picture);
     }
 }

@@ -22,7 +22,8 @@ namespace PetPlayApp.Server.Migrations
                     Age = table.Column<int>(type: "INTEGER", nullable: true),
                     Bio = table.Column<string>(type: "TEXT", nullable: true),
                     UserStatus = table.Column<int>(type: "INTEGER", nullable: true),
-                    Interest = table.Column<int>(type: "INTEGER", nullable: true)
+                    Interest = table.Column<int>(type: "INTEGER", nullable: true),
+                    ProfilePictureData = table.Column<byte[]>(type: "BLOB", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -74,6 +75,26 @@ namespace PetPlayApp.Server.Migrations
                         column: x => x.PostCreatorId,
                         principalTable: "Users",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Stories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    DateTimePosted = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    StoryCreatorId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    ImageData = table.Column<byte[]>(type: "BLOB", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Stories_Users_StoryCreatorId",
+                        column: x => x.StoryCreatorId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -151,6 +172,11 @@ namespace PetPlayApp.Server.Migrations
                 name: "IX_Posts_PostCreatorId",
                 table: "Posts",
                 column: "PostCreatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Stories_StoryCreatorId",
+                table: "Stories",
+                column: "StoryCreatorId");
         }
 
         /// <inheritdoc />
@@ -164,6 +190,9 @@ namespace PetPlayApp.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "Matches");
+
+            migrationBuilder.DropTable(
+                name: "Stories");
 
             migrationBuilder.DropTable(
                 name: "Posts");
