@@ -1,5 +1,21 @@
 <template>
   <v-container fluid>
+    <!-- Stories Section -->
+    <v-row class="stories-container">
+      <v-col
+          v-for="story in stories"
+          :key="story.storyId"
+          cols="auto"
+          class="story-item"
+      >
+        <img
+            :src="story.imageData ? toBase64(story.imageData) : defaultProfilePicture"
+            class="story-avatar"
+        />
+      </v-col>
+    </v-row>
+
+    <!-- Posts Section -->
     <v-row justify="center">
       <v-col cols="12" md="8">
         <p class="text-center">For You</p>
@@ -20,13 +36,17 @@
   </v-container>
 </template>
 
-<script setup lang="js">
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import {useRouter} from "vue-router";
+import { useRouter } from 'vue-router';
+import type { StoryDetailsDto } from "@/types/models";
 
-const posts = ref([]);
-const errorMessage = ref('');
+const stories = ref<StoryDetailsDto[]>([]);
+const posts = ref<any[]>([]);
+const errorMessage = ref<string>('');
+
+const defaultProfilePicture = 'https://via.placeholder.com/100?text=Profile+Picture';
 
 const router = useRouter();
 
@@ -47,15 +67,13 @@ const dummyPosts = [
   },
 ];
 
-const fetchPostDetails = async (postId) => {
+const fetchStories = async () => {
   try {
-    const response = await axios.get('/posts/GetPostDetails', {
-      params: { postid: postId },
-    });
-    return response.data;
+    const response = await axios.get('/stories/GetAllStories');
+    stories.value = response.data;
   } catch (error) {
-    console.error(`Error fetching details for post ${postId}:`, error);
-    return null;
+    errorMessage.value = 'Failed to load stories';
+    console.error(error);
   }
 };
 
@@ -78,11 +96,30 @@ const fetchPosts = async () => {
   }
 };
 
-const viewPost = (postId) => {
+const fetchPostDetails = async (postId: number) => {
+  try {
+    const response = await axios.get('/posts/GetPostDetails', {
+      params: { postid: postId },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching details for post ${postId}:`, error);
+    return null;
+  }
+};
+
+const viewPost = (postId: number) => {
   router.push(`/ViewPost/${postId}`);
 };
 
+const toBase64 = (uint8Array: Uint8Array): string => {
+  const binaryString = Array.from(uint8Array).map(byte => String.fromCharCode(byte)).join('');
+  return `data:image/png;base64,${btoa(binaryString)}`;
+};
+
+// DO CREATE STORY
 onMounted(() => {
+  fetchStories();
   fetchPosts();
 });
 </script>
@@ -94,6 +131,26 @@ onMounted(() => {
 
 .v-container {
   margin-top: 20px;
+}
+
+.stories-container {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 10px 0;
+  display: flex;
+}
+
+.story-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.story-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  object-fit: cover;
 }
 
 .v-card {

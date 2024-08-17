@@ -11,6 +11,9 @@ namespace PetPlayApp.Server.Db
         public DbSet<Post> Posts { get; set; }
         // DbSet for matches table
         public DbSet<Match> Matches { get; set; }
+        // DbSet for stories table
+        public DbSet<Story> Stories { get; set; }
+        
         public string DbPath { get; }
 
         public DatabaseContext()
@@ -51,7 +54,12 @@ namespace PetPlayApp.Server.Db
 				.WithMany(u => u.MatchesReceived)
 				.HasForeignKey(m => m.User2Id)
 				.OnDelete(DeleteBehavior.Restrict);
-
+			
+			modelBuilder.Entity<Story>()
+				.HasOne(s => s.StoryCreator)
+				.WithMany(u => u.StoriesCreated)
+				.HasForeignKey(s => s.StoryCreatorId)
+				.OnDelete(DeleteBehavior.Restrict);
 		}
 	}
 }

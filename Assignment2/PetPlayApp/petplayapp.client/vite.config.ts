@@ -78,6 +78,14 @@ export default defineConfig({
             '^/users/SearchUsers': {
                 target,
                 secure: false
+            },
+            '^/stories/CreateStory': {
+                target,
+                secure: false
+            },
+            '^/stories/GetAllStories': {
+                target,
+                secure: false
             }
         },
         port: 5173,

@@ -8,7 +8,7 @@ export class UserDetailsDto {
     email?: string;
     age?: number;
     bio?: string;
-    profilePicture?: ArrayBuffer;
+    profilePicture?: Uint8Array;
 }
 
 export class CreateUserDto {
@@ -17,10 +17,16 @@ export class CreateUserDto {
     password?: string;
     age?: number;
     bio?: string;
-    profilePicture?: ArrayBuffer;
+    profilePicture?: Uint8Array;
 }
 
 export class UserSearchDto {
     userId?: string;
     username?: string;
+}
+
+export class StoryDetailsDto {
+    storyId?: string;
+    storyCreatorId?: string;
+    imageData?: Uint8Array;
 }

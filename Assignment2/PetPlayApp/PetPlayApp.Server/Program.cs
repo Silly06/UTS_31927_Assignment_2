@@ -14,7 +14,8 @@ builder.Services
 	.AddScoped<IMatchService, MatchService>()
 	.AddScoped<ICommentService, CommentService>()
 	.AddScoped<INotificationService, NotificationService>()
-	.AddScoped<ISeedService, SeedService>();
+	.AddScoped<ISeedService, SeedService>()
+	.AddScoped<IStoryService, StoryService>();
 
 builder.Services.AddControllers();
 

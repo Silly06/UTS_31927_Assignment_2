@@ -7,7 +7,7 @@ namespace PetPlayApp.Server.Controllers;
 [Route("users")]
 public class UserController : Controller
 {
-private readonly IUserService _userService;
+    private readonly IUserService _userService;
 
     public UserController(IUserService userService)
     {

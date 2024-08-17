@@ -109,6 +109,28 @@ namespace PetPlayApp.Server.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("PetPlayApp.Server.Models.Story", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateTimePosted")
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("BLOB");
+
+                    b.Property<Guid?>("StoryCreatorId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StoryCreatorId");
+
+                    b.ToTable("Stories");
+                });
+
             modelBuilder.Entity("PetPlayApp.Server.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -210,6 +232,16 @@ namespace PetPlayApp.Server.Migrations
                     b.Navigation("PostCreator");
                 });
 
+            modelBuilder.Entity("PetPlayApp.Server.Models.Story", b =>
+                {
+                    b.HasOne("PetPlayApp.Server.Models.User", "StoryCreator")
+                        .WithMany("StoriesCreated")
+                        .HasForeignKey("StoryCreatorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("StoryCreator");
+                });
+
             modelBuilder.Entity("PetPlayApp.Server.Models.Post", b =>
                 {
                     b.Navigation("Comments");
@@ -222,6 +254,8 @@ namespace PetPlayApp.Server.Migrations
                     b.Navigation("MatchesInitiated");
 
                     b.Navigation("MatchesReceived");
+
+                    b.Navigation("StoriesCreated");
                 });
 #pragma warning restore 612, 618
         }

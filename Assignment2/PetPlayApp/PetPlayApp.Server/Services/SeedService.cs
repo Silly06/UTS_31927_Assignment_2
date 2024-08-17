@@ -10,6 +10,7 @@ namespace PetPlayApp.Server.Services
 		IRepository<User> UserRepository { get; }
 		IRepository<Match> MatchRepository { get; }
 		IRepository<Post> PostRepository { get; }
+		IRepository<Story> StoryRepository { get; }
 		IMatchService MatchService { get; }
 		IUserService UserService { get; }
 
@@ -18,6 +19,7 @@ namespace PetPlayApp.Server.Services
 			UserRepository = repositoryProvider.GetRepository<User>();
 			MatchRepository = repositoryProvider.GetRepository<Match>();
 			PostRepository = repositoryProvider.GetRepository<Post>();
+			StoryRepository = repositoryProvider.GetRepository<Story>();
 			MatchService = matchService;
 			UserService = userService;
 		}
@@ -27,8 +29,10 @@ namespace PetPlayApp.Server.Services
 			UserRepository.RemoveAll();
 			MatchRepository.RemoveAll();
 			PostRepository.RemoveAll();
+			StoryRepository.RemoveAll();
 			SeedUsers();
 			SeedMatches();
+			SeedStories();
 		}
 
 		public void SeedUsers()
@@ -111,6 +115,27 @@ namespace PetPlayApp.Server.Services
 			MatchService.AddMatch(users[0], users[1]); // Pending match between Todd and Baldwin
 			MatchService.AddMatch(users[2], users[3], UserResponse.Accepted, UserResponse.Accepted, MatchStatus.Success); //Accepted match between Aidan and Garfield
 			MatchService.AddMatch(users[4], users[0], UserResponse.Accepted, UserResponse.Rejected, MatchStatus.Failure); // Failed match between Danny and Todd
+		}
+
+		public void SeedStories()
+		{
+			StoryRepository.Add(new Story
+			{
+				DateTimePosted = DateTime.UtcNow,
+				StoryCreatorId = UserRepository.GetAll().FirstOrDefault()?.Id
+			});
+
+			StoryRepository.Add(new Story
+			{
+				DateTimePosted = DateTime.UtcNow,
+				StoryCreatorId = UserRepository.GetAll().Skip(1).FirstOrDefault()?.Id
+			});
+
+			StoryRepository.Add(new Story
+			{
+				DateTimePosted = DateTime.UtcNow,
+				StoryCreatorId = UserRepository.GetAll().Skip(2).FirstOrDefault()?.Id
+			});
 		}
 	}
 }
