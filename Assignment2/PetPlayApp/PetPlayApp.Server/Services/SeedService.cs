@@ -43,7 +43,7 @@ namespace PetPlayApp.Server.Services
 				Bio = "Like long walks on the leash",
 				UserStatus = UserStatus.NotMatched,
 				Interest = UserInterest.Mammals,
-				ProfilePictureData = File.ReadAllBytes("..\\petplayapp.client\\src\\assets\\SeededProfilePictures\\Turtle.png")
+				// ProfilePictureData = File.ReadAllBytes("..\\petplayapp.client\\src\\assets\\SeededProfilePictures\\Turtle.png")
 			});
 
 			UserRepository.Add(new User
