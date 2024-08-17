@@ -7,7 +7,7 @@
           <v-card-text>
             <v-list>
               <v-list-item>
-                <v-list-item-title>UserName: {{ userDetails?.userName }}</v-list-item-title>
+                <v-list-item-title>UserName: {{ userDetails?.username }}</v-list-item-title>
                 <v-list-item-title>Email: {{ userDetails?.email }}</v-list-item-title>
                 <v-list-item-subtitle>Age: {{ userDetails?.age }}</v-list-item-subtitle>
                 <v-list-item-subtitle>Bio: {{ userDetails?.bio }}</v-list-item-subtitle>
@@ -30,9 +30,10 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { UserDetailsDto } from '@/types/models';
 
 const userId = sessionStorage.getItem('userId') || '';
-const userDetails = ref<{ userName?: string; email?: string; age?: number; bio?: string } | null>(null);
+const userDetails = ref<UserDetailsDto | null>(null);
 const errorMessage = ref('');
 const router = useRouter();
 

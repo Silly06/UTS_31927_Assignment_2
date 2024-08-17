@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import {onMounted, ref} from 'vue';
+import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import type {UserDetailsDto} from "@/types/models";
 
 const userId = sessionStorage.getItem('userId') || '';
-const userDetails = ref<{ userName?: string; email?: string; age?: number; bio?: string }>({
-  userName: '',
+const userDetails = ref<UserDetailsDto>({
+  username: '',
   email: '',
   age: 0,
   bio: ''
@@ -28,7 +29,10 @@ const updateUserDetails = async () => {
   try {
     const response = await axios.post('/users/UpdateUserDetails', {
       userId,
-      userDetails: userDetails.value
+      username: userDetails.value.username,
+      email: userDetails.value.email,
+      age: userDetails.value.age,
+      bio: userDetails.value.bio
     });
     successMessage.value = response.data;
   } catch (error) {
@@ -51,7 +55,7 @@ onMounted(async () => {
           <v-card-text>
             <v-form @submit.prevent="updateUserDetails">
               <v-text-field
-                  v-model="userDetails.userName"
+                  v-model="userDetails.username"
                   label="Username"
                   required
               ></v-text-field>
@@ -83,19 +87,3 @@ onMounted(async () => {
     </v-row>
   </v-container>
 </template>
-
-<style scoped>
-.v-card {
-  max-width: 600px;
-  margin: auto;
-}
-
-.v-text-field,
-.v-textarea {
-  margin-bottom: 20px;
-}
-
-.v-btn {
-  width: 100%;
-}
-</style>

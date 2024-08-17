@@ -10,6 +10,6 @@ namespace PetPlayApp.Server.Services.Abstractions
 
 		UserDetailsDto GetUserDetails(Guid userId);
 		
-		void UpdateUserDetails(Guid id, UserDetailsDto userDetails);
+		void UpdateUserDetails(Guid id, string username, string email, int age, string bio);
     }
 }

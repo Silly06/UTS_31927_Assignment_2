@@ -2,7 +2,7 @@ namespace PetPlayApp.Server.Dto;
 
 public class UserDetailsDto
 {
-    public string? UserName { get; set; }
+    public string? Username { get; set; }
     
     public string? Email { get; set; }
     
