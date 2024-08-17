@@ -7,7 +7,7 @@ namespace PetPlayApp.Server.Controllers;
 [Route("users")]
 public class UserController : Controller
 {
-    private readonly IUserService _userService;
+private readonly IUserService _userService;
 
     public UserController(IUserService userService)
     {
@@ -23,7 +23,8 @@ public class UserController : Controller
         }
         if (_userService.TryValidateUser(login.Username, login.Password, out var userId))
         {
-            return Ok(new { UserId = userId });
+            var picture = _userService.GetUserPicture(userId);
+            return Ok(new { UserId = userId, UserPfp = picture});
         }
         return Unauthorized();
     }
@@ -36,11 +37,20 @@ public class UserController : Controller
     }
 
     [HttpPost("UpdateUserDetails")]
-    public IActionResult UpdateUserDetails([FromBody] UserDetailsDto userDetails)
+    public async Task<IActionResult> UpdateUserDetailsAsync([FromBody] UserDetailsDto userDetails, [FromForm] IFormFile? profilePic)
     {
         try
         {
-            _userService.UpdateUserDetails(userDetails.UserId, userDetails.Username, userDetails.Email, userDetails.Age, userDetails.Bio);
+            byte[] imageData = [];
+            if (profilePic != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await profilePic.CopyToAsync(memoryStream);
+                    imageData = memoryStream.ToArray();
+                }
+            }
+            _userService.UpdateUserDetails(userDetails.UserId, userDetails.Username, userDetails.Email, userDetails.Age, userDetails.Bio, imageData);
             return Ok("User details updated successfully.");
         }
         catch (Exception ex)
@@ -59,7 +69,7 @@ public class UserController : Controller
                 return BadRequest("Username or password cannot be empty.");
             }
 
-            _userService.CreateUser(createUser.Username, createUser.Password, createUser.Email, createUser.Age, createUser.Bio);
+            _userService.CreateUser(createUser.Username, createUser.Password, createUser.Email, createUser.Age, createUser.Bio, createUser.ProfilePicture);
 
             _userService.TryValidateUser(createUser.Username, createUser.Password, out var userId);
             
@@ -70,7 +80,7 @@ public class UserController : Controller
             return StatusCode(500, $"An error occurred while creating the user: {ex.Message}");
         }
     }
-
+    
     [HttpGet("SearchUsers")]
     public IActionResult SearchUsers([FromQuery] Guid currentUserId, [FromQuery] string query)
     {

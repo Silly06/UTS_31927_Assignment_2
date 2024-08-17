@@ -11,4 +11,6 @@ public class UserDetailsDto
     public int? Age { get; init; }
     
     public string? Bio { get; init; }
+
+    public byte[]? ProfilePicture { get; set; }
 }

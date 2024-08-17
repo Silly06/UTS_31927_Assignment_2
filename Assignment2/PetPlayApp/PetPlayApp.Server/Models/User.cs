@@ -24,7 +24,9 @@ namespace PetPlayApp.Server.Models
 
 		[InverseProperty("PostCreator")]
 		public List<Post> CreatedPosts { get; } = [];
-	}
+
+        public byte[]? ProfilePictureData { get; set; }
+    }
 
 	public enum UserStatus
 	{

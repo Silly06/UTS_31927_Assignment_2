@@ -19,7 +19,9 @@
         <v-icon>mdi-bell</v-icon>
       </v-btn>
       <v-btn @click="navigateToProfile" :icon="true">
-        <v-icon>mdi-account</v-icon>
+        <v-icon>
+            <v-img :src="getIconSource()" class="custom-icon"></v-img>
+        </v-icon>
       </v-btn>
       <v-btn @click="logout" :icon="true" class="logout-btn">
         <v-icon>mdi-logout</v-icon>
@@ -60,6 +62,25 @@ const logout = () => {
 const isAuthPage = computed(() => {
   return ['/login', '/signup', '/resetpassword'].includes(route.path.toLowerCase());
 });
+
+const getIconSource = () => {
+    const imageSource = sessionStorage.getItem('userPfp');
+    if (imageSource) {
+        const byte = atob(imageSource);
+        const byteNumbers = new Array(byte.length);
+
+        for (let i = 0; i < byte.length; i++) {
+            byteNumbers[i] = byte.charCodeAt(i);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: 'image/png' });
+        const urlCreator = window.URL || window.webkitURL;
+        const imageUrl = urlCreator.createObjectURL(blob);
+
+        return imageUrl;
+    }
+};
 </script>
 
 <style scoped>
