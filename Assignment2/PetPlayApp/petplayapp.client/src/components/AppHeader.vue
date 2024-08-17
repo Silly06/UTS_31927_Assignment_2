@@ -48,7 +48,7 @@ const navigateToProfile = () => {
 .logo {
   margin-left: 16px;
   margin-right: auto;
-  height: 60px; /* Adjust as needed */
+  height: 60px;
 }
 
 .v-app-bar .v-btn:hover {
