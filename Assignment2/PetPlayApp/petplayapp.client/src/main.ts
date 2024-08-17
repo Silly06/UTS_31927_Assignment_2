@@ -19,6 +19,7 @@ import ResetPassword from './components/ResetPassword.vue'
 import Search from './components/Search.vue'
 import SignUp from './components/SignUp.vue'
 import ViewPost from './components/ViewPost.vue'
+import NewStory from "@/components/NewStory.vue";
 
 const routes = [
     { path: '/', redirect: () => {
@@ -29,6 +30,7 @@ const routes = [
     { path: '/Login', component: Login },
     { path: '/Matches', component: Matches },
     { path: '/NewPost', component: NewPost },
+    { path: '/NewStory', component: NewStory },
     { path: '/Notifications', component: Notifications, meta: { requiresAuth: true } },
     { path: '/PostComments', component: PostComments },
     { path: '/Profile', component: Profile, meta: { requiresAuth: true} },

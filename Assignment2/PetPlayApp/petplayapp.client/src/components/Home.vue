@@ -9,8 +9,9 @@
           class="story-item"
       >
         <img
-            :src="story.imageData ? toBase64(story.imageData) : defaultProfilePicture"
+            :src="story.imageData ? `data:image/png;base64,${story.imageData}` : defaultProfilePicture"
             class="story-avatar"
+            alt=""
         />
       </v-col>
     </v-row>
@@ -45,10 +46,9 @@ import type { StoryDetailsDto } from "@/types/models";
 const stories = ref<StoryDetailsDto[]>([]);
 const posts = ref<any[]>([]);
 const errorMessage = ref<string>('');
+const router = useRouter();
 
 const defaultProfilePicture = 'https://via.placeholder.com/100?text=Profile+Picture';
-
-const router = useRouter();
 
 const dummyPosts = [
   {
@@ -112,12 +112,7 @@ const viewPost = (postId: number) => {
   router.push(`/ViewPost/${postId}`);
 };
 
-const toBase64 = (uint8Array: Uint8Array): string => {
-  const binaryString = Array.from(uint8Array).map(byte => String.fromCharCode(byte)).join('');
-  return `data:image/png;base64,${btoa(binaryString)}`;
-};
-
-// DO CREATE STORY
+// Fetch stories and posts on component mount
 onMounted(() => {
   fetchStories();
   fetchPosts();

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using PetPlayApp.Server.Dto;
 using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Services.Abstractions;
 
@@ -9,21 +8,28 @@ namespace PetPlayApp.Server.Controllers;
 public class StoryController(IStoryService storyService) : Controller
 {
     [HttpPost("CreateStory")]
-    public IActionResult CreateStory([FromBody] StoryDetailsDto storyDetails)
+    public async Task<IActionResult> CreateStory([FromForm] Guid? storyCreatorId, [FromForm] IFormFile? file)
     {
-        if (storyDetails.StoryCreatorId == null)
+        if (storyCreatorId == null)
         {
             return BadRequest("StoryCreatorId is required");
         }
         
         try
         {
+            byte[] imageData;
+            using (var memoryStream = new MemoryStream())
+            {
+                await file!.CopyToAsync(memoryStream);
+                imageData = memoryStream.ToArray();
+            }
+            
             var story = new Story
             {
                 Id = Guid.NewGuid(),
                 DateTimePosted = DateTime.UtcNow,
-                StoryCreatorId = storyDetails.StoryCreatorId,
-                ImageData = storyDetails.ImageData
+                StoryCreatorId = storyCreatorId,
+                ImageData = imageData
             };
 
             storyService.CreateStory(story);
