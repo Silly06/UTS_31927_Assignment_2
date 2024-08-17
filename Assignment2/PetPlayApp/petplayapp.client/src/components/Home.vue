@@ -23,27 +23,28 @@
 <script setup lang="js">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import {useRouter} from "vue-router";
 
 const posts = ref([]);
 const errorMessage = ref('');
 
-// Dummy posts to be used if API fails
+const router = useRouter();
+
 const dummyPosts = [
   {
     id: 1,
     title: 'First Dummy Post',
     description: 'This is a description of the first dummy post.',
-    imageData: '', // Placeholder image
+    imageData: '',
     date: '2024-08-16'
   },
   {
     id: 2,
     title: 'Second Dummy Post',
     description: 'This is a description of the second dummy post.',
-    imageData: '', // Placeholder image
+    imageData: '',
     date: '2024-08-15'
   },
-  // Add more dummy posts if needed
 ];
 
 const fetchPostDetails = async (postId) => {
@@ -65,7 +66,7 @@ const fetchPosts = async () => {
     });
     const postIds = response.data;
     if (postIds.length === 0) {
-      posts.value = dummyPosts; // Use dummy posts if no posts are fetched
+      posts.value = dummyPosts;
     } else {
       const postDetailsPromises = postIds.map(fetchPostDetails);
       const postDetails = await Promise.all(postDetailsPromises);
@@ -77,10 +78,8 @@ const fetchPosts = async () => {
   }
 };
 
-// Method to handle "View Details" button click
 const viewPost = (postId) => {
-  // Handle post detail view, e.g., redirect to a post detail page
-  console.log(`View details for post ${postId}`);
+  router.push(`/ViewPost/${postId}`);
 };
 
 onMounted(() => {

@@ -19,9 +19,7 @@
         <v-icon>mdi-bell</v-icon>
       </v-btn>
       <v-btn @click="navigateToProfile" :icon="true">
-        <v-icon>
-            <v-img :src="getIconSource()" class="custom-icon"></v-img>
-        </v-icon>
+        <v-icon>mdi-account-circle</v-icon>
       </v-btn>
       <v-btn @click="logout" :icon="true" class="logout-btn">
         <v-icon>mdi-logout</v-icon>
