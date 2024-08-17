@@ -5,8 +5,9 @@
     background-color: skyblue;
     padding: 0px 20px;
     margin-bottom: 50px;
+    width: 100%;
 }
 
 #router-view {
-    background-color: white;
+    background-color: gray;
 }

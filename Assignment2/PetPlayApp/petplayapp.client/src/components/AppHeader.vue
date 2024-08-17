@@ -19,13 +19,16 @@ const navigateToProfile = () => {
 <template>
   <div id="header">
     <button class="header-button" @click="navigateToHome">
-      <img src="../assets/home.png" style="width: 70px;" alt="Home">
+      <img src="../assets/home.png" style="width: 80px" alt="Home">
+        <header class="home-button-label">Home</header>
     </button>
     <button class="header-button" @click="navigateToNotifications">
-      <img src="../assets/notification.png" style="width: 70px;" alt="Notifications">
+      <img src="../assets/notification.png" style="width: 80px;" alt="Notifications">
+        <header class="notification-button-label">Notifications</header>
     </button>
     <button class="header-button" @click="navigateToProfile">
-      <img src="../assets/profile.png" style="width: 70px;" alt="Profile">
+      <img src="../assets/profile.png" style="width: 80px;" alt="Profile">
+        <header>Profile</header>
     </button>
   </div>
 </template>
@@ -42,11 +45,20 @@ const navigateToProfile = () => {
   background-color: skyblue;
   color: black;
   border: 2px solid black;
-  max-height: 110px;
+  max-height: 130px;
+  max-width: 150px;
 }
 
 .header-button:hover {
   cursor: pointer;
   background-color: lightskyblue;
+}
+
+.home-button-label {
+    padding-top: 20px;
+}
+
+.notification-button-label {
+    padding-top: 10px;
 }
 </style>

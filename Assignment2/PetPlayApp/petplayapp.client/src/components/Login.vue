@@ -66,5 +66,6 @@ const navigateToSignUp = () => {
 .v-card {
   max-width: 400px;
   margin: auto;
+  margin-top: 30px;
 }
 </style>
