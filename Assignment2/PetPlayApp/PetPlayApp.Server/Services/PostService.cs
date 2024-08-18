@@ -5,10 +5,11 @@ using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Services
 {
-	public class PostService(IRepositoryProviderService repositoryProvider) : IPostService
+	public class PostService(IRepositoryProviderService repositoryProvider, INotificationService notificationService) : IPostService
 	{
 		private readonly IRepository<Post> _postRepository = repositoryProvider.GetRepository<Post>();
 		private readonly IRepository<User> _userRepository = repositoryProvider.GetRepository<User>();
+		private readonly INotificationService _notificationService = notificationService;
 
 		public PostDetailsDto? LikePost(Guid postId, Guid userId)
 		{

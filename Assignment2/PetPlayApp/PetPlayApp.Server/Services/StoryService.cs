@@ -19,10 +19,12 @@ public class StoryService(IRepositoryProviderService repositoryProvider, IUserSe
 		});
 	}
 
-	public StoryDetailsDto GetStoryDetails(Guid storyId)
+	public StoryDetailsDto? GetStoryDetails(Guid storyId)
 	{
 		var story = _storyRepository.GetById(storyId);
+		if (story == null) return null;
 		var username = userService.GetUserDetails(story?.StoryCreatorId ?? Guid.Empty).Username;
+		if (username == null) return null;
 
 		return new StoryDetailsDto
 		{
