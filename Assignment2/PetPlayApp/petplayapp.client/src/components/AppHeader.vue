@@ -9,23 +9,26 @@
     <v-spacer></v-spacer>
 
     <template v-if="!isAuthPage">
-      <v-btn @click="navigateToHome" :icon="true">
-        <v-icon>mdi-home</v-icon>
-      </v-btn>
-      <v-btn @click="navigateToSearch" :icon="true">
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-      <v-btn @click="navigateToNotifications" :icon="true">
-        <v-icon>mdi-bell</v-icon>
-      </v-btn>
-      <v-btn @click="navigateToProfile" :icon="true">
-        <v-icon>
-          <v-img :src="profilePicture"></v-img>
-        </v-icon>
-      </v-btn>
-      <v-btn @click="logout" :icon="true" class="logout-btn">
-        <v-icon>mdi-logout</v-icon>
-      </v-btn>
+        <v-btn @click="navigateToNewPost" :icon="true">
+            <v-icon>mdi-plus</v-icon>
+        </v-btn>
+        <v-btn @click="navigateToHome" :icon="true">
+            <v-icon>mdi-home</v-icon>
+        </v-btn>
+        <v-btn @click="navigateToSearch" :icon="true">
+            <v-icon>mdi-magnify</v-icon>
+        </v-btn>
+        <v-btn @click="navigateToNotifications" :icon="true">
+            <v-icon>mdi-bell</v-icon>
+        </v-btn>
+        <v-btn @click="navigateToProfile" :icon="true">
+            <v-icon>
+                <v-img :src="profilePicture"></v-img>
+            </v-icon>
+        </v-btn>
+        <v-btn @click="logout" :icon="true" class="logout-btn">
+            <v-icon>mdi-logout</v-icon>
+        </v-btn>
     </template>
   </v-app-bar>
 </template>
@@ -51,6 +54,10 @@ const fetchUserProfilePicture = async () => {
     profilePicture.value = '@/assets/default-avatar.png';
   }
 };
+
+    const navigateToNewPost = () => {
+        router.push('/NewPost');
+    };
 
 const navigateToHome = () => {
   router.push('/home');
