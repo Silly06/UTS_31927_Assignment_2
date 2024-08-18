@@ -18,14 +18,29 @@ namespace PetPlayApp.Server.Services
 
         public void NotifyCommentCreated(Guid postId, Guid userId, string content)
         {
-            // Implement your notification logic here
-            // For example, send an email, push notification, etc.
-            Console.WriteLine($"Notification: A new comment was added to post {postId} by user {userId}. Content: {content}");
+            notificationRepository.Add(new Notification
+			{
+				Id = Guid.NewGuid(),
+				SubjectId = userId,
+				Timestamp = DateTime.Now,
+				NotificationType = NotificationType.Comment,
+				PostId = postId
+			});
         }
 
-		public List<Notification> GetNotificationsForUser(Guid userId)
+		public List<Guid> GetRecentNotifications(Guid userId)
 		{
-			return notificationRepository.GetAll().Where(n => n.SubjectId == userId).ToList();
+			return notificationRepository.GetAll()
+                .Where(n => n.SubjectId == userId)
+                .OrderBy(x => x.Timestamp)
+                .Select(x => x.Id)
+                .ToList();
+		}
+
+		public Notification? GetNotification(Guid notificationId)
+		{
+			var notification = notificationRepository.GetById(notificationId);
+			return notification;
 		}
 	}
 }
