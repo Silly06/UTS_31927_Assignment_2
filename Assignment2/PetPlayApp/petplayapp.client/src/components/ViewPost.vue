@@ -11,7 +11,9 @@
 
     const fetchPost = async () => {
         try {
-            const response = await axios.get(`/api/posts/${postId}`);
+            const response = await axios.get('/posts/GetPostDetails', {
+                params: { postid: postId },
+            });
             post.value = response.data;
         } catch (error) {
             console.error('Error fetching post:', error);
@@ -35,13 +37,14 @@
 
 <template>
     <div v-if="post">
-        <img :src="post.imageUrl" alt="Post Image" />
-        <p>{{ post.description }}</p>
-        <div>
-            <img :src="post.creator.profileImageUrl" alt="Creator Profile Image" />
-            <a @click="() => router.push(`/profile/${post.creator.id}`)">{{ post.creator.name }}</a>
-        </div>
-        <button @click="likePost">Like</button>
-        <button @click="() => router.push(`/posts/${postId}/comments`)">Comments</button>
+        <v-card class="mx-auto my-4" max-width="600">
+            <v-img :src="post.imageData ? `data:image/png;base64,${post.imageData}` : 'https://via.placeholder.com/600x400'" alt="Post Image"></v-img>
+            <v-card-title>{{ post.title }}</v-card-title>
+            <v-card-subtitle>{{ post.date }}</v-card-subtitle>
+            <v-card-text>{{ post.description }}</v-card-text>
+            <v-card-actions>
+                <v-btn color="primary" @click="viewPost(post.id)">View Details</v-btn>
+            </v-card-actions>
+        </v-card>
     </div>
 </template>
