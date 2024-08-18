@@ -29,6 +29,8 @@ namespace PetPlayApp.Server.Services
 			post.Likes.Add(user);
 			_postRepository.Update(post);
 
+			_notificationService.NotifyPostLiked(postId, post.PostCreatorId, userId);
+
 			return new PostDetailsDto
 			{
 				PostId = postId,

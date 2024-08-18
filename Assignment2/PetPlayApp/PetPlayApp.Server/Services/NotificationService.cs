@@ -86,16 +86,19 @@ namespace PetPlayApp.Server.Services
 
 		public List<NotificationDto> GetRecentNotifications(Guid userId)
 		{
-			return notificationRepository.GetAll()
+			var notifications = notificationRepository.GetAll()
 				.Where(n => n.SubjectId == userId)
-				.OrderBy(x => x.Timestamp)
-				.Select(x => 
+				.OrderBy(x => x.Timestamp);
+
+			var dtos = notifications.Select(x => 
 					new NotificationDto
 					{
 						PostId = x.PostId,
 						Content = GetContent(x),
+						Timestamp = x.Timestamp,
 					})
 				.ToList();
+			return dtos;
 		}
 
 		private string GetContent(Notification notification)
