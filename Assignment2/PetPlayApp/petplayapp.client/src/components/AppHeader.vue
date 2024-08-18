@@ -20,7 +20,7 @@
       </v-btn>
       <v-btn @click="navigateToProfile" :icon="true">
         <v-icon>
-            <v-img :src="getIconSource()"></v-img>
+          <v-img :src="profilePicture"></v-img>
         </v-icon>
       </v-btn>
       <v-btn @click="logout" :icon="true" class="logout-btn">
@@ -30,15 +30,27 @@
   </v-app-bar>
 </template>
 
-
 <script setup lang="ts">
+import {ref, onMounted, computed} from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { computed } from 'vue';
+import axios from 'axios';
 
 const router = useRouter();
 const route = useRoute();
+const profilePicture = ref('');
 
-const userId = sessionStorage.getItem('userId');
+const userId = sessionStorage.getItem('userId') || '';
+
+const fetchUserProfilePicture = async () => {
+  try {
+    const response = await axios.get(`/users/GetUserPicture`, { params: { userId } });
+    const pictureData = response.data;
+    profilePicture.value = `data:image/png;base64,${pictureData}`;
+  } catch (error) {
+    console.error('Error fetching user profile picture:', error);
+    profilePicture.value = '@/assets/default-avatar.png';
+  }
+};
 
 const navigateToHome = () => {
   router.push('/home');
@@ -53,11 +65,10 @@ const navigateToNotifications = () => {
 };
 
 const navigateToProfile = () => {
-  router.push(`/profile/${sessionStorage.getItem('userId')}`);
+  router.push(`/profile/${userId}`);
 };
 
 const logout = () => {
-  sessionStorage.removeItem('userId');
   router.push('/login');
 };
 
@@ -65,24 +76,9 @@ const isAuthPage = computed(() => {
   return ['/login', '/signup', '/resetpassword'].includes(route.path.toLowerCase());
 });
 
-const getIconSource = () => {
-    const imageSource = sessionStorage.getItem('userPfp');
-    if (imageSource) {
-        const byte = atob(imageSource);
-        const byteNumbers = new Array(byte.length);
-
-        for (let i = 0; i < byte.length; i++) {
-            byteNumbers[i] = byte.charCodeAt(i);
-        }
-
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: 'image/png' });
-        const urlCreator = window.URL || window.webkitURL;
-        const imageUrl = urlCreator.createObjectURL(blob);
-
-        return imageUrl;
-    }
-};
+onMounted(() => {
+  fetchUserProfilePicture();
+});
 </script>
 
 <style scoped>

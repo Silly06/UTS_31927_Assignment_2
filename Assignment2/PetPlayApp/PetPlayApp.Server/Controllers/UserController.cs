@@ -49,7 +49,7 @@ public class UserController(IUserService userService) : Controller
 	}
 
 	[HttpPost("CreateUser")]
-	public IActionResult CreateUser([FromBody] CreateUserDto createUser)
+	public async Task<IActionResult> CreateUser([FromForm] CreateUserDto createUser, [FromForm] IFormFile? profilePicture)
 	{
 		try
 		{
@@ -57,8 +57,16 @@ public class UserController(IUserService userService) : Controller
 			{
 				return BadRequest("Username or password cannot be empty.");
 			}
+			
+			byte[] imageData = [];
+			if (profilePicture != null)
+			{
+				using var memoryStream = new MemoryStream();
+				await profilePicture.CopyToAsync(memoryStream);
+				imageData = memoryStream.ToArray();
+			}
 
-			userService.CreateUser(createUser.Username, createUser.Password, createUser.Email, createUser.Age, createUser.Bio, createUser.ProfilePicture);
+			userService.CreateUser(createUser.Username, createUser.Password, createUser.Email, createUser.Age, createUser.Bio, imageData);
 
 			userService.TryValidateUser(createUser.Username, createUser.Password, out var userId);
 

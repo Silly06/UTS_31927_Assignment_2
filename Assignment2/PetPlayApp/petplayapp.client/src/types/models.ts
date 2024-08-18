@@ -19,7 +19,6 @@ export class CreateUserDto {
     password?: string;
     age?: number;
     bio?: string;
-    profilePicture?: Uint8Array;
 }
 
 export class UserSearchDto {
