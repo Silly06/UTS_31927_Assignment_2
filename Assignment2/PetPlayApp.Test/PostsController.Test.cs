@@ -9,20 +9,20 @@ namespace PetPlayApp.Test
 {
 	public class PostsControllerTests
 	{
-		private Mock<IPostService> mockPostService;
-		private PostsController postsController;
+		private Mock<IPostService> _mockPostService;
+		private PostsController _postsController;
 
 		[SetUp]
 		public void Setup()
 		{
-			mockPostService = new Mock<IPostService>();
-			postsController = new PostsController(mockPostService.Object);
+			_mockPostService = new Mock<IPostService>();
+			_postsController = new PostsController(_mockPostService.Object);
 		}
 
 		[TearDown]
 		public void TearDown()
 		{
-			postsController.Dispose();
+			_postsController.Dispose();
 		}
 
 		[Test]
@@ -30,10 +30,10 @@ namespace PetPlayApp.Test
 		{
 			// Arrange
 			var postIds = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() };
-			mockPostService.Setup(service => service.GetRecentPosts(It.IsAny<int>())).Returns(postIds);
+			_mockPostService.Setup(service => service.GetRecentPosts(It.IsAny<int>())).Returns(postIds);
 
 			// Act
-			var result = postsController.GetRecentPosts(1) as OkObjectResult;
+			var result = _postsController.GetRecentPosts(1) as OkObjectResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -49,10 +49,10 @@ namespace PetPlayApp.Test
 		{
 			// Arrange
 			var postIds = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() };
-			mockPostService.Setup(service => service.GetUserPosts(It.IsAny<int>(), It.IsAny<Guid>())).Returns(postIds);
+			_mockPostService.Setup(service => service.GetUserPosts(It.IsAny<int>(), It.IsAny<Guid>())).Returns(postIds);
 
 			// Act
-			var result = postsController.GetUserPosts(1, Guid.NewGuid()) as OkObjectResult;
+			var result = _postsController.GetUserPosts(1, Guid.NewGuid()) as OkObjectResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -68,10 +68,10 @@ namespace PetPlayApp.Test
 		{
 			// Arrange
 			var post = new Post { Id = Guid.NewGuid(), Description = "Test Post" };
-			mockPostService.Setup(service => service.GetPost(It.IsAny<Guid>())).Returns(post);
+			_mockPostService.Setup(service => service.GetPost(It.IsAny<Guid>())).Returns(post);
 
 			// Act
-			var result = postsController.GetPostDetails(post.Id, Guid.Empty) as OkObjectResult;
+			var result = _postsController.GetPostDetails(post.Id, Guid.Empty) as OkObjectResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -89,10 +89,10 @@ namespace PetPlayApp.Test
 			var postCreatorId = Guid.NewGuid();
 			var description = "Test Description";
 			var image = new FormFile(new MemoryStream([]), 0, 1, "Data", "dummy.png");
-			mockPostService.Setup(service => service.AddPost(It.IsAny<Post>())).Verifiable();
+			_mockPostService.Setup(service => service.AddPost(It.IsAny<Post>())).Verifiable();
 
 			// Act
-			var result = await postsController.NewPost(image, description, postCreatorId) as OkObjectResult;
+			var result = await _postsController.NewPost(image, description, postCreatorId) as OkObjectResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -101,7 +101,7 @@ namespace PetPlayApp.Test
 				Assert.That(result.StatusCode, Is.EqualTo(200));
 				Assert.That(result.Value, Is.InstanceOf<Post>());
 			});
-			mockPostService.Verify(service => service.AddPost(It.IsAny<Post>()), Times.Once);
+			_mockPostService.Verify(service => service.AddPost(It.IsAny<Post>()), Times.Once);
 		}
 
 		[Test]
@@ -112,7 +112,7 @@ namespace PetPlayApp.Test
 			var description = "Test Description";
 
 			// Act
-			var result = await postsController.NewPost(null, description, postCreatorId) as BadRequestObjectResult;
+			var result = await _postsController.NewPost(null, description, postCreatorId) as BadRequestObjectResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
