@@ -59,6 +59,8 @@ const posts = ref<PostDetailsDto[]>([]);
 const errorMessage = ref<string>('');
 const router = useRouter();
 
+const userId = sessionStorage.getItem('userId');
+
 const fetchStories = async () => {
   try {
     const response = await axios.get('/stories/GetAllStories');
@@ -126,7 +128,7 @@ const toggleLike = async (postId: string) => {
     post.likedByUser = newLikeStatus;
     post.likesCount! += newLikeStatus ? 1 : -1;
 
-    const likePostDto = { postId, userId: sessionStorage.getItem('userId') };
+    const likePostDto = { postId, userId };
 
     if (newLikeStatus) {
       await axios.post('/posts/LikePost', likePostDto);

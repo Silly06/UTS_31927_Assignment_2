@@ -1,44 +1,3 @@
-<script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-import type { UserSearchDto } from "@/types/models";
-import { useRouter } from "vue-router";
-
-const searchQuery = ref('');
-const searchResults = ref<UserSearchDto[]>([]);
-
-const router = useRouter()
-
-const searchUsers = async () => {
-  try {
-    const response = await axios.get('/users/SearchUsers', {
-      params: {
-        query: searchQuery.value,
-      },
-    });
-    searchResults.value = response.data;
-  } catch (error) {
-    console.error('Error searching users:', error);
-  }
-};
-
-const handleSearchQueryChange = async () => {
-  if (searchQuery.value === '') {
-    searchResults.value = [];
-  } else {
-    await searchUsers();
-  }
-};
-
-const navigateToHome = () => {
-  router.push('/home');
-};
-
-onMounted(() => {
-  searchUsers();
-});
-</script>
-
 <template>
   <v-container class="d-flex justify-center align-center" fluid>
     <v-row class="justify-center">
@@ -69,13 +28,17 @@ onMounted(() => {
               <v-list-item
                   v-for="user in searchResults"
                   :key="user.userId"
+                  class="user-list-item"
               >
                 <router-link :to="`/Profile/${user.userId}`" class="user-link">
-                  <v-card class="rounded hoverable">
-                    <v-card-text class="text-center">
+                  <v-list-item-content class="d-flex align-center hoverable">
+                    <v-list-item-avatar>
+                      <img :src="`data:image/png;base64,${user.profilePicture}`" alt="Profile Picture" class="profile-picture"/>
+                    </v-list-item-avatar>
+                    <v-list-item-title class="user-username">
                       {{ user.username }}
-                    </v-card-text>
-                  </v-card>
+                    </v-list-item-title>
+                  </v-list-item-content>
                 </router-link>
               </v-list-item>
             </v-list>
@@ -85,6 +48,57 @@ onMounted(() => {
     </v-row>
   </v-container>
 </template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import type { UserSearchDto } from "@/types/models";
+import { useRouter } from "vue-router";
+
+const searchQuery = ref('');
+const searchResults = ref<UserSearchDto[]>([]);
+const router = useRouter();
+
+const searchUsers = async () => {
+  try {
+    const response = await axios.get('/users/SearchUsers', {
+      params: {
+        query: searchQuery.value,
+      },
+    });
+    searchResults.value = response.data;
+  } catch (error) {
+    console.error('Error searching users:', error);
+  }
+};
+
+const handleSearchQueryChange = async () => {
+  if (searchQuery.value === '') {
+    searchResults.value = [];
+  } else {
+    await searchUsers();
+  }
+};
+
+const getProfilePicture = async (userId: string) => {
+  try {
+    const response = await axios.get('/users/GetUserPicture', {
+      params: { userId }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching profile picture for user ${userId}`, error);
+  }
+};
+
+const navigateToHome = () => {
+  router.push('/home');
+};
+
+onMounted(() => {
+  searchUsers();
+});
+</script>
 
 <style scoped>
 .search-card {
@@ -97,18 +111,34 @@ onMounted(() => {
 .user-link {
   text-decoration: none;
   color: inherit;
+  display: flex;
+  align-items: center;
+}
+
+.user-list-item {
+  margin-bottom: 8px;
+}
+
+.profile-picture {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-username {
+  margin-left: 16px;
 }
 
 .hoverable {
-  transition: background-color 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  padding: 8px;
+  border-radius: 8px;
 }
 
 .hoverable:hover {
   background-color: #e0e0e0;
-}
-
-.rounded {
-  border-radius: 12px;
+  transform: scale(1.02);
 }
 
 .v-card {
