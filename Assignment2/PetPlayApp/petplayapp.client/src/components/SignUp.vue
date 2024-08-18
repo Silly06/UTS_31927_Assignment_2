@@ -38,6 +38,12 @@
                   rows="3"
                   outlined
               />
+              <v-file-input
+                  v-model="profilePicture"
+                  label="Profile Picture"
+                  accept="image/*"
+                  outlined
+              />
               <v-btn type="submit" color="primary" class="mt-4">Sign Up</v-btn>
             </v-form>
             <v-alert v-if="errorMessage" type="error" class="mt-4">
@@ -67,13 +73,30 @@ const createUserDto = ref<CreateUserDto>({
   bio: ''
 });
 
+const profilePicture = ref<File | null>(null);
 const errorMessage = ref('');
 const router = useRouter();
 
 const signUp = async () => {
   errorMessage.value = '';
   try {
-    const response = await axios.post('/users/CreateUser', createUserDto.value);
+    const formData = new FormData();
+    formData.append('username', createUserDto.value.username!);
+    formData.append('email', createUserDto.value.email!);
+    formData.append('password', createUserDto.value.password!);
+    formData.append('age', createUserDto.value.age!.toString());
+    formData.append('bio', createUserDto.value.bio!);
+
+    if (profilePicture.value) {
+      formData.append('profilePicture', profilePicture.value);
+    }
+
+    const response = await axios.post('/users/CreateUser', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
     const { userId } = response.data;
 
     sessionStorage.setItem('userId', userId);

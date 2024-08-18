@@ -65,7 +65,6 @@ const sessionUserId = sessionStorage.getItem('userId') || '';
 const userDetails = ref<UserDetailsDto | null>(null);
 const posts = ref<any[]>([]);
 const errorMessage = ref('');
-
 const fetchUserDetails = async () => {
   if (!userId) {
     errorMessage.value = 'User ID not found';
@@ -81,6 +80,7 @@ const fetchUserDetails = async () => {
     errorMessage.value = 'Error fetching user details: ' + (error instanceof Error ? error.message : 'Unknown error');
   }
 };
+
 
 const fetchPosts = async () => {
   try {
@@ -131,31 +131,6 @@ const viewPost = (postId: string) => {
 
 const createNewPost = () => {
   router.push('/NewPost');
-};
-
-const getIconSource = () => {
-  const imageSource = sessionStorage.getItem('userPfp');
-  if (imageSource) {
-    const byte = atob(imageSource);
-    const byteNumbers = new Array(byte.length);
-
-    for (let i = 0; i < byte.length; i++) {
-      byteNumbers[i] = byte.charCodeAt(i);
-    }
-
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: 'image/png' });
-    const urlCreator = window.URL || window.webkitURL;
-    return urlCreator.createObjectURL(blob);
-  }
-  return '';
-};
-
-const getPostImageSource = (imageData: Uint8Array | undefined): string => {
-  if (!imageData) return '';
-  const blob = new Blob([imageData], { type: 'image/png' });
-  const urlCreator = window.URL || window.webkitURL;
-  return urlCreator.createObjectURL(blob);
 };
 
 const getInterestText = (interest: UserInterest | undefined): string => {

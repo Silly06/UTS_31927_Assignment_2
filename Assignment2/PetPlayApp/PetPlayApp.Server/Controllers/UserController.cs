@@ -28,18 +28,16 @@ public class UserController(IUserService userService) : Controller
 	}
 
 	[HttpPost("UpdateUserDetails")]
-	public async Task<IActionResult> UpdateUserDetailsAsync([FromBody] UserDetailsDto userDetails, [FromForm] IFormFile? profilePic)
+	public async Task<IActionResult> UpdateUserDetailsAsync([FromForm] UserDetailsDto userDetails, [FromForm] IFormFile? profilePicture)
 	{
 		try
 		{
 			byte[] imageData = [];
-			if (profilePic != null)
+			if (profilePicture != null)
 			{
-				using (var memoryStream = new MemoryStream())
-				{
-					await profilePic.CopyToAsync(memoryStream);
-					imageData = memoryStream.ToArray();
-				}
+				using var memoryStream = new MemoryStream();
+				await profilePicture.CopyToAsync(memoryStream);
+				imageData = memoryStream.ToArray();
 			}
 			userService.UpdateUserDetails(userDetails.UserId, userDetails.Username, userDetails.Email, userDetails.Age, userDetails.Bio, userDetails.Status, userDetails.Interest, imageData);
 			return Ok("User details updated successfully.");
@@ -51,7 +49,7 @@ public class UserController(IUserService userService) : Controller
 	}
 
 	[HttpPost("CreateUser")]
-	public IActionResult CreateUser([FromBody] CreateUserDto createUser)
+	public async Task<IActionResult> CreateUser([FromForm] CreateUserDto createUser, [FromForm] IFormFile? profilePicture)
 	{
 		try
 		{
@@ -59,8 +57,16 @@ public class UserController(IUserService userService) : Controller
 			{
 				return BadRequest("Username or password cannot be empty.");
 			}
+			
+			byte[] imageData = [];
+			if (profilePicture != null)
+			{
+				using var memoryStream = new MemoryStream();
+				await profilePicture.CopyToAsync(memoryStream);
+				imageData = memoryStream.ToArray();
+			}
 
-			userService.CreateUser(createUser.Username, createUser.Password, createUser.Email, createUser.Age, createUser.Bio, createUser.ProfilePicture);
+			userService.CreateUser(createUser.Username, createUser.Password, createUser.Email, createUser.Age, createUser.Bio, imageData);
 
 			userService.TryValidateUser(createUser.Username, createUser.Password, out var userId);
 
