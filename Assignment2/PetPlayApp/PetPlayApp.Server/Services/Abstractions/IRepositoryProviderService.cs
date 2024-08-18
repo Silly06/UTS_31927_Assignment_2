@@ -3,8 +3,8 @@ using PetPlayApp.Server.Db;
 
 namespace PetPlayApp.Server.Services.Abstractions
 {
-    public interface IRepositoryProviderService
-    {
-        IRepository<T> GetRepository<T>() where T : class;
-    }
+	public interface IRepositoryProviderService
+	{
+		IRepository<T> GetRepository<T>() where T : class;
+	}
 }

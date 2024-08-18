@@ -17,14 +17,14 @@ namespace PetPlayApp.Server.Controllers
 				}
 
 				commentService.AddComment(postId, userId, content);
-				
+
 				return Ok("Comment created successfully.");
 			}
 			catch (ArgumentException ex)
 			{
 				return BadRequest(ex.Message);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				return StatusCode(500, "An error occurred while processing your request.");
 			}

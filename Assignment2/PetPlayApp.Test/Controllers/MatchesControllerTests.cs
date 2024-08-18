@@ -5,7 +5,7 @@ using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Dto;
 using PetPlayApp.Server.Db;
 
-namespace PetPlayApp.Test
+namespace PetPlayApp.Test.Controllers
 {
 	[TestFixture]
 	public class MatchesControllerTests

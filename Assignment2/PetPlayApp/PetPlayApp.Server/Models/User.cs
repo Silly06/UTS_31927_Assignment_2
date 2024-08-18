@@ -29,7 +29,7 @@ namespace PetPlayApp.Server.Models
 
 		public byte[]? ProfilePictureData { get; set; }
 
-        public ICollection<Story>? StoriesCreated { get; set; } = [];
+		public ICollection<Story>? StoriesCreated { get; set; } = [];
 	}
 
 	public enum UserStatus

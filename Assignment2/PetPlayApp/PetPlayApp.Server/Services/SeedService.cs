@@ -62,8 +62,8 @@ namespace PetPlayApp.Server.Services
 				Bio = "Like carrots",
 				UserStatus = UserStatus.NotMatched,
 				Interest = UserInterest.Birds,
-                ProfilePictureData = File.ReadAllBytes(@"Assets/SeededProfilePictures/Bunny.png")
-            });
+				ProfilePictureData = File.ReadAllBytes(@"Assets/SeededProfilePictures/Bunny.png")
+			});
 
 			UserRepository.Add(new User
 			{
@@ -74,8 +74,8 @@ namespace PetPlayApp.Server.Services
 				Bio = "Like apples and climbing",
 				UserStatus = UserStatus.Matched,
 				Interest = UserInterest.Mammals,
-                ProfilePictureData = File.ReadAllBytes(@"Assets/SeededProfilePictures/Alpaca.png")
-            });
+				ProfilePictureData = File.ReadAllBytes(@"Assets/SeededProfilePictures/Alpaca.png")
+			});
 
 			UserRepository.Add(new User
 			{
@@ -86,8 +86,8 @@ namespace PetPlayApp.Server.Services
 				Bio = "Eats lasagna",
 				UserStatus = UserStatus.Matched,
 				Interest = UserInterest.Reptiles,
-                ProfilePictureData = File.ReadAllBytes(@"Assets/SeededProfilePictures/Garfield.png")
-            });
+				ProfilePictureData = File.ReadAllBytes(@"Assets/SeededProfilePictures/Garfield.png")
+			});
 
 			UserRepository.Add(new User
 			{
@@ -98,8 +98,8 @@ namespace PetPlayApp.Server.Services
 				Bio = "Like dog things",
 				UserStatus = UserStatus.NotMatched,
 				Interest = UserInterest.Amphibians,
-                ProfilePictureData = File.ReadAllBytes(@"Assets/SeededProfilePictures/Dog.png")
-            });
+				ProfilePictureData = File.ReadAllBytes(@"Assets/SeededProfilePictures/Dog.png")
+			});
 
 			UserRepository.Add(new User
 			{
@@ -110,8 +110,8 @@ namespace PetPlayApp.Server.Services
 				Bio = "Like hay",
 				UserStatus = UserStatus.NotMatched,
 				Interest = UserInterest.Unlisted,
-                ProfilePictureData = File.ReadAllBytes(@"Assets/SeededProfilePictures/Horse.png")
-            });
+				ProfilePictureData = File.ReadAllBytes(@"Assets/SeededProfilePictures/Horse.png")
+			});
 		}
 
 		private void SeedMatches()
@@ -148,72 +148,72 @@ namespace PetPlayApp.Server.Services
 				ImageData = File.ReadAllBytes(@"Assets/SeededStoryPictures/Mountains.png")
 			});
 		}
-		
+
 		private void SeedPosts()
-        {
-            var users = UserService.GetAllUsers().ToList();
+		{
+			var users = UserService.GetAllUsers().ToList();
 
-            var post1 = new Post
-            {
-                DateTimePosted = DateTime.UtcNow.AddDays(-2),
-                PostCreatorId = users[0].Id,
-                Description = "Just had a great walk in the park!",
-                ImageData = File.ReadAllBytes(@"Assets/SeededStoryPictures/Walk.png")
-            };
-            PostRepository.Add(post1);
+			var post1 = new Post
+			{
+				DateTimePosted = DateTime.UtcNow.AddDays(-2),
+				PostCreatorId = users[0].Id,
+				Description = "Just had a great walk in the park!",
+				ImageData = File.ReadAllBytes(@"Assets/SeededStoryPictures/Walk.png")
+			};
+			PostRepository.Add(post1);
 
-            CommentRepository.Add(new Comment
-            {
-                Content = "Looks fun!",
-                PostId = post1.Id,
-                UserId = users[1].Id
-            });
+			CommentRepository.Add(new Comment
+			{
+				Content = "Looks fun!",
+				PostId = post1.Id,
+				UserId = users[1].Id
+			});
 
-            CommentRepository.Add(new Comment
-            {
-                Content = "Wish I could join!",
-                PostId = post1.Id,
-                UserId = users[2].Id
-            });
+			CommentRepository.Add(new Comment
+			{
+				Content = "Wish I could join!",
+				PostId = post1.Id,
+				UserId = users[2].Id
+			});
 
-            var post2 = new Post
-            {
-                DateTimePosted = DateTime.UtcNow.AddDays(-1),
-                PostCreatorId = users[1].Id,
-                Description = "Eating some fresh carrots, life is good!",
-                ImageData = File.ReadAllBytes(@"Assets/SeededStoryPictures/Carrots.png")
-            };
-            PostRepository.Add(post2);
+			var post2 = new Post
+			{
+				DateTimePosted = DateTime.UtcNow.AddDays(-1),
+				PostCreatorId = users[1].Id,
+				Description = "Eating some fresh carrots, life is good!",
+				ImageData = File.ReadAllBytes(@"Assets/SeededStoryPictures/Carrots.png")
+			};
+			PostRepository.Add(post2);
 
-            CommentRepository.Add(new Comment
-            {
-                Content = "Yum, those look delicious!",
-                PostId = post2.Id,
-                UserId = users[3].Id
-            });
+			CommentRepository.Add(new Comment
+			{
+				Content = "Yum, those look delicious!",
+				PostId = post2.Id,
+				UserId = users[3].Id
+			});
 
-            var post3 = new Post
-            {
-                DateTimePosted = DateTime.UtcNow,
-                PostCreatorId = users[2].Id,
-                Description = "Climbing mountains is the best!",
-                ImageData = File.ReadAllBytes(@"Assets/SeededStoryPictures/Mountains.png")
-            };
-            PostRepository.Add(post3);
+			var post3 = new Post
+			{
+				DateTimePosted = DateTime.UtcNow,
+				PostCreatorId = users[2].Id,
+				Description = "Climbing mountains is the best!",
+				ImageData = File.ReadAllBytes(@"Assets/SeededStoryPictures/Mountains.png")
+			};
+			PostRepository.Add(post3);
 
-            CommentRepository.Add(new Comment
-            {
-                Content = "Great view!",
-                PostId = post3.Id,
-                UserId = users[4].Id
-            });
+			CommentRepository.Add(new Comment
+			{
+				Content = "Great view!",
+				PostId = post3.Id,
+				UserId = users[4].Id
+			});
 
-            CommentRepository.Add(new Comment
-            {
-                Content = "Stay safe out there!",
-                PostId = post3.Id,
-                UserId = users[0].Id
-            });
-        }
+			CommentRepository.Add(new Comment
+			{
+				Content = "Stay safe out there!",
+				PostId = post3.Id,
+				UserId = users[0].Id
+			});
+		}
 	}
 }

@@ -5,8 +5,8 @@ using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Services
 {
-    public class PostService(IRepositoryProviderService repositoryProvider) : IPostService
-    {
+	public class PostService(IRepositoryProviderService repositoryProvider) : IPostService
+	{
 		private readonly IRepository<Post> _postRepository = repositoryProvider.GetRepository<Post>();
 		private readonly IRepository<User> _userRepository = repositoryProvider.GetRepository<User>();
 
@@ -98,9 +98,9 @@ namespace PetPlayApp.Server.Services
 		}
 
 		public void CheckForMatch(Post post, User user)
-        {
-            // if it is matchy match time then make a matchy match
-            // also this should be in match service but dw about it
-        }
-    }
+		{
+			// if it is matchy match time then make a matchy match
+			// also this should be in match service but dw about it
+		}
+	}
 }

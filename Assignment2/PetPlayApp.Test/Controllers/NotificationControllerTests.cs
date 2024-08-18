@@ -4,7 +4,7 @@ using PetPlayApp.Server.Controllers;
 using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Services.Abstractions;
 
-namespace PetPlayApp.Test
+namespace PetPlayApp.Test.Controllers
 {
 	[TestFixture]
 	public class NotificationControllerTests

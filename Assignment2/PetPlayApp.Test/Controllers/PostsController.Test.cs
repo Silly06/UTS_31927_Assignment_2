@@ -6,7 +6,7 @@ using PetPlayApp.Server.Services.Abstractions;
 using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Dto;
 
-namespace PetPlayApp.Test
+namespace PetPlayApp.Test.Controllers
 {
 	[TestFixture]
 	public class PostsControllerTests
@@ -145,7 +145,9 @@ namespace PetPlayApp.Test
 		public void LikePost_ErrorProcessingLike_ReturnsBadRequest()
 		{
 			var likePostDto = new LikePostDto { PostId = Guid.NewGuid(), UserId = Guid.NewGuid() };
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 			_postServiceMock.Setup(s => s.LikePost(likePostDto.PostId, likePostDto.UserId)).Returns<PostDetailsDto?>(null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
 			var result = _controller.LikePost(likePostDto) as BadRequestObjectResult;
 
@@ -161,7 +163,9 @@ namespace PetPlayApp.Test
 		public void UnlikePost_ErrorProcessingUnlike_ReturnsBadRequest()
 		{
 			var likePostDto = new LikePostDto { PostId = Guid.NewGuid(), UserId = Guid.NewGuid() };
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 			_postServiceMock.Setup(s => s.UnlikePost(likePostDto.PostId, likePostDto.UserId)).Returns<PostDetailsDto?>(null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
 			var result = _controller.UnlikePost(likePostDto) as BadRequestObjectResult;
 
