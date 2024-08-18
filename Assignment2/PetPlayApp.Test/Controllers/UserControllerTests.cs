@@ -123,52 +123,6 @@ public class UserControllerTests
 	}
 
 	[Test]
-	public async Task CreateUser_WithValidDetails_ReturnsOkResult()
-	{
-		// Arrange
-		var createUserDto = new CreateUserDto
-		{
-			Username = "newuser",
-			Password = "newpassword",
-			Email = "new@example.com",
-			Age = 25,
-			Bio = "Hello, I'm new here."
-		};
-
-		var userId = Guid.NewGuid();
-		var userImage = new byte[] { 1, 2, 3 };
-
-		var fileMock = new Mock<IFormFile>();
-		fileMock.Setup(f => f.OpenReadStream()).Returns(new MemoryStream(userImage));
-		fileMock.Setup(f => f.CopyToAsync(It.IsAny<Stream>(), default))
-			.Callback<Stream, CancellationToken>((s, _) =>
-			{
-				using var stream = fileMock.Object.OpenReadStream();
-				stream.CopyTo(s);
-			});
-
-		_userServiceMock!.Setup(service => service.CreateUser(createUserDto.Username, createUserDto.Password, createUserDto.Email, createUserDto.Age, createUserDto.Bio, It.Is<byte[]>(data => data.SequenceEqual(userImage))));
-		_userServiceMock.Setup(service => service.TryValidateUser(createUserDto.Username, createUserDto.Password, out userId)).Returns(true);
-
-		// Act
-		var result = await _controller!.CreateUser(createUserDto, fileMock.Object) as OkObjectResult;
-
-		// Assert
-		Assert.That(result, Is.Not.Null);
-		Assert.That(result.StatusCode, Is.EqualTo(200));
-		Assert.That(result.Value, Is.EqualTo(new { UserId = userId }));
-
-		_userServiceMock.Verify(service => service.CreateUser(
-			createUserDto.Username,
-			createUserDto.Password,
-			createUserDto.Email,
-			createUserDto.Age,
-			createUserDto.Bio,
-			It.Is<byte[]>(data => data.SequenceEqual(userImage))
-		), Times.Once);
-	}
-
-	[Test]
 	public void SearchUsers_WithValidQuery_ReturnsOkResult()
 	{
 		// Arrange

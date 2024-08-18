@@ -1,5 +1,6 @@
 using PetPlayApp.Server.Db;
 using PetPlayApp.Server.Models;
+using PetPlayApp.Server.Dto;
 using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Services
@@ -36,12 +37,19 @@ namespace PetPlayApp.Server.Services
 			_commentRepository.Add(comment);
 		}
 
-		public List<Comment> GetCommentsForPost(Guid postId)
+		public List<CommentDto> GetCommentsForPost(Guid postId)
 		{
 			return _commentRepository
 				.GetAll()
 				.Where(c => c.PostId == postId)
 				.OrderByDescending(c => c.CreatedAt)
+				.Select(x => 
+					new CommentDto
+					{
+						Content = x.Content,
+						CreatedAt = x.CreatedAt,
+						UserName = (_userRepository.GetById(x.UserId) ?? throw new InvalidDataException()).UserName ?? string.Empty
+					})
 				.ToList();
 		}
 

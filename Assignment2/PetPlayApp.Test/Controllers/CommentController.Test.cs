@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetPlayApp.Server.Controllers;
 using PetPlayApp.Server.Services.Abstractions;
-using PetPlayApp.Server.Models;
+using PetPlayApp.Server.Dto;
 
 
 namespace PetPlayApp.Test.Controllers
@@ -60,7 +60,7 @@ namespace PetPlayApp.Test.Controllers
 		public void GetComments_ValidRequest_ReturnsOk()
 		{
 			var request = new GetCommentRequest { PostId = Guid.NewGuid() };
-			_commentServiceMock.Setup(s => s.GetCommentsForPost(request.PostId)).Returns(new List<Comment>());
+			_commentServiceMock.Setup(s => s.GetCommentsForPost(request.PostId)).Returns(new List<CommentDto>());
 
 			var result = _controller.GetComments(request) as OkObjectResult;
 

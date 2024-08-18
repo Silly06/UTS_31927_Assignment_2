@@ -67,7 +67,7 @@ onMounted(() => {
           >
             <v-list-item-content>
               <v-list-item-title>{{ comment.content }}</v-list-item-title>
-              <v-list-item-subtitle>{{ new Date(comment.createdAt).toLocaleString() }}</v-list-item-subtitle>
+              <v-list-item-subtitle>{{ comment.userName}}  -  {{ new Date(comment.createdAt).toLocaleString() }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>

@@ -106,10 +106,11 @@ namespace PetPlayApp.Test.Services
                 new Comment { PostId = postId, CreatedAt = DateTime.UtcNow },
                 new Comment { PostId = postId, CreatedAt = DateTime.UtcNow.AddMinutes(-1) }
             };
+            var user = new User { UserName = "bob"};
 
             _commentRepositoryMock.Setup(r => r.GetAll()).Returns(comments.AsQueryable());
-
-            var result = _commentService.GetCommentsForPost(postId);
+			_userRepositoryMock.Setup(r => r.GetById(It.IsAny<Guid>())).Returns(user);
+			var result = _commentService.GetCommentsForPost(postId);
 
             Assert.That(result.Count, Is.EqualTo(2));
         }
