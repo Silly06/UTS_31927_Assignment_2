@@ -43,17 +43,17 @@ export class ResetPasswordDto {
 }
 
 export enum UserInterest {
-    Unlisted = 'Unlisted',
-    Matched = 'Matched',
-    NotMatched = 'NotMatched'
+    Unlisted,
+    Matched,
+    NotMatched
 }
 
 export enum UserStatus {
-    Unlisted = 'Unlisted',
-    Mammals= 'Mammals',
-    Reptiles = 'Reptiles',
-    Amphibians = 'Amphibians',
-    Birds = 'Birds'
+    Unlisted,
+    Mammals,
+    Reptiles,
+    Amphibians,
+    Birds
 }
 export class Match {
     user1Id?: string;
@@ -61,4 +61,12 @@ export class Match {
     matchStatus?: number;
     user1Response?: number;
     user2Response?: number;
+}
+
+export class PostDetailsDto {
+    postId?: string;
+    likesCount?: number;
+    likedByUser?: boolean;
+    description?: string;
+    imageData?: Uint8Array;
 }

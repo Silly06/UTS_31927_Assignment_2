@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PetPlayApp.Server.Dto;
 using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Services.Abstractions;
 
@@ -22,10 +23,17 @@ namespace PetPlayApp.Server.Controllers
 		}
 
 		[HttpGet("GetPostDetails")]
-		public IActionResult GetPostDetails([FromQuery] Guid postid)
+		public IActionResult GetPostDetails([FromQuery] Guid postid, [FromQuery] Guid userId)
 		{
-			var post = postService.GetPost(postid);
-			return Ok(post);
+			var post = postService.GetPost(postid)!;
+			return Ok(new PostDetailsDto
+			{
+				PostId = post.Id,
+				LikesCount = post.Likes.Count,
+				LikedByUser = post.Likes.Select(u => u.Id).Contains(userId),
+				ImageData = post.ImageData,
+				Description = post.Description
+			});
 		}
 
 		[HttpPost("NewPost")]
@@ -60,12 +68,13 @@ namespace PetPlayApp.Server.Controllers
 		}
 
 		[HttpPost("LikePost")]
-		public IActionResult LikePost([FromBody] Guid postId, [FromBody] Guid userId)
+		public IActionResult LikePost([FromBody] LikePostDto likePost)
 		{
 			try
 			{
-				postService.LikePost(postId, userId);
-				return Ok();
+				var result = postService.LikePost(likePost.PostId, likePost.UserId);
+				if (result == null) return BadRequest("Error processing like");
+				return Ok(result);
 			}
 			catch (Exception ex)
 			{
@@ -74,12 +83,13 @@ namespace PetPlayApp.Server.Controllers
 		}
 
 		[HttpPost("UnlikePost")]
-		public IActionResult UnlikePost([FromBody] Guid postId, [FromBody] Guid userId)
+		public IActionResult UnlikePost([FromBody] LikePostDto likePost)
 		{
 			try
 			{
-				postService.UnlikePost(postId, userId);
-				return Ok();
+				var result = postService.UnlikePost(likePost.PostId, likePost.UserId);
+				if (result == null) return BadRequest("Error processing unlike");
+				return Ok(result);
 			}
 			catch (Exception ex)
 			{

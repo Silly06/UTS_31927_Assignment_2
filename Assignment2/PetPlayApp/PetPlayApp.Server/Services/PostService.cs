@@ -1,4 +1,5 @@
 ﻿using PetPlayApp.Server.Db;
+using PetPlayApp.Server.Dto;
 using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Services.Abstractions;
 
@@ -9,30 +10,52 @@ namespace PetPlayApp.Server.Services
 		private readonly IRepository<Post> _postRepository = repositoryProvider.GetRepository<Post>();
 		private readonly IRepository<User> _userRepository = repositoryProvider.GetRepository<User>();
 
-		public void LikePost(Guid postId, Guid userId)
+		public PostDetailsDto? LikePost(Guid postId, Guid userId)
 		{
 			var post = _postRepository.GetById(postId);
 			var user = _userRepository.GetById(userId);
 
-			if (post == null || user == null) return;
-			if (post.Likes.Contains(user)) return;
-			
+			if (post == null || user == null) return null;
+			if (post.Likes.Contains(user)) return new PostDetailsDto
+			{
+				PostId = postId,
+				LikesCount = post.Likes.Count,
+				LikedByUser = true
+			};
+
 			post.Likes.Add(user);
 			_postRepository.Update(post);
-			CheckForMatch(post, user);
+
+			return new PostDetailsDto
+			{
+				PostId = postId,
+				LikesCount = post.Likes.Count,
+				LikedByUser = true
+			};
 		}
 
-
-		public void UnlikePost(Guid postId, Guid userId)
+		public PostDetailsDto? UnlikePost(Guid postId, Guid userId)
 		{
 			var post = _postRepository.GetById(postId);
 			var user = _userRepository.GetById(userId);
 
-			if (post == null || user == null) return;
-			if (!post.Likes.Contains(user)) return;
-			
+			if (post == null || user == null) return null;
+			if (!post.Likes.Contains(user)) return new PostDetailsDto
+			{
+				PostId = postId,
+				LikesCount = post.Likes.Count,
+				LikedByUser = false
+			};
+
 			post.Likes.Remove(user);
 			_postRepository.Update(post);
+
+			return new PostDetailsDto
+			{
+				PostId = postId,
+				LikesCount = post.Likes.Count,
+				LikedByUser = false
+			};
 		}
 
 

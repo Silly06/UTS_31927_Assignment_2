@@ -30,18 +30,16 @@
       <v-col cols="12" md="8">
         <p class="text-center">For You</p>
         <v-alert v-if="errorMessage" type="error" dismissible>{{ errorMessage }}</v-alert>
-        <v-col v-for="post in posts" :key="post.id" cols="12">
+        <v-col v-for="post in posts" :key="post.postId" cols="12">
           <v-card class="mx-auto my-4" max-width="600">
             <v-img :src="post.imageData ? `data:image/png;base64,${post.imageData}` : 'https://via.placeholder.com/600x400'" alt="Post Image"></v-img>
-            <v-card-title>{{ post.title }}</v-card-title>
-            <v-card-subtitle>{{ post.date }}</v-card-subtitle>
             <v-card-text>{{ post.description }}</v-card-text>
             <v-card-actions>
-              <v-btn @click="toggleLike(post.id)" :color="post.likedByUser ? 'red' : 'grey'" icon>
+              <v-btn @click="toggleLike(post.postId!)" :color="post.likedByUser ? 'red' : 'grey'" icon>
                 <v-icon>{{ post.likedByUser ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
               </v-btn>
               <span class="like-count">{{ post.likesCount }}</span>
-              <v-btn color="primary" @click="goToPostComments(post.id)">Comments</v-btn>
+              <v-btn color="primary" @click="goToPostComments(post.postId!)">Comments</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -54,29 +52,12 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import type { StoryDetailsDto } from "@/types/models";
+import {PostDetailsDto, type StoryDetailsDto} from "@/types/models";
 
 const stories = ref<StoryDetailsDto[]>([]);
-const posts = ref<any[]>([]);
+const posts = ref<PostDetailsDto[]>([]);
 const errorMessage = ref<string>('');
 const router = useRouter();
-
-const dummyPosts = [
-  {
-    id: 1,
-    title: 'First Dummy Post',
-    description: 'This is a description of the first dummy post.',
-    imageData: '',
-    date: '2024-08-16'
-  },
-  {
-    id: 2,
-    title: 'Second Dummy Post',
-    description: 'This is a description of the second dummy post.',
-    imageData: '',
-    date: '2024-08-15'
-  },
-];
 
 const fetchStories = async () => {
   try {
@@ -100,13 +81,11 @@ const fetchPosts = async () => {
       params: { page: 1 },
     });
     const postIds = response.data;
-    if (postIds.length === 0) {
-      posts.value = dummyPosts;
-    } else {
-      const postDetailsPromises = postIds.map(fetchPostDetails);
-      const postDetails = await Promise.all(postDetailsPromises);
-      posts.value = postDetails.filter((post) => post !== null);
-    }
+    
+    const postDetailsPromises = postIds.map(fetchPostDetails);
+    const postDetails = await Promise.all(postDetailsPromises);
+    
+    posts.value = postDetails.filter((post) => post !== null);
   } catch (error) {
     errorMessage.value = 'Failed to load posts';
     console.error(error);
@@ -138,22 +117,30 @@ const getStoryProfilePicture = async (userId: string) => {
 
 const toggleLike = async (postId: string) => {
   try {
-    const userId = sessionStorage.getItem('userId');
-    const post = posts.value.find(p => p.id === postId);
+    const post = posts.value.find(p => p.postId === postId);
 
-    if (post && userId) {
-      const action = post.likedByUser ? 'UnlikePost' : 'LikePost';
-      await axios.post(`/posts/${action}`, {
-        postId,
-        userId
-      });
+    if (!post) return;
 
-      post.likedByUser = !post.likedByUser;
-      post.likesCount += post.likedByUser ? 1 : -1;
+    const newLikeStatus = !post.likedByUser;
+
+    post.likedByUser = newLikeStatus;
+    post.likesCount! += newLikeStatus ? 1 : -1;
+
+    const likePostDto = { postId, userId: sessionStorage.getItem('userId') };
+
+    if (newLikeStatus) {
+      await axios.post('/posts/LikePost', likePostDto);
+    } else {
+      await axios.post('/posts/UnlikePost', likePostDto);
     }
   } catch (error) {
-    errorMessage.value = 'Failed to like/unlike post';
-    console.error(error);
+    console.error(`Error toggling like status for post ${postId}:`, error);
+    const post = posts.value.find(p => p.postId === postId);
+    if (post) {
+      post.likedByUser = !post.likedByUser;
+      post.likesCount! += post.likedByUser ? 1 : -1;
+    }
+    errorMessage.value = 'Failed to update like status';
   }
 };
 

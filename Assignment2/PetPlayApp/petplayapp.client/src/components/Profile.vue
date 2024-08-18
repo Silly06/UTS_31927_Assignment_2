@@ -101,7 +101,7 @@ const fetchPosts = async () => {
 const fetchPostDetails = async (postId: number) => {
   try {
     const response = await axios.get('/posts/GetPostDetails', {
-      params: { postid: postId },
+      params: { postid: postId, userId },
     });
     return response.data;
   } catch (error) {
