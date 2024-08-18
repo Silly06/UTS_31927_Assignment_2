@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PetPlayApp.Server.Services;
 using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Controllers
@@ -29,7 +30,7 @@ namespace PetPlayApp.Server.Controllers
 		}
 
 		[HttpGet("GetComments")]
-		public IActionResult LikeComment([FromBody] GetCommentRequest request)
+		public IActionResult GetComment([FromBody] GetCommentRequest request)
 		{
 			try
 			{
@@ -37,6 +38,34 @@ namespace PetPlayApp.Server.Controllers
 				return Ok(comment);
 			}
 			catch (ArgumentException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+		[HttpPost("LikePost")]
+		public IActionResult LikePost([FromBody] Guid commentId, [FromBody] Guid userId)
+		{
+			try
+			{
+				commentService.UnlikeComment(commentId, userId);
+				return Ok();
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+		[HttpPost("UnlikePost")]
+		public IActionResult UnlikePost([FromBody] Guid commentId, [FromBody] Guid userId)
+		{
+			try
+			{
+				commentService.UnlikeComment(commentId, userId);
+				return Ok();
+			}
+			catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
 			}
