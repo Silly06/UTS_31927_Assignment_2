@@ -31,7 +31,7 @@ namespace PetPlayApp.Server.Services
 				CreatedAt = DateTime.UtcNow,
 				Likes = []
 			};
-			notificationService.NotifyCommentCreated(postId, userId, content);
+			notificationService.NotifyCommentCreated(postId, userId);
 			_commentRepository.Add(comment);
 		}
 
