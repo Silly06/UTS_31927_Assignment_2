@@ -27,9 +27,14 @@ namespace PetPlayApp.Server.Extensions
 			return match.CheckUserResponse(1, UserResponse.Rejected) || match.CheckUserResponse(2, UserResponse.Rejected);
 		}
 
-		public static bool IsValidResponse(this Match match, int user) // will be used when updating match status
-		{
-			return match.CheckUserResponse(user, UserResponse.Accepted) | match.CheckUserResponse(user, UserResponse.Rejected) | match.CheckUserResponse(user, UserResponse.Pending);
-		}
-	}
+        public static bool IsValidResponse(this Match match, int user)
+        {
+            return match.CheckUserResponse(user, UserResponse.Accepted) | match.CheckUserResponse(user, UserResponse.Rejected) | match.CheckUserResponse(user, UserResponse.Pending);
+        }
+
+        public static bool IsFinalised(this Match match)
+        {
+            return match.OverallStatus == MatchStatus.Failure || match.OverallStatus == MatchStatus.Success;
+        }
+    }
 }

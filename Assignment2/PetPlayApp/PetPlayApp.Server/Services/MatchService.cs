@@ -48,15 +48,15 @@ namespace PetPlayApp.Server.Services
 		public void AddMatch(User? user1, User? user2, UserResponse user1Response = UserResponse.Pending, UserResponse user2Response = UserResponse.Pending, MatchStatus overallStatus = MatchStatus.AwaitingResponse)
 		{
 
-			if (ValidateMatch(user1, user2, user1Response, user2Response, overallStatus))
-			{
-				matchRepository.Add(new Match { User1 = user1, User2 = user2, User1Response = user1Response, User2Response = user2Response, OverallStatus = overallStatus });
-			}
-			else
-			{
-				// validation error
-			}
-		}
+            if (ValidateMatch(user1, user2, user1Response, user2Response, overallStatus))
+            {
+                matchRepository.Add(new Match { User1 = user1, User2 = user2, User1Response = user1Response, User2Response = user2Response, OverallStatus = overallStatus });
+            }
+            else
+            {
+                throw new Exception("Invalid Match");
+            }
+        }
 
 		private bool ValidateMatch(User? user1, User? user2, UserResponse user1Response = UserResponse.Pending, UserResponse user2Response = UserResponse.Pending, MatchStatus overallStatus = MatchStatus.AwaitingResponse)
 		{
@@ -99,46 +99,63 @@ namespace PetPlayApp.Server.Services
 				   select match;
 		}
 
-		public void CheckForMatch(Guid likedPost, Guid currentUserId)
-		{
-			var currentUserLike = false;
-			var posterLike = false;
-			var post = postRepository.GetById(likedPost);
-			var poster = post?.PostCreator;
-			var currentUser = userRepository.GetById(currentUserId);
-			if (post != null)
-			{
-				if (currentUser != null)
-				{
-					currentUserLike = HasUserLikedPost(post, currentUser);
-					if (currentUserLike)
-					{
-						foreach (var userPost in currentUser.CreatedPosts)
-						{
-							if (poster != null)
-							{
-								posterLike |= HasUserLikedPost(userPost, poster);
-							}
-						}
-					}
-				}
-			}
-			if (currentUserLike && posterLike)
-			{
-				AddMatch(currentUser, poster);
-			}
-		}
+        public void CheckForMatch(Guid likedPost, Guid currentUserId)
+        {
+            var currentUserLike = false;
+            var posterLike = false;
+            var post = postRepository.GetById(likedPost);
+            var poster = post?.PostCreator;
+            var currentUser = userRepository.GetById(currentUserId);
+            if (post != null)
+            {
+                if (currentUser != null)
+                {
+                    currentUserLike = HasUserLikedPost(post, currentUser);
+                    if (currentUserLike)
+                    {
+                        foreach (var userPost in currentUser.CreatedPosts)
+                        {
+                            if (poster != null)
+                            {
+                                posterLike |= HasUserLikedPost(userPost, poster);
+                            }
+                        }
+                    }
+                }
+            }
+            if (currentUserLike && posterLike && (poster.IsMatched() && currentUser.IsMatched()))
+            {
+                AddMatch(currentUser, poster);
+            }
+        }
 
-		bool HasUserLikedPost(Post post, User user)
-		{
-			foreach (var liker in post.Likes)
-			{
-				if (liker == user)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-	}
+        bool HasUserLikedPost(Post post, User user)
+        {
+            foreach (var liker in post.Likes)
+            {
+                if (liker == user)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    public Match? GetMatchBetweenUsersByName(Guid userId, string user1, string user2, out string? respondingUserName)
+    {
+            respondingUserName = userService.GetUser(userId)?.UserName;
+            var user1Id = userService.GetUserIdByName(user1);
+            var user2Id = userService.GetUserIdByName(user2);
+            if (user1Id != Guid.Empty && user2Id != Guid.Empty)
+            {
+                var matches = GetMatchesForUser(user1Id);
+                var sharedMatch = from match in matches
+                                  where match.User1Id == user2Id
+                                  || match.User2Id == user2Id
+                                  select match;
+                return sharedMatch.FirstOrDefault();
+            }
+            return null;
+    }
+    }
+
 }

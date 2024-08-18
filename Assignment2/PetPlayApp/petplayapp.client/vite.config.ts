@@ -130,6 +130,10 @@ export default defineConfig({
             '^/matches/CheckForMatch': {
                 target,
                 secure: false
+            },
+            '^/matches/MatchResponse': {
+                target,
+                secure: false
             }
         },
         port: 5173,
