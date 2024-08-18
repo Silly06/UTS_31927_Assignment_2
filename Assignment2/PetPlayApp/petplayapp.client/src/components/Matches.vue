@@ -8,8 +8,11 @@
                         <v-btn @click="goBack" color="primary" class="back-button">Return to Profile</v-btn>
                     </v-card-actions>
                         <v-list>
-                            <v-list-item v-for="match in matches" :key="match.id">
-                                <v-list-item-title>{{ match.User1Name }} - {{ match.User2Name }}</v-list-item-title>
+                            <v-list-item v-for="match in matches" :key="match.Id">
+                                <v-list-item-title>{{ match.user1Name }} - {{ match.user2Name }}</v-list-item-title>
+                                <v-list-item-subtitle>First Response: {{ match.Response1 }}</v-list-item-subtitle>
+                                <v-list-item-subtitle>Second Response: {{ match.Response2 }}</v-list-item-subtitle>
+                                <v-list-item-subtitle>Match Status: {{ match.matchStatus }}</v-list-item-subtitle>
                             </v-list-item>
                         </v-list>
                 </v-card>
@@ -22,9 +25,9 @@
     import { ref, onMounted } from 'vue';
     import axios from 'axios';
     import { useRouter } from 'vue-router';
-    import { Match } from '@/types/models';
+    import { MatchDetailsDto } from '@/types/models';
 
-    const matches = ref<Match[]>([]);
+    const matches = ref<MatchDetailsDto[]>([]);
     const router = useRouter();
 
     const fetchMatches = async () => {

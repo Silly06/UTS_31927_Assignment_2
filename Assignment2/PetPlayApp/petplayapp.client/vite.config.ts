@@ -126,6 +126,10 @@ export default defineConfig({
             '^/comments/UnlikeComment': {
                 target,
                 secure: false
+            },
+            '^/matches/CheckForMatch': {
+                target,
+                secure: false
             }
         },
         port: 5173,

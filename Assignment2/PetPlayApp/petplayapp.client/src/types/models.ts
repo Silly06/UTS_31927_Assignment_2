@@ -55,13 +55,13 @@ export enum UserInterest {
     Amphibians,
     Birds
 }
-export class Match {
+export class MatchDetailsDto {
     id?: string;
     user1Name?: string;
     user2Name?: string;
     matchStatus?: number;
-    user1Response?: number;
-    user2Response?: number;
+    Response1?: number;
+    Response2?: number;
 }
 
 export class PostDetailsDto {
@@ -70,4 +70,16 @@ export class PostDetailsDto {
     likedByUser?: boolean;
     description?: string;
     imageData?: Uint8Array;
+}
+
+export enum MatchStatus {
+    Success,
+    Failure,
+    AwaitingResponse
+}
+
+export enum UserResponse {
+    Accepted,
+    Rejected,
+    Pending
 }

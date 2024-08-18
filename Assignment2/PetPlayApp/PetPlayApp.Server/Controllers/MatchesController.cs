@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using PetPlayApp.Server.Db;
+using PetPlayApp.Server.Dto;
 using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Services.Abstractions;
 
@@ -6,29 +8,41 @@ using PetPlayApp.Server.Services.Abstractions;
 public class MatchesController : Controller
 {
     private readonly IMatchService _matchService;
+    private readonly IRepository<User> _userRepository;
 
-    public MatchesController(IMatchService matchService)
+    public MatchesController(IMatchService matchService, IRepositoryProviderService repositoryProviderService)
     {
         _matchService = matchService;
+        _userRepository = repositoryProviderService.GetRepository<User>();
     }
 
     [HttpGet("GetMatches")]
-    public ActionResult<IEnumerable<Match>> GetMatchesForUser(Guid userId)
+    public IActionResult GetMatchesForUser(Guid userId)
     {
         var matches = _matchService.GetMatchesForUser(userId);
         if (matches == null || !matches.Any())
         {
             return NotFound();
         }
+        var matchDetails = new List<MatchDetailsDto>();
         foreach (var match in matches)
         {
-            match.Id = new Guid();
+            matchDetails.Add(new MatchDetailsDto
+            {
+                MatchId = new Guid(),
+                User1 = _userRepository.GetById(match.User1Id)?.UserName,
+                User2 = _userRepository.GetById(match.User2Id)?.UserName,
+                MatchStatus = match.OverallStatus,
+                Response1 = match.User1Response,
+                Response2 = match.User2Response
+            });
         }
-        return Ok(matches);
+        return Ok(matchDetails);
     }
 
-    public void CheckForMatch(Guid postId, Guid currentUser)
+    [HttpGet("CheckForMatch")]
+    public void CheckForMatch([FromBody] LikePostDto likePost)
     {
-        _matchService.CheckForMatch(postId, currentUser);
+        _matchService.CheckForMatch(likePost.PostId, likePost.UserId);
     }
 }
