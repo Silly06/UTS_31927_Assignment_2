@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using PetPlayApp.Server.Models;
-using PetPlayApp.Server.Services;
 using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Controllers
 {
-    [Route("notifications")]
+	[Route("notifications")]
     public class NotificationController : Controller
     {
         private readonly INotificationService _notificationService;

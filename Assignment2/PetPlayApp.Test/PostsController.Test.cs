@@ -1,16 +1,10 @@
 using Moq;
-using NUnit.Framework;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using PetPlayApp.Server.Controllers;
 using PetPlayApp.Server.Services.Abstractions;
 using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Dto;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PetPlayApp.Test
 {

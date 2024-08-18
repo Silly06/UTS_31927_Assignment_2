@@ -1,9 +1,8 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace PetPlayApp.Server.Models
 {
-    public class Comment
+	public class Comment
     {
         public Guid Id { get; set; }
 

@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 
 namespace PetPlayApp.Server.Models
 {
-    [PrimaryKey("User1Id", "User2Id")]
+	[PrimaryKey("User1Id", "User2Id")]
 	public class Match
 	{
 		[ForeignKey("User1Id")]
