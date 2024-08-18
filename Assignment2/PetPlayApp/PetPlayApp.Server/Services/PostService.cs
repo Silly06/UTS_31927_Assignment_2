@@ -5,12 +5,12 @@ using System.ComponentModel.Design;
 
 namespace PetPlayApp.Server.Services
 {
-    public class PostService(IRepositoryProviderService repositoryProvider) : IPostService
+    public class PostService : IPostService
     {
-		private readonly IRepository<Post> postRepository;
-		private readonly IRepository<User> userRepository;
+		readonly IRepository<Post> postRepository;
+		readonly IRepository<User> userRepository;
 
-		public void LikePost(Guid postId, Guid userId)
+		public PostService(IRepositoryProviderService repositoryProvider)
 		{
 			postRepository = repositoryProvider.GetRepository<Post>();
 			userRepository = repositoryProvider.GetRepository<User>();
@@ -30,13 +30,13 @@ namespace PetPlayApp.Server.Services
 			var post = postRepository.GetById(postId) ?? throw new ArgumentException("Post not found");
 			var user = userRepository.GetById(userId) ?? throw new ArgumentException("User not found");
 			post.Likes.Remove(user);
-			_postRepository.Update(post);
+			postRepository.Update(post);
 		}
 
 
 		public List<Guid> GetRecentPosts(int page)
 		{
-			var postsIds = _postRepository.GetAll()
+			var postsIds = postRepository.GetAll()
 				.OrderByDescending(x => x.DateTimePosted)
 				.Take(page * 10)
 				.TakeLast(10)
@@ -49,7 +49,7 @@ namespace PetPlayApp.Server.Services
 
 		public List<Guid> GetUserPosts(int page, Guid userid)
 		{
-			var postsIds = _postRepository.GetAll()
+			var postsIds = postRepository.GetAll()
 				.Where(x => x.PostCreatorId == userid)
 				.OrderBy(x => x.DateTimePosted)
 				.Take(page * 10)
@@ -63,13 +63,13 @@ namespace PetPlayApp.Server.Services
 
 		public Post? GetPost(Guid postid)
 		{
-			var post = _postRepository.GetById(postid);
+			var post = postRepository.GetById(postid);
 			return post;
 		}
 
 		public void AddPost(Post post)
 		{
-			_postRepository.Add(post);
+			postRepository.Add(post);
 		}
 
 		public void CheckForMatch(Post post, User user)
