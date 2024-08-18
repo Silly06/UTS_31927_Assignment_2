@@ -42,13 +42,13 @@ export class ResetPasswordDto {
     newPassword?: string;
 }
 
-export enum UserInterest {
+export enum UserStatus {
     Unlisted,
     Matched,
     NotMatched
 }
 
-export enum UserStatus {
+export enum UserInterest {
     Unlisted,
     Mammals,
     Reptiles,
