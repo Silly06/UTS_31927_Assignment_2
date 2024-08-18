@@ -37,7 +37,7 @@
             <v-card-subtitle>{{ post.date }}</v-card-subtitle>
             <v-card-text>{{ post.description }}</v-card-text>
             <v-card-actions>
-              <v-btn color="primary" @click="viewPost(post.id)">View Details</v-btn>
+              <v-btn color="primary" @click="goToPostComments(post.id)">Comments</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -132,8 +132,8 @@ const getStoryProfilePicture = async (userId: string) => {
   }
 }
 
-const viewPost = (postId: string) => {
-  router.push(`/ViewPost/${postId}`);
+const goToPostComments = (postId: string) => {
+  router.push(`/PostComments/${postId}`);
 };
 
 const viewStory = (storyId: string) => {

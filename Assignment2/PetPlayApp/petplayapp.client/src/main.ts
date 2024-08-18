@@ -18,7 +18,6 @@ import Profile from './components/Profile.vue'
 import ResetPassword from './components/ResetPassword.vue'
 import Search from './components/Search.vue'
 import SignUp from './components/SignUp.vue'
-import ViewPost from './components/ViewPost.vue'
 import NewStory from "@/components/NewStory.vue";
 import ViewStory from "@/components/ViewStory.vue";
 
@@ -33,12 +32,11 @@ const routes = [
     { path: '/NewPost', component: NewPost },
     { path: '/NewStory', component: NewStory },
     { path: '/Notifications', component: Notifications, meta: { requiresAuth: true } },
-    { path: '/PostComments', component: PostComments },
+    { path: '/PostComments/:id', component: PostComments },
     { path: '/Profile', component: Profile, meta: { requiresAuth: true} },
     { path: '/ResetPassword', component: ResetPassword },
     { path: '/Search', component: Search },
     { path: '/SignUp', component: SignUp },
-    { path: '/ViewPost/:id', component: ViewPost },
     { path: '/ViewStory/:id', component: ViewStory },
     { path: '/PostComments/:id', component: PostComments },
 ];
