@@ -45,11 +45,6 @@ namespace PetPlayApp.Server.Services
 			return matchRepository.GetAll().ToList();
 		}
 
-		public Match? GetMatch(Guid id)
-		{
-			return matchRepository.GetById(id);
-		}
-
 		public void AddMatch(User? user1, User? user2, UserResponse user1Response = UserResponse.Pending, UserResponse user2Response = UserResponse.Pending, MatchStatus overallStatus = MatchStatus.AwaitingResponse)
 		{
 

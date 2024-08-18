@@ -15,7 +15,7 @@ namespace PetPlayApp.Server.Services
 
 
 
-		public void NotifyCommentCreated(Guid postId, Guid userId, string content)
+		public void NotifyCommentCreated(Guid postId, Guid userId)
 		{
 			notificationRepository.Add(new Notification
 			{
@@ -23,6 +23,30 @@ namespace PetPlayApp.Server.Services
 				SubjectId = userId,
 				Timestamp = DateTime.Now,
 				NotificationType = NotificationType.Comment,
+				PostId = postId
+			});
+		}
+
+		public void NotifyCommentLiked(Guid postId, Guid userId)
+		{
+			notificationRepository.Add(new Notification
+			{
+				Id = Guid.NewGuid(),
+				SubjectId = userId,
+				Timestamp = DateTime.Now,
+				NotificationType = NotificationType.CommentLike,
+				PostId = postId
+			});
+		}
+
+		public void NotifyPostLiked(Guid postId, Guid userId)
+		{
+			notificationRepository.Add(new Notification
+			{
+				Id = Guid.NewGuid(),
+				SubjectId = userId,
+				Timestamp = DateTime.Now,
+				NotificationType = NotificationType.PostLike,
 				PostId = postId
 			});
 		}
