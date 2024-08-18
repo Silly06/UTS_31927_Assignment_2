@@ -20,6 +20,15 @@ public class MatchesController : Controller
         {
             return NotFound();
         }
+        foreach (var match in matches)
+        {
+            match.Id = new Guid();
+        }
         return Ok(matches);
+    }
+
+    public void CheckForMatch(Guid postId, Guid currentUser)
+    {
+        _matchService.CheckForMatch(postId, currentUser);
     }
 }

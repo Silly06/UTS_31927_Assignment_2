@@ -56,8 +56,9 @@ export enum UserStatus {
     Birds = 'Birds'
 }
 export class Match {
-    user1Id?: string;
-    user2Id?: string;
+    id?: string;
+    user1Name?: string;
+    user2Name?: string;
     matchStatus?: number;
     user1Response?: number;
     user2Response?: number;

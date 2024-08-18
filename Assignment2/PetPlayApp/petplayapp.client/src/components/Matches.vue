@@ -1,5 +1,3 @@
-<script setup lang="ts"></script>
-
 <template>
     <v-container>
         <v-row>
@@ -10,8 +8,8 @@
                         <v-btn @click="goBack" color="primary" class="back-button">Return to Profile</v-btn>
                     </v-card-actions>
                         <v-list>
-                            <v-list-item v-for="match in matches" :key="generateKey(match)">
-                                <v-list-item-title>{{ match.User1 }} - {{ match.User2 }}</v-list-item-title>
+                            <v-list-item v-for="match in matches" :key="match.id">
+                                <v-list-item-title>{{ match.User1Name }} - {{ match.User2Name }}</v-list-item-title>
                             </v-list-item>
                         </v-list>
                 </v-card>
@@ -38,11 +36,6 @@
         } catch (error) {
             console.error('Error fetching notifications:', error);
         }
-    };
-
-
-    const generateKey = (match: Match): string => {
-        return `${match.user1Id}-${match.user2Id}`;
     };
 
     const goBack = async () => {
