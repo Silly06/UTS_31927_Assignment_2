@@ -110,6 +110,22 @@ export default defineConfig({
             '^/posts/UnlikePost': {
                 target,
                 secure: false
+            },
+            '^/comments/AddComment': {
+                target,
+                secure: false
+            },
+            '^/comments/GetComments': {
+                target,
+                secure: false
+            },
+            '^/comments/LikeComment': {
+                target,
+                secure: false
+            },
+            '^/comments/UnlikeComment': {
+                target,
+                secure: false
             }
         },
         port: 5173,

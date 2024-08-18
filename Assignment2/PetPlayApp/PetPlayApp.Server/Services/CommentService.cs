@@ -1,29 +1,20 @@
-// File: PetPlayApp/PetPlayApp.Server/Db/Services/CommentService.cs
 using PetPlayApp.Server.Db;
 using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Services
 {
-	public class CommentService : ICommentService
+	public class CommentService(IRepositoryProviderService repositoryProvider, INotificationService notificationService)
+		: ICommentService
 	{
-		private readonly IRepository<Comment> commentRepository;
-		private readonly IRepository<Post> postRepository;
-		private readonly IRepository<User> userRepository;
-		private readonly INotificationService notificationService;
+		private readonly IRepository<Comment> _commentRepository = repositoryProvider.GetRepository<Comment>();
+		private readonly IRepository<Post> _postRepository = repositoryProvider.GetRepository<Post>();
+		private readonly IRepository<User> _userRepository = repositoryProvider.GetRepository<User>();
 
-		public CommentService(IRepositoryProviderService repositoryProvider, INotificationService notificationService)
+		public void AddComment(Guid postId, Guid userId, string? content)
 		{
-			commentRepository = repositoryProvider.GetRepository<Comment>();
-			postRepository = repositoryProvider.GetRepository<Post>();
-			userRepository = repositoryProvider.GetRepository<User>();
-			this.notificationService = notificationService;
-		}
-
-		public Comment AddComment(Guid postId, Guid userId, string? content)
-		{
-			var post = postRepository.GetById(postId) ?? throw new ArgumentException("Post not found");
-			var user = userRepository.GetById(userId) ?? throw new ArgumentException("User not found");
+			var post = _postRepository.GetById(postId) ?? throw new ArgumentException("Post not found");
+			var user = _userRepository.GetById(userId) ?? throw new ArgumentException("User not found");
 			if (string.IsNullOrWhiteSpace(content))
 			{
 				throw new ArgumentException("Content was empty");
@@ -36,32 +27,37 @@ namespace PetPlayApp.Server.Services
 				Post = post,
 				UserId = userId,
 				User = user,
-				Content = content
+				Content = content,
+				CreatedAt = DateTime.UtcNow,
+				Likes = []
 			};
 			notificationService.NotifyCommentCreated(postId, userId, content);
-			commentRepository.Add(comment);
-			return comment;
+			_commentRepository.Add(comment);
 		}
 
 		public List<Comment> GetCommentsForPost(Guid postId)
 		{
-			return commentRepository.GetAll().Where(c => c.PostId == postId).ToList();
+			return _commentRepository
+				.GetAll()
+				.Where(c => c.PostId == postId)
+				.OrderByDescending(c => c.CreatedAt)
+				.ToList();
 		}
 
 		public void LikeComment(Guid commentId, Guid userId)
 		{
-			var comment = commentRepository.GetById(commentId) ?? throw new ArgumentException("Post not found");
-			var user = userRepository.GetById(userId) ?? throw new ArgumentException("User not found");
+			var comment = _commentRepository.GetById(commentId) ?? throw new ArgumentException("Post not found");
+			var user = _userRepository.GetById(userId) ?? throw new ArgumentException("User not found");
 			comment.Likes.Add(user);
-			commentRepository.Update(comment);
+			_commentRepository.Update(comment);
 		}
 
 		public void UnlikeComment(Guid commentId, Guid userId)
 		{
-			var comment = commentRepository.GetById(commentId) ?? throw new ArgumentException("Post not found");
-			var user = userRepository.GetById(userId) ?? throw new ArgumentException("User not found");
+			var comment = _commentRepository.GetById(commentId) ?? throw new ArgumentException("Post not found");
+			var user = _userRepository.GetById(userId) ?? throw new ArgumentException("User not found");
 			comment.Likes.Remove(user);
-			commentRepository.Update(comment);
+			_commentRepository.Update(comment);
 		}
 	}
 }

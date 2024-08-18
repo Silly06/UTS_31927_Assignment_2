@@ -1,36 +1,37 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PetPlayApp.Server.Services;
 using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Controllers
 {
 	[Route("comments")]
-	public class CommentController : Controller
+	public class CommentController(ICommentService commentService) : Controller
 	{
-		private readonly ICommentService commentService;
-
-		public CommentController(ICommentService commentService)
-		{
-			this.commentService = commentService;
-		}
-
 		[HttpPost("AddComment")]
-		public IActionResult AddComment([FromBody] AddCommentRequest request)
+		public IActionResult AddComment([FromForm] Guid postId, [FromForm] Guid userId, [FromForm] string? content)
 		{
 			try
 			{
-				var comment = commentService.AddComment(request.PostId, request.UserId, request.Content);
+				if (postId == Guid.Empty || userId == Guid.Empty || string.IsNullOrWhiteSpace(content))
+				{
+					return BadRequest("Invalid request data.");
+				}
 
-				return Ok(comment);
+				commentService.AddComment(postId, userId, content);
+				
+				return Ok("Comment created successfully.");
 			}
 			catch (ArgumentException ex)
 			{
 				return BadRequest(ex.Message);
 			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, "An error occurred while processing your request.");
+			}
 		}
 
 		[HttpGet("GetComments")]
-		public IActionResult GetComment([FromBody] GetCommentRequest request)
+		public IActionResult GetComments([FromQuery] GetCommentRequest request)
 		{
 			try
 			{
@@ -43,7 +44,7 @@ namespace PetPlayApp.Server.Controllers
 			}
 		}
 
-		[HttpPost("LikePost")]
+		[HttpPost("LikeComment")]
 		public IActionResult LikePost([FromBody] Guid commentId, [FromBody] Guid userId)
 		{
 			try
@@ -57,7 +58,7 @@ namespace PetPlayApp.Server.Controllers
 			}
 		}
 
-		[HttpPost("UnlikePost")]
+		[HttpPost("UnlikeComment")]
 		public IActionResult UnlikePost([FromBody] Guid commentId, [FromBody] Guid userId)
 		{
 			try
@@ -70,8 +71,6 @@ namespace PetPlayApp.Server.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
-
-
 	}
 	public class GetCommentRequest
 	{
