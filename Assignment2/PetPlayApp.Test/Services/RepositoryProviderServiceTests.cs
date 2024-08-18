@@ -4,6 +4,8 @@ using PetPlayApp.Server.Db;
 using PetPlayApp.Server.Services;
 using PetPlayApp.Server.Services.Abstractions;
 
+#nullable enable
+
 namespace PetPlayApp.Test.Services
 {
     [TestFixture]

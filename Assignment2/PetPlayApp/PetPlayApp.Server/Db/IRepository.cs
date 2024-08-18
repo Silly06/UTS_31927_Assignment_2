@@ -1,5 +1,7 @@
 ﻿using System.Linq.Expressions;
 
+#nullable enable
+
 namespace PetPlayApp.Server.Db
 {
 	public interface IRepository<T> where T : class

@@ -3,6 +3,8 @@ using PetPlayApp.Server.Dto;
 using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Services.Abstractions;
 
+#nullable enable
+
 namespace PetPlayApp.Server.Controllers
 {
 	[Route("posts")]

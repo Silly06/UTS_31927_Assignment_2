@@ -5,6 +5,8 @@ using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Dto;
 using PetPlayApp.Server.Db;
 
+#nullable enable
+
 namespace PetPlayApp.Test.Controllers
 {
 	[TestFixture]

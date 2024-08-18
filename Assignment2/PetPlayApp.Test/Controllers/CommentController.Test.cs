@@ -4,6 +4,7 @@ using PetPlayApp.Server.Controllers;
 using PetPlayApp.Server.Services.Abstractions;
 using PetPlayApp.Server.Dto;
 
+#nullable enable
 
 namespace PetPlayApp.Test.Controllers
 {

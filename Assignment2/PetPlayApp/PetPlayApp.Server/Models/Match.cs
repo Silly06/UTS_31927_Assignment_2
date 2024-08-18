@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 
+#nullable enable
+
 namespace PetPlayApp.Server.Models
 {
 	[PrimaryKey("User1Id", "User2Id")]

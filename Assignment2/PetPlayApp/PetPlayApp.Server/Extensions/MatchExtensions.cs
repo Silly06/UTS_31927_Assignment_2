@@ -1,5 +1,7 @@
 ﻿using PetPlayApp.Server.Models;
 
+#nullable enable
+
 namespace PetPlayApp.Server.Extensions
 {
 	public static class MatchExtensions

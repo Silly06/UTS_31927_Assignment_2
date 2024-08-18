@@ -1,6 +1,7 @@
 ﻿using PetPlayApp.Server.Db;
 using PetPlayApp.Server.Services.Abstractions;
 
+#nullable enable
 
 namespace PetPlayApp.Server.Services
 {

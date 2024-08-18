@@ -1,3 +1,4 @@
+#nullable enable
 namespace PetPlayApp.Server.Models;
 
 public class Post

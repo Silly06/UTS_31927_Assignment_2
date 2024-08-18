@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+#nullable enable
+
 namespace PetPlayApp.Server.Models
 {
 	public class Notification

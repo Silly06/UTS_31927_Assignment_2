@@ -1,4 +1,5 @@
-﻿namespace PetPlayApp.Server.Dto
+﻿#nullable enable
+namespace PetPlayApp.Server.Dto
 {
 	public class CommentDto
 	{

@@ -1,3 +1,4 @@
+#nullable enable
 namespace PetPlayApp.Server.Dto;
 
 public class PostDetailsDto

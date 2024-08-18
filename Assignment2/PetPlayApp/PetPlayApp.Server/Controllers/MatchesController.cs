@@ -5,6 +5,8 @@ using PetPlayApp.Server.Extensions;
 using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Services.Abstractions;
 
+#nullable enable
+
 [Route("matches")]
 public class MatchesController : Controller
 {
