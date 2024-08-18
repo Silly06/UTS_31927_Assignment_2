@@ -35,6 +35,11 @@ public class UserService(IRepositoryProviderService repositoryProvider) : IUserS
         }
     }
 
+    public User? GetUser(Guid id)
+    {
+        return _userRepository.GetById(id);
+    }
+
     public UserDetailsDto GetUserDetails(Guid userId)
     {
         var user = _userRepository.GetById(userId)!;

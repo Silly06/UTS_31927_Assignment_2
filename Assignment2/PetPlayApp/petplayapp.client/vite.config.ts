@@ -95,6 +95,10 @@ export default defineConfig({
                 target,
                 secure: false
             },
+            '^/matches/GetMatches': {
+                target,
+                secure: false
+            },
             '^/users/ResetPassword': {
                 target,
                 secure: false
