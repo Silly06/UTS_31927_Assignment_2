@@ -47,7 +47,7 @@ namespace PetPlayApp.Test.Controllers
 		[Test]
 		public void GetUserPosts_ValidPageAndUserId_ReturnsOk()
 		{
-			var page = 1;
+			const int page = 1;
 			var userId = Guid.NewGuid();
 			var postIds = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() };
 			_postServiceMock.Setup(s => s.GetUserPosts(page, userId)).Returns(postIds);
@@ -70,8 +70,8 @@ namespace PetPlayApp.Test.Controllers
 			var post = new Post
 			{
 				Id = postId,
-				Likes = new List<User> { new User { Id = userId } },
-				ImageData = new byte[] { 1, 2, 3 },
+				Likes = [new User() { Id = userId }],
+				ImageData = [1, 2, 3],
 				Description = "Test description"
 			};
 			_postServiceMock.Setup(s => s.GetPost(postId)).Returns(post);
@@ -99,18 +99,18 @@ namespace PetPlayApp.Test.Controllers
 		public async Task NewPost_ValidData_ReturnsOk()
 		{
 			var postCreatorId = Guid.NewGuid();
-			var description = "Test description";
+			const string description = "Test description";
 			var fileMock = new Mock<IFormFile>();
-			var content = "Fake file content";
-			var fileName = "test.png";
+			const string content = "Fake file content";
+			const string fileName = "test.png";
 			var ms = new MemoryStream();
 			var writer = new StreamWriter(ms);
-			writer.Write(content);
-			writer.Flush();
+			await writer.WriteAsync(content);
+			await writer.FlushAsync();
 			ms.Position = 0;
-			fileMock.Setup(_ => _.OpenReadStream()).Returns(ms);
-			fileMock.Setup(_ => _.FileName).Returns(fileName);
-			fileMock.Setup(_ => _.Length).Returns(ms.Length);
+			fileMock.Setup(f => f.OpenReadStream()).Returns(ms);
+			fileMock.Setup(f => f.FileName).Returns(fileName);
+			fileMock.Setup(f => f.Length).Returns(ms.Length);
 
 			var result = await _controller.NewPost(fileMock.Object, description, postCreatorId) as OkObjectResult;
 
