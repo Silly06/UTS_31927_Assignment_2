@@ -10,8 +10,7 @@ namespace PetPlayApp.Server.Services
         private readonly IRepository<Notification> notificationRepository;
         public NotificationService(IRepositoryProviderService repositoryProviderService)
         {
-
-        notificationRepository = repositoryProviderService.GetRepository<Notification>();
+			notificationRepository = repositoryProviderService.GetRepository<Notification>();
 		}
 
 
