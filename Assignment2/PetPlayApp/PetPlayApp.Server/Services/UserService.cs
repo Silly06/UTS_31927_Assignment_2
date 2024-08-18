@@ -35,7 +35,7 @@ public class UserService(IRepositoryProviderService repositoryProvider) : IUserS
         }
     }
 
-    public User GetUser(Guid id)
+    public User? GetUser(Guid id)
     {
         return _userRepository.GetById(id);
     }
