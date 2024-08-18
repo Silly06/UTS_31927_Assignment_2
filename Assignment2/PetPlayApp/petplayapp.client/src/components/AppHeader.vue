@@ -20,7 +20,7 @@
       </v-btn>
       <v-btn @click="navigateToProfile" :icon="true">
         <v-icon>
-            <v-img :src="getIconSource()"></v-img>
+            <img :src="getIconSource()" alt="Profile Picture" style="width: 100%; height: auto;" />
         </v-icon>
       </v-btn>
       <v-btn @click="logout" :icon="true" class="logout-btn">
@@ -33,12 +33,31 @@
 
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router';
-import { computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import axios from 'axios';
+import { UserDetailsDto } from '@/types/models';
 
 const router = useRouter();
 const route = useRoute();
-
+const errorMessage = ref('');
 const userId = sessionStorage.getItem('userId');
+const userDetails = ref<UserDetailsDto | null>(null);
+
+const fetchUserDetails = async () => {
+    if (!userId) {
+        errorMessage.value = 'User ID not found';
+        return;
+    }
+
+    try {
+        const response = await axios.get(`/users/GetUserDetails`, {
+            params: { userId }
+        });
+        userDetails.value = response.data;
+    } catch (error) {
+        errorMessage.value = 'Error fetching user details: ' + (error instanceof Error ? error.message : 'Unknown error');
+    }
+};
 
 const navigateToHome = () => {
   router.push('/home');
@@ -82,7 +101,12 @@ const getIconSource = () => {
 
         return imageUrl;
     }
-};
+    return '\'`data:image/png;base64,${userDetails?.profilePicture}\`';
+    };
+
+onMounted(() => {
+    fetchUserDetails();
+});
 </script>
 
 <style scoped>

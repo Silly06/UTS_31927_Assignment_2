@@ -65,7 +65,6 @@ const sessionUserId = sessionStorage.getItem('userId') || '';
 const userDetails = ref<UserDetailsDto | null>(null);
 const posts = ref<any[]>([]);
 const errorMessage = ref('');
-
 const fetchUserDetails = async () => {
   if (!userId) {
     errorMessage.value = 'User ID not found';
@@ -81,6 +80,7 @@ const fetchUserDetails = async () => {
     errorMessage.value = 'Error fetching user details: ' + (error instanceof Error ? error.message : 'Unknown error');
   }
 };
+
 
 const fetchPosts = async () => {
   try {
