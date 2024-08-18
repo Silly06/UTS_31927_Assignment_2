@@ -5,6 +5,8 @@ using PetPlayApp.Server.Services;
 using PetPlayApp.Server.Services.Abstractions;
 using Match = PetPlayApp.Server.Models.Match;
 
+#nullable enable
+
 namespace PetPlayApp.Test.Services
 {
     [TestFixture]

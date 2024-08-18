@@ -1,6 +1,8 @@
 // File: PetPlayApp/PetPlayApp.Server/Services/Abstractions/ICommentService.cs
 using PetPlayApp.Server.Dto;
 
+#nullable enable
+
 namespace PetPlayApp.Server.Services.Abstractions
 {
 	public interface ICommentService

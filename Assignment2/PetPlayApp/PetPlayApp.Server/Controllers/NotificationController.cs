@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using PetPlayApp.Server.Services.Abstractions;
 
+#nullable enable
+
 namespace PetPlayApp.Server.Controllers
 {
 	[Route("notifications")]

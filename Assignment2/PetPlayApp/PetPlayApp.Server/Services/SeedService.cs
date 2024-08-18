@@ -2,6 +2,7 @@
 using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Services.Abstractions;
 
+#nullable enable
 
 namespace PetPlayApp.Server.Services
 {

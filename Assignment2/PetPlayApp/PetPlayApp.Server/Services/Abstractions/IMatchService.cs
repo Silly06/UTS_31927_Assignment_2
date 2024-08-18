@@ -1,6 +1,8 @@
 // File: PetPlayApp/PetPlayApp.Server/Services/Abstractions/IMatchService.cs
 using PetPlayApp.Server.Models;
 
+#nullable enable
+
 namespace PetPlayApp.Server.Services.Abstractions
 {
 	public interface IMatchService

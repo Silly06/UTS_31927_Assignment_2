@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetPlayApp.Server.Models;
 
+#nullable enable
+
 namespace PetPlayApp.Server.Db
 {
 	public class DatabaseContext : DbContext
