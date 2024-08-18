@@ -5,11 +5,11 @@ namespace PetPlayApp.Server.Services.Abstractions;
 
 public interface IStoryService
 {
-    IEnumerable<StoryDetailsDto> GetAllStoriesDetails();
+	IEnumerable<StoryDetailsDto> GetAllStoriesDetails();
 
-    StoryDetailsDto GetStoryDetails(Guid storyId);
-    
-    void CreateStory(Story story);
+	StoryDetailsDto GetStoryDetails(Guid storyId);
 
-    void RemoveExpiredStories();
+	void CreateStory(Story story);
+
+	void RemoveExpiredStories();
 }

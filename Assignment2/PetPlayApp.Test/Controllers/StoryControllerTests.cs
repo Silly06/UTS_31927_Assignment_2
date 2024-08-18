@@ -5,7 +5,7 @@ using PetPlayApp.Server.Services.Abstractions;
 using Microsoft.AspNetCore.Http;
 using PetPlayApp.Server.Dto;
 
-namespace PetPlayApp.Test
+namespace PetPlayApp.Test.Controllers
 {
 	[TestFixture]
 	public class StoryControllerTests

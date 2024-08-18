@@ -5,10 +5,10 @@ using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Controllers
 {
-    [Route("posts")]
-    public class PostsController(IPostService postService) : Controller
-    {
-	    [HttpGet("GetRecentPosts")]
+	[Route("posts")]
+	public class PostsController(IPostService postService) : Controller
+	{
+		[HttpGet("GetRecentPosts")]
 		public IActionResult GetRecentPosts([FromQuery] int page)
 		{
 			var postsIds = postService.GetRecentPosts(page);

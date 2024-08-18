@@ -5,7 +5,7 @@ using PetPlayApp.Server.Services.Abstractions;
 using PetPlayApp.Server.Models;
 
 
-namespace PetPlayApp.Test
+namespace PetPlayApp.Test.Controllers
 {
 	[TestFixture]
 	public class CommentControllerTests

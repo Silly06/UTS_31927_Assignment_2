@@ -6,8 +6,8 @@ namespace PetPlayApp.Server.Services
 {
 	public class RepositoryProviderService : IRepositoryProviderService
 	{
-		public RepositoryProviderService(DatabaseContext databaseContext) 
-		{ 
+		public RepositoryProviderService(DatabaseContext databaseContext)
+		{
 			DatabaseContext = databaseContext;
 		}
 
