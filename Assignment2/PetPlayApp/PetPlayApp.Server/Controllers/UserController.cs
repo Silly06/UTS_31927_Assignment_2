@@ -28,18 +28,16 @@ public class UserController(IUserService userService) : Controller
 	}
 
 	[HttpPost("UpdateUserDetails")]
-	public async Task<IActionResult> UpdateUserDetailsAsync([FromBody] UserDetailsDto userDetails, [FromForm] IFormFile? profilePic)
+	public async Task<IActionResult> UpdateUserDetailsAsync([FromForm] UserDetailsDto userDetails, [FromForm] IFormFile? profilePicture)
 	{
 		try
 		{
 			byte[] imageData = [];
-			if (profilePic != null)
+			if (profilePicture != null)
 			{
-				using (var memoryStream = new MemoryStream())
-				{
-					await profilePic.CopyToAsync(memoryStream);
-					imageData = memoryStream.ToArray();
-				}
+				using var memoryStream = new MemoryStream();
+				await profilePicture.CopyToAsync(memoryStream);
+				imageData = memoryStream.ToArray();
 			}
 			userService.UpdateUserDetails(userDetails.UserId, userDetails.Username, userDetails.Email, userDetails.Age, userDetails.Bio, userDetails.Status, userDetails.Interest, imageData);
 			return Ok("User details updated successfully.");
