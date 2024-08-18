@@ -9,6 +9,8 @@ export class UserDetailsDto {
     age?: number;
     bio?: string;
     profilePicture?: Uint8Array;
+    interest?: UserInterest;
+    status?: UserStatus;
 }
 
 export class CreateUserDto {
@@ -31,11 +33,25 @@ export class StoryDetailsDto {
     storyCreatorName?: string;
     storyProfilePicture?: Uint8Array;
     imageData?: Uint8Array;
-    dateTimePosted?: Date
+    dateTimePosted?: Date;
 }
 
 export class ResetPasswordDto {
     email?: string;
     oldPassword?: string;
     newPassword?: string;
+}
+
+export enum UserInterest {
+    Unlisted = 'Unlisted',
+    Matched = 'Matched',
+    NotMatched = 'NotMatched'
+}
+
+export enum UserStatus {
+    Unlisted = 'Unlisted',
+    Mammals= 'Mammals',
+    Reptiles = 'Reptiles',
+    Amphibians = 'Amphibians',
+    Birds = 'Birds'
 }

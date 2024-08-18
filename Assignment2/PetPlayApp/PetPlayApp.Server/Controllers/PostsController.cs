@@ -22,7 +22,7 @@ namespace PetPlayApp.Server.Controllers
 		}
 
 		[HttpGet("GetUserPosts")]
-		public IActionResult GetUserPosts([FromBody] int page, [FromBody] Guid userid)
+		public IActionResult GetUserPosts([FromQuery] int page, [FromQuery] Guid userid)
 		{
 			var postsIds = postService.GetUserPosts(page, userid);
 			return Ok(postsIds);
