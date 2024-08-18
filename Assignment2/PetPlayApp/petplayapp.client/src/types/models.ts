@@ -28,6 +28,8 @@ export class UserSearchDto {
 export class StoryDetailsDto {
     storyId?: string;
     storyCreatorId?: string;
+    storyCreatorName?: string;
     storyProfilePicture?: Uint8Array;
     imageData?: Uint8Array;
+    dateTimePosted?: Date
 }

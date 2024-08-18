@@ -130,23 +130,26 @@ namespace PetPlayApp.Server.Services
 			StoryRepository.Add(new Story
 			{
 				DateTimePosted = DateTime.UtcNow,
-				StoryCreatorId = UserRepository.GetAll().FirstOrDefault()?.Id
+				StoryCreatorId = UserRepository.GetAll().FirstOrDefault()?.Id,
+				ImageData = File.ReadAllBytes(@"Assets/SeededStoryPictures/Walk.png")
 			});
 
 			StoryRepository.Add(new Story
 			{
 				DateTimePosted = DateTime.UtcNow,
-				StoryCreatorId = UserRepository.GetAll().Skip(1).FirstOrDefault()?.Id
+				StoryCreatorId = UserRepository.GetAll().Skip(1).FirstOrDefault()?.Id,
+				ImageData = File.ReadAllBytes(@"Assets/SeededStoryPictures/Carrots.png")
 			});
 
 			StoryRepository.Add(new Story
 			{
 				DateTimePosted = DateTime.UtcNow,
-				StoryCreatorId = UserRepository.GetAll().Skip(2).FirstOrDefault()?.Id
+				StoryCreatorId = UserRepository.GetAll().Skip(2).FirstOrDefault()?.Id,
+				ImageData = File.ReadAllBytes(@"Assets/SeededStoryPictures/Mountains.png")
 			});
 		}
 		
-		public void SeedPosts()
+		private void SeedPosts()
         {
             var users = UserService.GetAllUsers().ToList();
 
@@ -155,7 +158,6 @@ namespace PetPlayApp.Server.Services
                 DateTimePosted = DateTime.UtcNow.AddDays(-2),
                 PostCreatorId = users[0].Id,
                 Description = "Just had a great walk in the park!",
-                // ImageData = File.ReadAllBytes(@"../petplayapp.client/src/assets/SeededPostImages/Walk.png")
             };
             PostRepository.Add(post1);
 
@@ -177,8 +179,7 @@ namespace PetPlayApp.Server.Services
             {
                 DateTimePosted = DateTime.UtcNow.AddDays(-1),
                 PostCreatorId = users[1].Id,
-                Description = "Eating some fresh carrots, life is good!",
-                // ImageData = File.ReadAllBytes(@"../petplayapp.client/src/assets/SeededPostImages/Carrots.png")
+                Description = "Eating some fresh carrots, life is good!"
             };
             PostRepository.Add(post2);
 
@@ -193,8 +194,7 @@ namespace PetPlayApp.Server.Services
             {
                 DateTimePosted = DateTime.UtcNow,
                 PostCreatorId = users[2].Id,
-                Description = "Climbing mountains is the best!",
-                // ImageData = File.ReadAllBytes(@"../petplayapp.client/src/assets/SeededPostImages/Mountains.png")
+                Description = "Climbing mountains is the best!"
             };
             PostRepository.Add(post3);
 

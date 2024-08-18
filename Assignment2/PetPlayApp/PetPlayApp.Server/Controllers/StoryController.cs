@@ -48,4 +48,11 @@ public class StoryController(IStoryService storyService) : Controller
         var allStories = storyService.GetAllStoriesDetails();
         return Ok(allStories);
     }
+
+    [HttpGet("GetStoryDetails")]
+    public IActionResult GetStoryDetails([FromQuery] Guid storyId)
+    {
+        var storyDetails = storyService.GetStoryDetails(storyId);
+        return Ok(storyDetails);
+    }
 }

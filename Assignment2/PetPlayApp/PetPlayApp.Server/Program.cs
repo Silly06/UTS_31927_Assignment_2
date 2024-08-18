@@ -25,6 +25,9 @@ using (var scope = app.Services.CreateScope())
 {
 	var seedService = scope.ServiceProvider.GetRequiredService<ISeedService>();
 	seedService.SeedData();
+	
+	var storyService = scope.ServiceProvider.GetRequiredService<IStoryService>();
+	storyService.RemoveExpiredStories();
 }
 
 app.UseDefaultFiles();

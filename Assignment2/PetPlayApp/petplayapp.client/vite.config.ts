@@ -90,6 +90,10 @@ export default defineConfig({
             '^/users/GetUserPicture': {
                 target,
                 secure: false
+            },
+            '^/stories/GetStoryDetails': {
+                target,
+                secure: false
             }
         },
         port: 5173,

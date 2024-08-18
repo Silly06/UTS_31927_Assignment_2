@@ -5,7 +5,7 @@ using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Services;
 
-public class StoryService(IRepositoryProviderService repositoryProvider) : IStoryService
+public class StoryService(IRepositoryProviderService repositoryProvider, IUserService userService) : IStoryService
 {
     private readonly IRepository<Story> _storyRepository = repositoryProvider.GetRepository<Story>();
 
@@ -19,8 +19,38 @@ public class StoryService(IRepositoryProviderService repositoryProvider) : IStor
         });
     }
 
+    public StoryDetailsDto GetStoryDetails(Guid storyId)
+    {
+        var story = _storyRepository.GetById(storyId);
+        var username = userService.GetUserDetails(story?.StoryCreatorId ?? Guid.Empty).Username;
+
+        return new StoryDetailsDto
+        {
+            StoryId = story?.Id,
+            StoryCreatorId = story?.StoryCreatorId,
+            StoryCreatorName = username,
+            ImageData = story?.ImageData,
+            DateTimePosted = story?.DateTimePosted
+        };
+    }
+
     public void CreateStory(Story story)
     {
         _storyRepository.Add(story);
+    }
+
+    public void RemoveExpiredStories()
+    {
+        var expirationTime = DateTime.UtcNow.AddHours(-24);
+        var expiredStories = _storyRepository
+            .GetAll()
+            .Where(x => x.DateTimePosted < expirationTime)
+            .ToList();
+        if (expiredStories.Count == 0) return;
+        
+        foreach (var story in expiredStories)
+        {
+            _storyRepository.Remove(story);
+        }
     }
 }

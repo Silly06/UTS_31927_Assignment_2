@@ -2,16 +2,25 @@
   <v-container fluid>
     <!-- Stories Section -->
     <v-row class="stories-container">
+      <!-- Add Story Button -->
+      <v-col cols="auto" class="add-story-item" @click="goToNewStory">
+        <v-btn icon class="add-story-button">
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </v-col>
+
+      <!-- Story Items -->
       <v-col
           v-for="story in stories"
           :key="story.storyId"
           cols="auto"
           class="story-item"
+          @click="viewStory(story.storyId!)"
       >
         <img
             :src="`data:image/png;base64,${story.storyProfilePicture}`"
             class="story-avatar"
-            alt=""
+            alt="Story Profile Picture"
         />
       </v-col>
     </v-row>
@@ -48,8 +57,6 @@ const posts = ref<any[]>([]);
 const errorMessage = ref<string>('');
 const router = useRouter();
 
-const defaultProfilePicture = 'https://via.placeholder.com/100?text=Profile+Picture';
-
 const dummyPosts = [
   {
     id: 1,
@@ -71,11 +78,11 @@ const fetchStories = async () => {
   try {
     const response = await axios.get('/stories/GetAllStories');
     const storiesData = response.data as StoryDetailsDto[];
-    
+
     for (const story of storiesData) {
       story.storyProfilePicture = await getStoryProfilePicture(story.storyCreatorId!);
     }
-    
+
     stories.value = response.data;
   } catch (error) {
     errorMessage.value = 'Failed to load stories';
@@ -125,11 +132,18 @@ const getStoryProfilePicture = async (userId: string) => {
   }
 }
 
-const viewPost = (postId: number) => {
+const viewPost = (postId: string) => {
   router.push(`/ViewPost/${postId}`);
 };
 
-// Fetch stories and posts on component mount
+const viewStory = (storyId: string) => {
+  router.push(`/ViewStory/${storyId}`);
+};
+
+const goToNewStory = () => {
+  router.push('/NewStory');
+};
+
 onMounted(() => {
   fetchStories();
   fetchPosts();
@@ -150,18 +164,50 @@ onMounted(() => {
   white-space: nowrap;
   padding: 10px 0;
   display: flex;
+  align-items: center;
+}
+
+.add-story-item {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.add-story-button {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-story-button:hover {
+  background-color: #0056b3;
 }
 
 .story-item {
   display: inline-block;
   margin-right: 10px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.story-item:hover {
+  transform: scale(1.05);
+  border-color: #007bff;
 }
 
 .story-avatar {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 2px solid #ddd;
   object-fit: cover;
 }
 
