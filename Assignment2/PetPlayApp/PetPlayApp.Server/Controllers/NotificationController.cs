@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PetPlayApp.Server.Models;
+using PetPlayApp.Server.Services;
 using PetPlayApp.Server.Services.Abstractions;
 
 [Route("notifications")]
@@ -12,14 +13,21 @@ public class NotificationController : Controller
         _notificationService = notificationService;
     }
 
-    [HttpGet("user")]
-    public ActionResult<IEnumerable<Notification>> GetNotificationsForUser(Guid userId)
+    [HttpGet("GetRecentNotifications")]
+    public ActionResult<IEnumerable<Guid>> GetRecentNotifications(Guid userId)
     {
-        var notifications = _notificationService.GetNotificationsForUser(userId);
-        if (notifications == null || !notifications.Any())
+        var notificationIds = _notificationService.GetRecentNotifications(userId);
+        if (notificationIds == null || notificationIds.Count == 0)
         {
             return NotFound();
         }
-        return Ok(notifications.OrderByDescending(n => n.Timestamp));
+        return Ok(notificationIds);
     }
+
+	[HttpGet("GetNotificationDetails")]
+	public IActionResult GetNotificationDetails([FromQuery] Guid postid)
+	{
+		var notification = _notificationService.GetNotification(postid);
+		return Ok(notification);
+	}
 }
