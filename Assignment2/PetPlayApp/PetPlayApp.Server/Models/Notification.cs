@@ -10,7 +10,7 @@ namespace PetPlayApp.Server.Models
 		public User? Creator { get; set; }
 
 		public Guid PostId { get; set; }
-		public Post Post { get; set; }
+		public Post? Post { get; set; }
 
 		[Required]
 		public User? Subject { get; set; }

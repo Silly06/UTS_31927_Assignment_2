@@ -50,8 +50,7 @@ namespace PetPlayApp.Server.Db
 			// Comment Likes
 			modelBuilder.Entity<Comment>()
 				.HasMany(c => c.Likes)
-				.WithMany(u => u.LikedComments)
-				.UsingEntity<CommentLike>();
+				.WithMany(u => u.LikedComments);
 
 			// Match
 			modelBuilder.Entity<Match>()
