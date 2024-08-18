@@ -89,6 +89,38 @@ namespace PetPlayApp.Server.Migrations
                     b.ToTable("Matches");
                 });
 
+            modelBuilder.Entity("PetPlayApp.Server.Models.Notification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("NotificationType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("SubjectId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("PetPlayApp.Server.Models.Post", b =>
                 {
                     b.Property<Guid>("Id")
@@ -104,7 +136,7 @@ namespace PetPlayApp.Server.Migrations
                     b.Property<byte[]>("ImageData")
                         .HasColumnType("BLOB");
 
-                    b.Property<Guid?>("PostCreatorId")
+                    b.Property<Guid>("PostCreatorId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -249,11 +281,40 @@ namespace PetPlayApp.Server.Migrations
                     b.Navigation("User2");
                 });
 
+            modelBuilder.Entity("PetPlayApp.Server.Models.Notification", b =>
+                {
+                    b.HasOne("PetPlayApp.Server.Models.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PetPlayApp.Server.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PetPlayApp.Server.Models.User", "Subject")
+                        .WithMany("Notifications")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("Subject");
+                });
+
             modelBuilder.Entity("PetPlayApp.Server.Models.Post", b =>
                 {
                     b.HasOne("PetPlayApp.Server.Models.User", "PostCreator")
                         .WithMany("CreatedPosts")
-                        .HasForeignKey("PostCreatorId");
+                        .HasForeignKey("PostCreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("PostCreator");
                 });
@@ -301,6 +362,8 @@ namespace PetPlayApp.Server.Migrations
                     b.Navigation("MatchesInitiated");
 
                     b.Navigation("MatchesReceived");
+
+                    b.Navigation("Notifications");
 
                     b.Navigation("StoriesCreated");
                 });
