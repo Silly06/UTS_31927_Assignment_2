@@ -10,8 +10,8 @@ namespace PetPlayApp.Test;
 [TestFixture]
 public class UserControllerTests
 {
-    private Mock<IUserService> _userServiceMock;
-    private UserController _controller;
+    private Mock<IUserService>? _userServiceMock;
+    private UserController? _controller;
 
     [SetUp]
     public void SetUp()
@@ -23,7 +23,7 @@ public class UserControllerTests
     [TearDown]
     public void TearDown()
     {
-        _controller.Dispose();
+        _controller!.Dispose();
         _controller = null;
         _userServiceMock = null;
     }
@@ -36,17 +36,17 @@ public class UserControllerTests
         var userId = Guid.NewGuid();
         var userProfilePicture = new byte[] { 1, 2, 3 };
 
-        _userServiceMock.Setup(service => service.TryValidateUser(loginDto.Username, loginDto.Password, out userId))
+        _userServiceMock!.Setup(service => service.TryValidateUser(loginDto.Username, loginDto.Password, out userId))
             .Returns(true);
 
         _userServiceMock.Setup(service => service.GetUserPicture(userId)).Returns(userProfilePicture);
 
         // Act
-        var result = _controller.Login(loginDto) as OkObjectResult;
+        var result = _controller!.Login(loginDto) as OkObjectResult;
 
         // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(200, result.StatusCode);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.StatusCode, Is.EqualTo(200));
     }
 
     [Test]
@@ -55,14 +55,14 @@ public class UserControllerTests
         // Arrange
         var loginDto = new LoginDto { Username = "testuser", Password = "password" };
         Guid outUserId;
-        _userServiceMock.Setup(service => service.TryValidateUser(loginDto.Username, loginDto.Password, out outUserId)).Returns(false);
+        _userServiceMock!.Setup(service => service.TryValidateUser(loginDto.Username, loginDto.Password, out outUserId)).Returns(false);
 
         // Act
-        var result = _controller.Login(loginDto) as UnauthorizedResult;
+        var result = _controller!.Login(loginDto) as UnauthorizedResult;
 
         // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(401, result.StatusCode);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.StatusCode, Is.EqualTo(401));
     }
 
     [Test]
@@ -71,15 +71,15 @@ public class UserControllerTests
         // Arrange
         var userId = Guid.NewGuid();
         var userDetails = new UserDetailsDto { Username = "testuser", Email = "test@example.com" };
-        _userServiceMock.Setup(service => service.GetUserDetails(userId)).Returns(userDetails);
+        _userServiceMock!.Setup(service => service.GetUserDetails(userId)).Returns(userDetails);
 
         // Act
-        var result = _controller.GetUserDetails(userId) as OkObjectResult;
+        var result = _controller!.GetUserDetails(userId) as OkObjectResult;
 
         // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(200, result.StatusCode);
-        Assert.AreEqual(userDetails, result.Value);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.StatusCode, Is.EqualTo(200));
+        Assert.That(result.Value, Is.EqualTo(userDetails));
     }
 
     [Test]
@@ -97,22 +97,20 @@ public class UserControllerTests
         var fileMock = new Mock<IFormFile>();
         fileMock.Setup(f => f.OpenReadStream()).Returns(new MemoryStream(userImage));
         fileMock.Setup(f => f.CopyToAsync(It.IsAny<Stream>(), default))
-            .Callback<Stream, System.Threading.CancellationToken>((s, _) =>
+            .Callback<Stream, CancellationToken>((s, _) =>
             {
-                using (var stream = fileMock.Object.OpenReadStream())
-                {
-                    stream.CopyTo(s);
-                }
+                using var stream = fileMock.Object.OpenReadStream();
+                stream.CopyTo(s);
             });
 
         // Act
-        var result = await _controller.UpdateUserDetailsAsync(userDetails, fileMock.Object) as OkObjectResult;
+        var result = await _controller!.UpdateUserDetailsAsync(userDetails, fileMock.Object) as OkObjectResult;
 
         // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(200, result.StatusCode);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.StatusCode, Is.EqualTo(200));
 
-        _userServiceMock.Verify(service => service.UpdateUserDetails(
+        _userServiceMock!.Verify(service => service.UpdateUserDetails(
             userDetails.UserId,
             userDetails.Username,
             userDetails.Email,
@@ -135,15 +133,15 @@ public class UserControllerTests
             Email = "new@example.com" 
         };
         var userId = Guid.NewGuid();
-        _userServiceMock.Setup(service => service.CreateUser(createUserDto.Username, createUserDto.Password, createUserDto.Email, createUserDto.Age, createUserDto.Bio, createUserDto.ProfilePicture));
+        _userServiceMock!.Setup(service => service.CreateUser(createUserDto.Username, createUserDto.Password, createUserDto.Email, createUserDto.Age, createUserDto.Bio, createUserDto.ProfilePicture));
         _userServiceMock.Setup(service => service.TryValidateUser(createUserDto.Username, createUserDto.Password, out userId)).Returns(true);
 
         // Act
-        var result = _controller.CreateUser(createUserDto) as OkObjectResult;
+        var result = _controller!.CreateUser(createUserDto) as OkObjectResult;
 
         // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(200, result.StatusCode);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.StatusCode, Is.EqualTo(200));
     }
 
     [Test]
@@ -154,17 +152,17 @@ public class UserControllerTests
         var query = "test";
         var searchResults = new List<UserSearchDto>
         {
-            new UserSearchDto { UserId = Guid.NewGuid(), Username = "searchuser", ProfilePicture = new byte[] { 1, 2, 3 } }
+            new() { UserId = Guid.NewGuid(), Username = "searchuser", ProfilePicture = [1, 2, 3] }
         };
-        _userServiceMock.Setup(service => service.SearchUsers(currentUserId, query)).Returns(searchResults);
+        _userServiceMock!.Setup(service => service.SearchUsers(currentUserId, query)).Returns(searchResults);
 
         // Act
-        var result = _controller.SearchUsers(currentUserId, query) as OkObjectResult;
+        var result = _controller!.SearchUsers(currentUserId, query) as OkObjectResult;
 
         // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(200, result.StatusCode);
-        Assert.AreEqual(searchResults, result.Value);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.StatusCode, Is.EqualTo(200));
+        Assert.That(result.Value, Is.EqualTo(searchResults));
     }
 
     [Test]
@@ -173,15 +171,15 @@ public class UserControllerTests
         // Arrange
         var userId = Guid.NewGuid();
         var picture = new byte[] { 1, 2, 3 };
-        _userServiceMock.Setup(service => service.GetUserPicture(userId)).Returns(picture);
+        _userServiceMock!.Setup(service => service.GetUserPicture(userId)).Returns(picture);
 
         // Act
-        var result = _controller.GetUserPicture(userId) as OkObjectResult;
+        var result = _controller!.GetUserPicture(userId) as OkObjectResult;
 
         // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(200, result.StatusCode);
-        Assert.AreEqual(picture, result.Value);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.StatusCode, Is.EqualTo(200));
+        Assert.That(result.Value, Is.EqualTo(picture));
     }
 
     [Test]
@@ -196,11 +194,11 @@ public class UserControllerTests
         };
 
         // Act
-        var result = _controller.ResetPassword(resetPasswordDto) as OkObjectResult;
+        var result = _controller!.ResetPassword(resetPasswordDto) as OkObjectResult;
 
         // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(200, result.StatusCode);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.StatusCode, Is.EqualTo(200));
     }
 
     [Test]
@@ -210,16 +208,11 @@ public class UserControllerTests
         var loginDto = new LoginDto { Username = "", Password = "password" };
 
         // Act
-        var result = _controller.Login(loginDto) as BadRequestObjectResult;
+        var result = _controller!.Login(loginDto) as BadRequestObjectResult;
 
         // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(400, result.StatusCode);
-        Assert.AreEqual("Username or password was empty or missing", result.Value);
-    }
-    
-    internal class CreateUserResult
-    {
-        public Guid UserId { get; set; }
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.StatusCode, Is.EqualTo(400));
+        Assert.That(result.Value, Is.EqualTo("Username or password was empty or missing"));
     }
 }
