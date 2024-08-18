@@ -30,6 +30,16 @@
       </v-col>
     </v-row>
 
+    <!-- New Post Button -->
+    <v-row justify="center" class="mt-4">
+      <v-col cols="auto" class="text-center">
+        <v-btn @click="createNewPost" color="primary" class="new-post-btn">
+          <v-icon left>mdi-plus</v-icon>
+          New Post
+        </v-btn>
+      </v-col>
+    </v-row>
+
     <!-- User Posts Grid -->
     <v-row justify="center" class="mt-4">
       <v-col v-for="post in posts" :key="post.id" cols="12" sm="4" md="3">
@@ -49,27 +59,9 @@ import { UserDetailsDto, UserInterest, UserStatus } from '@/types/models';
 
 const userId = sessionStorage.getItem('userId') || '';
 const userDetails = ref<UserDetailsDto | null>(null);
+const posts = ref<any[]>([]);
 const errorMessage = ref('');
 const router = useRouter();
-
-const posts = ref<any[]>([]);
-
-const dummyPosts = [
-  {
-    id: 1,
-    title: 'First Dummy Post',
-    description: 'This is a description of the first dummy post.',
-    imageData: '',
-    date: '2024-08-16'
-  },
-  {
-    id: 2,
-    title: 'Second Dummy Post',
-    description: 'This is a description of the second dummy post.',
-    imageData: '',
-    date: '2024-08-15'
-  },
-];
 
 const fetchUserDetails = async () => {
   if (!userId) {
@@ -94,7 +86,7 @@ const fetchPosts = async () => {
     });
     const postIds = response.data;
     if (postIds.length === 0) {
-      posts.value = dummyPosts;
+      posts.value = []; // Assuming no dummy posts
     } else {
       const postDetailsPromises = postIds.map(fetchPostDetails);
       const postDetails = await Promise.all(postDetailsPromises);
@@ -132,6 +124,10 @@ const viewMatches = async () => {
 
 const viewPost = (postId: string) => {
   router.push(`/ViewPost/${postId}`);
+};
+
+const createNewPost = () => {
+  router.push('/NewPost'); // Ensure this route exists in your router setup
 };
 
 const getIconSource = () => {
@@ -176,5 +172,10 @@ onMounted(() => {
 <style>
 .v-list-item-title {
   padding: 5px;
+}
+.new-post-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

@@ -29,10 +29,10 @@ namespace PetPlayApp.Server.Services
 		public List<Guid> GetRecentPosts(int page)
 		{
 			var postsIds = postRepository.GetAll()
-				.OrderBy(x => x.DateTimePosted)
+				.OrderByDescending(x => x.DateTimePosted)
 				.Take(page * 10)
 				.TakeLast(10)
-				.OrderBy(x => x.DateTimePosted)
+				.OrderByDescending(x => x.DateTimePosted)
 				.Select(x => x.Id)
 				.ToList();
 

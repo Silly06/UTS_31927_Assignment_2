@@ -52,13 +52,15 @@ const createPost = async () => {
     const formData = new FormData();
     formData.append('image', image.value);
     formData.append('description', description.value);
-    formData.append('userId', userId);
+    formData.append('postCreatorId', userId);
 
-    const response = await axios.post('/posts/CreatePost', formData, {
+    const response = await axios.post('/posts/NewPost', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     });
+    
+    await router.push('/Home');
     console.log('Post created:', response.data);
   } catch (error) {
     console.error('Error creating post:', error);
