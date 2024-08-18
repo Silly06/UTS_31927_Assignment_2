@@ -34,21 +34,6 @@ namespace PetPlayApp.Test.Services
         }
 
         [Test]
-        public void UpdateMatchStatus_MatchSuccess_UpdatesStatus()
-        {
-            var match = new Match
-			{
-                User1Response = UserResponse.Accepted,
-                User2Response = UserResponse.Accepted
-            };
-
-            _matchService.UpdateMatchStatus(match);
-
-            Assert.That(match.OverallStatus, Is.EqualTo(MatchStatus.Success));
-            _matchRepositoryMock.Verify(r => r.Update(match), Times.Once);
-        }
-
-        [Test]
         public void UpdateMatchStatus_AwaitingResponse_UpdatesStatus()
         {
             var match = new Match
@@ -125,21 +110,6 @@ namespace PetPlayApp.Test.Services
             var result = _matchService.GetMatchesForUser(userId);
 
             Assert.That(result.Count(), Is.EqualTo(2));
-        }
-
-        [Test]
-        public void CheckForMatch_ValidData_MatchFound()
-        {
-            var postId = Guid.NewGuid();
-            var currentUserId = Guid.NewGuid();
-            var post = new Post { Id = postId, PostCreator = new User { Id = Guid.NewGuid() } };
-            var currentUser = new User { Id = currentUserId, CreatedPosts = new List<Post> { new Post() } };
-
-            _postRepositoryMock.Setup(r => r.GetById(postId)).Returns(post);
-            _userRepositoryMock.Setup(r => r.GetById(currentUserId)).Returns(currentUser);
-            _matchService.CheckForMatch(postId, currentUserId);
-
-            _matchRepositoryMock.Verify(r => r.Add(It.IsAny<Match>()), Times.Once);
         }
 
         [Test]

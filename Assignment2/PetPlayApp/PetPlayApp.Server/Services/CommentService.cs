@@ -48,6 +48,7 @@ namespace PetPlayApp.Server.Services
 		{
 			var comment = _commentRepository.GetById(commentId) ?? throw new ArgumentException("Post not found");
 			var user = _userRepository.GetById(userId) ?? throw new ArgumentException("User not found");
+			notificationService.NotifyCommentLiked(comment.PostId, userId);
 			comment.Likes.Add(user);
 			_commentRepository.Update(comment);
 		}
