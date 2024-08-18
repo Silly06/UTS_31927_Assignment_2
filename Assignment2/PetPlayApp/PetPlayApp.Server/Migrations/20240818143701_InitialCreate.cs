@@ -160,24 +160,24 @@ namespace PetPlayApp.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostLike",
+                name: "PostUser",
                 columns: table => new
                 {
-                    PostId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    LikedPostsId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    LikesId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostLike", x => new { x.PostId, x.UserId });
+                    table.PrimaryKey("PK_PostUser", x => new { x.LikedPostsId, x.LikesId });
                     table.ForeignKey(
-                        name: "FK_PostLike_Posts_PostId",
-                        column: x => x.PostId,
+                        name: "FK_PostUser_Posts_LikedPostsId",
+                        column: x => x.LikedPostsId,
                         principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostLike_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_PostUser_Users_LikesId",
+                        column: x => x.LikesId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -255,14 +255,14 @@ namespace PetPlayApp.Server.Migrations
                 column: "SubjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostLike_UserId",
-                table: "PostLike",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Posts_PostCreatorId",
                 table: "Posts",
                 column: "PostCreatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostUser_LikesId",
+                table: "PostUser",
+                column: "LikesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stories_StoryCreatorId",
@@ -283,7 +283,7 @@ namespace PetPlayApp.Server.Migrations
                 name: "Notifications");
 
             migrationBuilder.DropTable(
-                name: "PostLike");
+                name: "PostUser");
 
             migrationBuilder.DropTable(
                 name: "Stories");
