@@ -37,7 +37,10 @@
             <v-card-subtitle>{{ post.date }}</v-card-subtitle>
             <v-card-text>{{ post.description }}</v-card-text>
             <v-card-actions>
-              <v-btn color="primary" @click="viewPost(post.id)">View Details</v-btn>
+              <v-btn @click="toggleLike(post.id)" :color="post.likedByUser ? 'red' : 'grey'" icon>
+                <v-icon>{{ post.likedByUser ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
+              </v-btn>
+              <span class="like-count">{{ post.likesCount }}</span>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -109,12 +112,14 @@ const fetchPosts = async () => {
   }
 };
 
-const fetchPostDetails = async (postId: number) => {
+const fetchPostDetails = async (postId: string) => {
   try {
-    const response = await axios.get('/posts/GetPostDetails', {
-      params: { postid: postId },
+    const response = await axios.get(`/posts/GetPostDetails`, {
+      params: { postid: postId }
     });
-    return response.data;
+    const post = response.data;
+    post.likesCount = post.likes.length;
+    return post;
   } catch (error) {
     console.error(`Error fetching details for post ${postId}:`, error);
     return null;
@@ -132,8 +137,25 @@ const getStoryProfilePicture = async (userId: string) => {
   }
 }
 
-const viewPost = (postId: string) => {
-  router.push(`/ViewPost/${postId}`);
+const toggleLike = async (postId: string) => {
+  try {
+    const userId = sessionStorage.getItem('userId');
+    const post = posts.value.find(p => p.id === postId);
+
+    if (post && userId) {
+      const action = post.likedByUser ? 'UnlikePost' : 'LikePost';
+      await axios.post(`/posts/${action}`, {
+        postId,
+        userId
+      });
+
+      post.likedByUser = !post.likedByUser;
+      post.likesCount += post.likedByUser ? 1 : -1;
+    }
+  } catch (error) {
+    errorMessage.value = 'Failed to like/unlike post';
+    console.error(error);
+  }
 };
 
 const viewStory = (storyId: string) => {
@@ -227,5 +249,11 @@ onMounted(() => {
 .v-card img {
   width: 100%;
   height: auto;
+}
+
+.like-count {
+  margin-left: 10px;
+  font-weight: bold;
+  color: #555;
 }
 </style>

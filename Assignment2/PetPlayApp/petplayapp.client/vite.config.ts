@@ -98,6 +98,14 @@ export default defineConfig({
             '^/users/ResetPassword': {
                 target,
                 secure: false
+            },
+            '^/posts/LikePost': {
+                target,
+                secure: false
+            },
+            '^/posts/UnlikePost': {
+                target,
+                secure: false
             }
         },
         port: 5173,
