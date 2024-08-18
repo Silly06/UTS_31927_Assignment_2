@@ -43,8 +43,6 @@ namespace PetPlayApp.Server.Controllers
 				return BadRequest("Image is required");
 			if (description == null)
 				return BadRequest("Description is required");
-			if (postCreatorId == null)
-				return BadRequest("Post creator id is required");
 
 			byte[] imageData;
 			using (var memoryStream = new MemoryStream())
