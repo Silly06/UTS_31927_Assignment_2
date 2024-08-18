@@ -3,31 +3,34 @@ using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Services;
 using PetPlayApp.Server.Services.Abstractions;
 
-[Route("notifications")]
-public class NotificationController : Controller
+namespace PetPlayApp.Server.Controllers
 {
-    private readonly INotificationService _notificationService;
-
-    public NotificationController(INotificationService notificationService)
+    [Route("notifications")]
+    public class NotificationController : Controller
     {
-        _notificationService = notificationService;
-    }
+        private readonly INotificationService _notificationService;
 
-    [HttpGet("GetRecentNotifications")]
-    public ActionResult<IEnumerable<Guid>> GetRecentNotifications(Guid userId)
-    {
-        var notificationIds = _notificationService.GetRecentNotifications(userId);
-        if (notificationIds == null || notificationIds.Count == 0)
+        public NotificationController(INotificationService notificationService)
         {
-            return NotFound();
+            _notificationService = notificationService;
         }
-        return Ok(notificationIds);
-    }
 
-	[HttpGet("GetNotificationDetails")]
-	public IActionResult GetNotificationDetails([FromQuery] Guid postid)
-	{
-		var notification = _notificationService.GetNotification(postid);
-		return Ok(notification);
-	}
+        [HttpGet("GetRecentNotifications")]
+        public ActionResult<IEnumerable<Guid>> GetRecentNotifications(Guid userId)
+        {
+            var notificationIds = _notificationService.GetRecentNotifications(userId);
+            if (notificationIds == null || notificationIds.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(notificationIds);
+        }
+
+        [HttpGet("GetNotificationDetails")]
+        public IActionResult GetNotificationDetails([FromQuery] Guid postid)
+        {
+            var notification = _notificationService.GetNotification(postid);
+            return Ok(notification);
+        }
+    }
 }
