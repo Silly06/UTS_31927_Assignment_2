@@ -5,14 +5,9 @@ using PetPlayApp.Server.Services.Abstractions;
 
 namespace PetPlayApp.Server.Services;
 
-public class UserService : IUserService
+public class UserService(IRepositoryProviderService repositoryProvider) : IUserService
 {
-    private readonly IRepository<User> _userRepository;
-
-    public UserService(IRepositoryProviderService repositoryProvider)
-    {
-        _userRepository = repositoryProvider.GetRepository<User>();
-    }
+    private readonly IRepository<User> _userRepository = repositoryProvider.GetRepository<User>();
 
     public IEnumerable<User> GetAllUsers()
     {
@@ -117,7 +112,7 @@ public class UserService : IUserService
             .Select(user => new
             {
                 User = user,
-                Similarity = CalculateBioSimilarityZScore(query, user.Bio)
+                Similarity = CalculateUserMatchScore(query, user.Bio, user.Interest)
             })
             .OrderByDescending(result => result.Similarity);
 
@@ -134,7 +129,19 @@ public class UserService : IUserService
             });
     }
 
-    private static double CalculateBioSimilarityZScore(string? query, string? bio)
+    public void ResetPassword(string email, string oldPassword, string newPassword)
+    {
+        var user = _userRepository.GetAll().FirstOrDefault(u => u.Email == email && u.Password == oldPassword);
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+        
+        user.Password = newPassword;
+        _userRepository.Update(user);
+    }
+
+    private static double CalculateUserMatchScore(string? query, string? bio, UserInterest? interest)
     {
         if (string.IsNullOrWhiteSpace(query) || string.IsNullOrWhiteSpace(bio))
         {
@@ -147,6 +154,9 @@ public class UserService : IUserService
         var intersection = querySet.Intersect(bioSet).Count();
         var union = querySet.Union(bioSet).Count();
 
-        return (double)intersection / union;
+        var bioScore = (double)intersection / union;
+        var interestScore = interest.HasValue && query.Contains(interest.ToString() ?? string.Empty, StringComparison.OrdinalIgnoreCase) ? 0.2 : 0;
+
+        return bioScore + interestScore;
     }
 }

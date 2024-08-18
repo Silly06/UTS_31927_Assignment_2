@@ -17,5 +17,7 @@ namespace PetPlayApp.Server.Services.Abstractions
 		public byte[]? GetUserPicture(Guid id);
 
         IEnumerable<UserSearchDto> SearchUsers(Guid currentUserId, string query);
+
+        void ResetPassword(string email, string oldPassword, string newPassword);
     }
 }

@@ -94,6 +94,10 @@ export default defineConfig({
             '^/stories/GetStoryDetails': {
                 target,
                 secure: false
+            },
+            '^/users/ResetPassword': {
+                target,
+                secure: false
             }
         },
         port: 5173,

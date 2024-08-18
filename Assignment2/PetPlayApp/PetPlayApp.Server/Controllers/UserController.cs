@@ -104,4 +104,18 @@ public class UserController : Controller
         
         return Ok(picture);
     }
+
+    [HttpPost("ResetPassword")]
+    public IActionResult ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
+    {
+        if (string.IsNullOrWhiteSpace(resetPasswordDto.Email) || string.IsNullOrWhiteSpace(resetPasswordDto.OldPassword) || string.IsNullOrWhiteSpace(resetPasswordDto.NewPassword))
+        {
+            return BadRequest("Email, old password, or new password is missing.");
+        }
+
+        _userService.ResetPassword(resetPasswordDto.Email, resetPasswordDto.OldPassword, resetPasswordDto.NewPassword);
+
+        return Ok("Password reset successfully.");
+    }
+
 }

@@ -33,3 +33,9 @@ export class StoryDetailsDto {
     imageData?: Uint8Array;
     dateTimePosted?: Date
 }
+
+export class ResetPasswordDto {
+    email?: string;
+    oldPassword?: string;
+    newPassword?: string;
+}
