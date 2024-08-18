@@ -158,6 +158,7 @@ namespace PetPlayApp.Server.Services
                 DateTimePosted = DateTime.UtcNow.AddDays(-2),
                 PostCreatorId = users[0].Id,
                 Description = "Just had a great walk in the park!",
+                ImageData = File.ReadAllBytes(@"Assets/SeededStoryPictures/Walk.png")
             };
             PostRepository.Add(post1);
 
@@ -179,7 +180,8 @@ namespace PetPlayApp.Server.Services
             {
                 DateTimePosted = DateTime.UtcNow.AddDays(-1),
                 PostCreatorId = users[1].Id,
-                Description = "Eating some fresh carrots, life is good!"
+                Description = "Eating some fresh carrots, life is good!",
+                ImageData = File.ReadAllBytes(@"Assets/SeededStoryPictures/Carrots.png")
             };
             PostRepository.Add(post2);
 
@@ -194,7 +196,8 @@ namespace PetPlayApp.Server.Services
             {
                 DateTimePosted = DateTime.UtcNow,
                 PostCreatorId = users[2].Id,
-                Description = "Climbing mountains is the best!"
+                Description = "Climbing mountains is the best!",
+                ImageData = File.ReadAllBytes(@"Assets/SeededStoryPictures/Mountains.png")
             };
             PostRepository.Add(post3);
 
