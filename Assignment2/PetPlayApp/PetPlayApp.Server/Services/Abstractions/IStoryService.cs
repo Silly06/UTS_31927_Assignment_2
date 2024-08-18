@@ -7,7 +7,7 @@ public interface IStoryService
 {
 	IEnumerable<StoryDetailsDto> GetAllStoriesDetails();
 
-	StoryDetailsDto GetStoryDetails(Guid storyId);
+	StoryDetailsDto? GetStoryDetails(Guid storyId);
 
 	void CreateStory(Story story);
 

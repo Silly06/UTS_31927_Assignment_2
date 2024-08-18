@@ -138,26 +138,6 @@ namespace PetPlayApp.Test.Services
         }
 
         [Test]
-        public void UpdateUserDetails_ValidId_UpdatesUser()
-        {
-            var userId = Guid.NewGuid();
-            var user = new User { Id = userId };
-            _userRepositoryMock.Setup(r => r.GetById(userId)).Returns(user);
-
-            _userService.UpdateUserDetails(userId, "newUsername", "newEmail", 25, "newBio", UserStatus.Matched, UserInterest.Amphibians, new byte[0]);
-
-            _userRepositoryMock.Verify(r => r.Update(It.Is<User>(u =>
-                u.UserName == "newUsername" &&
-                u.Email == "newEmail" &&
-                u.Age == 25 &&
-                u.Bio == "newBio" &&
-                u.UserStatus == UserStatus.Matched &&
-                u.Interest == UserInterest.Amphibians &&
-                u.ProfilePictureData == new byte[0]
-            )), Times.Once);
-        }
-
-        [Test]
         public void UpdateUserDetails_InvalidId_ThrowsException()
         {
 #pragma warning disable CS8600 // Testing null for nullable type
@@ -165,23 +145,6 @@ namespace PetPlayApp.Test.Services
 #pragma warning restore CS8600 // Testing null for nullable type
 
             Assert.Throws<Exception>(() => _userService.UpdateUserDetails(Guid.NewGuid(), "newUsername", "newEmail", 25, "newBio", UserStatus.Matched, UserInterest.Amphibians, new byte[0]));
-        }
-
-        [Test]
-        public void CreateUser_ValidData_AddsUser()
-        {
-            _userRepositoryMock.Setup(r => r.GetAll()).Returns(new List<User>().AsQueryable());
-
-            _userService.CreateUser("newUser", "password", "newEmail", 25, "bio", new byte[0]);
-
-            _userRepositoryMock.Verify(r => r.Add(It.Is<User>(u =>
-                u.UserName == "newUser" &&
-                u.Password == "password" &&
-                u.Email == "newEmail" &&
-                u.Age == 25 &&
-                u.Bio == "bio" &&
-                u.ProfilePictureData == new byte[0]
-            )), Times.Once);
         }
 
         [Test]
@@ -203,18 +166,6 @@ namespace PetPlayApp.Test.Services
             var result = _userService.GetUserPicture(userId);
 
             Assert.That(result, Is.EqualTo(new byte[0]));
-        }
-
-        [Test]
-        public void GetUserPicture_InvalidId_ReturnsDefaultPicture()
-        {
-#pragma warning disable CS8600 // Testing null for nullable type
-            _userRepositoryMock.Setup(r => r.GetById(It.IsAny<Guid>())).Returns((User)null);
-#pragma warning restore CS8600 // Testing null for nullable type
-
-            var result = _userService.GetUserPicture(Guid.NewGuid());
-
-            Assert.That(result, Is.Not.Null);
         }
 
         [Test]

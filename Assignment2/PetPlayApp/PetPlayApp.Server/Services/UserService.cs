@@ -170,6 +170,12 @@ public class UserService(IRepositoryProviderService repositoryProvider) : IUserS
         var bioScore = querySet.Count(term => bioSet.Contains(term)) / (double)(bioSet.Length + 1);
         var interestScore = interest.HasValue && query.Contains(interest.ToString() ?? string.Empty, StringComparison.OrdinalIgnoreCase) ? 0.2 : 0;
 
-        return usernameMatch + bioScore + interestScore;
+        return bioScore + interestScore;
+    }
+
+    public Guid GetUserIdByName(string name)
+    {
+        var id = GetAllUsers().Where(u => u.UserName == name).First().Id;
+        return id;
     }
 }

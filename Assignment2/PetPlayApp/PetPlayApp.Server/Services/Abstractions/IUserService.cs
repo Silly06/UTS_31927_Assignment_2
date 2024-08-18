@@ -20,6 +20,8 @@ namespace PetPlayApp.Server.Services.Abstractions
 
 		public User? GetUser(Guid id);
 
-		void ResetPassword(string email, string oldPassword, string newPassword);
-	}
+        void ResetPassword(string email, string oldPassword, string newPassword);
+
+		public Guid GetUserIdByName(string name);
+    }
 }

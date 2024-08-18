@@ -13,6 +13,10 @@
               <v-list-item-subtitle>First Response: {{ getMatchResponseText(match.response1!) }}</v-list-item-subtitle>
               <v-list-item-subtitle>Second Response: {{ getMatchResponseText(match.response2!) }}</v-list-item-subtitle>
               <v-list-item-subtitle>Match Status: {{ getMatchStatusText(match.matchStatus!) }}</v-list-item-subtitle>
+                <v-actions-container>
+                    <v-btn class="match-response-button" color="green" @click="accept(match)">Accept</v-btn>
+                    <v-btn class="match-response-button" color="red" @click="decline(match)">Decline</v-btn>
+                </v-actions-container>
             </v-list-item>
           </v-list>
         </v-card>
@@ -69,7 +73,31 @@ const getMatchStatusText = (matchStatus: number) => {
 
 const goBack = async () => {
   await router.push('/Home');
-};
+    };
+
+    const accept = async (match: MatchDetailsDto) => {
+
+        await axios.get('/matches/MatchResponse', {
+            params: {
+                respondingUser: sessionStorage.getItem('userId'),
+                user1: match.user1Name,
+                user2: match.user2Name,
+                response: 'Accepted'
+            }
+        });
+    };
+
+    const decline = async (match: MatchDetailsDto) => {
+
+        await axios.get('/matches/MatchResponse', {
+            params: {
+                respondingUser: sessionStorage.getItem('userId'),
+                user1: match.user1Name,
+                user2: match.user2Name,
+                response: 'Declined'
+            }
+        });
+    };
 
 onMounted(() => {
   fetchMatches();
@@ -89,5 +117,9 @@ onMounted(() => {
 .back-button {
   font-size: 12px;
   margin-bottom: 12px;
+}
+
+.match-response-button {
+    margin: 3px;
 }
 </style>
