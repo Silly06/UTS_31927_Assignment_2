@@ -163,6 +163,38 @@ const getStatusText = (status: UserStatus | undefined): string => {
   return status !== undefined ? UserStatus[status] : 'Unlisted';
 };
 
+const userStatus = () => {
+    const statusNum = userDetails?.value?.status;
+    switch (statusNum) {
+        case (0):
+            return 'Unlisted';
+        case (1):
+            return 'Matched';
+        case (2):
+            return 'Unmatched';
+        default:
+            return 'An error occured while retrieving this user\'s status';
+    }
+}
+
+const getInterest = () => {
+    const statusNum = userDetails?.value?.interest;
+    switch (statusNum) {
+        case (0):
+            return 'Unlisted';
+        case (1):
+            return 'Mammals';
+        case (2):
+            return 'Reptiles';
+        case (3):
+            return 'Amphibians';
+        case (4):
+            return 'Birds';
+        default:
+            return 'An error occured while retrieving this user\'s status';
+    }
+}
+
 onMounted(() => {
   fetchUserDetails();
   fetchPosts();

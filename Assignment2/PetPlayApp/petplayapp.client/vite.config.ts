@@ -95,7 +95,19 @@ export default defineConfig({
                 target,
                 secure: false
             },
+            '^/matches/GetMatches': {
+                target,
+                secure: false
+            },
             '^/users/ResetPassword': {
+                target,
+                secure: false
+            },
+            '^/posts/LikePost': {
+                target,
+                secure: false
+            },
+            '^/posts/UnlikePost': {
                 target,
                 secure: false
             }

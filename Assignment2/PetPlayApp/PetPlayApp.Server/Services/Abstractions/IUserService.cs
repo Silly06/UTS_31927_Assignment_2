@@ -18,6 +18,8 @@ namespace PetPlayApp.Server.Services.Abstractions
 
         IEnumerable<UserSearchDto> SearchUsers(Guid currentUserId, string query);
 
+		public User? GetUser(Guid id);
+
         void ResetPassword(string email, string oldPassword, string newPassword);
     }
 }

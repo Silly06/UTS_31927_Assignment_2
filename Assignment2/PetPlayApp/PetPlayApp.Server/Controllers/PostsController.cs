@@ -5,16 +5,9 @@ using PetPlayApp.Server.Services.Abstractions;
 namespace PetPlayApp.Server.Controllers
 {
     [Route("posts")]
-    public class PostsController : Controller
+    public class PostsController(IPostService postService) : Controller
     {
-        private readonly IPostService postService;
-
-        public PostsController(IPostService postService)
-        {
-			this.postService = postService;
-		}
-
-		[HttpGet("GetRecentPosts")]
+	    [HttpGet("GetRecentPosts")]
 		public IActionResult GetRecentPosts([FromQuery] int page)
 		{
 			var postsIds = postService.GetRecentPosts(page);
@@ -64,6 +57,34 @@ namespace PetPlayApp.Server.Controllers
 			postService.AddPost(post);
 
 			return Ok(post);
+		}
+
+		[HttpPost("LikePost")]
+		public IActionResult LikePost([FromBody] Guid postId, [FromBody] Guid userId)
+		{
+			try
+			{
+				postService.LikePost(postId, userId);
+				return Ok();
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+		[HttpPost("UnlikePost")]
+		public IActionResult UnlikePost([FromBody] Guid postId, [FromBody] Guid userId)
+		{
+			try
+			{
+				postService.UnlikePost(postId, userId);
+				return Ok();
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
 		}
 	}
 }

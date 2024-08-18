@@ -90,5 +90,14 @@ namespace PetPlayApp.Server.Services
                 match.User2.UserStatus = UserStatus.Matched;
             }
         }
+
+        public IEnumerable<Match> GetMatchesForUser(Guid id)
+        {
+            var user = userService.GetUser(id);
+            return from Match match in GetAllMatches()
+                   where match.User1 == user
+                   || match.User2 == user
+                   select match;
+        }
     }
 }

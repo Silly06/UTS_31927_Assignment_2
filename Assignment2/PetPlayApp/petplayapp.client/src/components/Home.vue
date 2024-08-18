@@ -37,6 +37,10 @@
             <v-card-subtitle>{{ post.date }}</v-card-subtitle>
             <v-card-text>{{ post.description }}</v-card-text>
             <v-card-actions>
+              <v-btn @click="toggleLike(post.id)" :color="post.likedByUser ? 'red' : 'grey'" icon>
+                <v-icon>{{ post.likedByUser ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
+              </v-btn>
+              <span class="like-count">{{ post.likesCount }}</span>
               <v-btn color="primary" @click="goToPostComments(post.id)">Comments</v-btn>
             </v-card-actions>
           </v-card>
@@ -131,6 +135,27 @@ const getStoryProfilePicture = async (userId: string) => {
     console.error(`Error fetching profile picture for user ${userId}`, error);
   }
 }
+
+const toggleLike = async (postId: string) => {
+  try {
+    const userId = sessionStorage.getItem('userId');
+    const post = posts.value.find(p => p.id === postId);
+
+    if (post && userId) {
+      const action = post.likedByUser ? 'UnlikePost' : 'LikePost';
+      await axios.post(`/posts/${action}`, {
+        postId,
+        userId
+      });
+
+      post.likedByUser = !post.likedByUser;
+      post.likesCount += post.likedByUser ? 1 : -1;
+    }
+  } catch (error) {
+    errorMessage.value = 'Failed to like/unlike post';
+    console.error(error);
+  }
+};
 
 const goToPostComments = (postId: string) => {
   router.push(`/PostComments/${postId}`);

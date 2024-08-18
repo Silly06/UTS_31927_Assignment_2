@@ -55,3 +55,10 @@ export enum UserStatus {
     Amphibians = 'Amphibians',
     Birds = 'Birds'
 }
+export class Match {
+    user1Id?: string;
+    user2Id?: string;
+    matchStatus?: number;
+    user1Response?: number;
+    user2Response?: number;
+}
