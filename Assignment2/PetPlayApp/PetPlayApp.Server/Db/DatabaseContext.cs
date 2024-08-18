@@ -49,6 +49,13 @@ namespace PetPlayApp.Server.Db
 					j => j.HasOne<User>().WithMany().HasForeignKey("UserId"),
 					j => j.HasOne<Post>().WithMany().HasForeignKey("PostId"));
 
+			// Notification
+			modelBuilder.Entity<Notification>()
+				.HasOne(n => n.Subject)
+				.WithMany(u => u.Notifications)
+				.HasForeignKey(n => n.SubjectId)
+				.OnDelete(DeleteBehavior.Restrict);
+
 			// Comment Creator
 			modelBuilder.Entity<Comment>()
 				.HasOne(c => c.User)
@@ -77,13 +84,6 @@ namespace PetPlayApp.Server.Db
 				.HasOne(s => s.StoryCreator)
 				.WithMany(u => u.StoriesCreated)
 				.HasForeignKey(s => s.StoryCreatorId)
-				.OnDelete(DeleteBehavior.Restrict);
-
-			// Notification
-			modelBuilder.Entity<Notification>()
-				.HasOne(n => n.Subject)
-				.WithMany(u => u.Notifications)
-				.HasForeignKey(n => n.SubjectId)
 				.OnDelete(DeleteBehavior.Restrict);
 		}
 	}
