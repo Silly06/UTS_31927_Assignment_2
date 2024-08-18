@@ -21,7 +21,7 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const notifications = ref([]);
-const userId = 'signedInUserId'; // Replace with actual logic to get signed-in user ID
+const userId = sessionStorage.getItem('userId');
 
 const fetchNotifications = async () => {
   try {

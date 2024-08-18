@@ -41,6 +41,7 @@
                 <v-icon>{{ post.likedByUser ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
               </v-btn>
               <span class="like-count">{{ post.likesCount }}</span>
+              <v-btn color="primary" @click="goToPostComments(post.id)">Comments</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -112,14 +113,12 @@ const fetchPosts = async () => {
   }
 };
 
-const fetchPostDetails = async (postId: string) => {
+const fetchPostDetails = async (postId: number) => {
   try {
-    const response = await axios.get(`/posts/GetPostDetails`, {
-      params: { postid: postId }
+    const response = await axios.get('/posts/GetPostDetails', {
+      params: { postid: postId },
     });
-    const post = response.data;
-    post.likesCount = post.likes.length;
-    return post;
+    return response.data;
   } catch (error) {
     console.error(`Error fetching details for post ${postId}:`, error);
     return null;
@@ -156,6 +155,10 @@ const toggleLike = async (postId: string) => {
     errorMessage.value = 'Failed to like/unlike post';
     console.error(error);
   }
+};
+
+const goToPostComments = (postId: string) => {
+  router.push(`/PostComments/${postId}`);
 };
 
 const viewStory = (storyId: string) => {
@@ -249,11 +252,5 @@ onMounted(() => {
 .v-card img {
   width: 100%;
   height: auto;
-}
-
-.like-count {
-  margin-left: 10px;
-  font-weight: bold;
-  color: #555;
 }
 </style>
