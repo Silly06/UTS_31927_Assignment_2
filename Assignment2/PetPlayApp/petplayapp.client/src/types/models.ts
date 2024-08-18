@@ -25,6 +25,7 @@ export class CreateUserDto {
 export class UserSearchDto {
     userId?: string;
     username?: string;
+    profilePicture?: Uint8Array;
 }
 
 export class StoryDetailsDto {

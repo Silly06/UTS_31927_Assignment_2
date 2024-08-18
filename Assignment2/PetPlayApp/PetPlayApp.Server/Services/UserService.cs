@@ -125,12 +125,14 @@ public class UserService(IRepositoryProviderService repositoryProvider) : IUserS
             ? userSearchResults.Select(result => new UserSearchDto
             {
                 UserId = result.User.Id,
-                Username = result.User.UserName
+                Username = result.User.UserName,
+                ProfilePicture = result.User.ProfilePictureData
             })
             : userSearchResults.Take(10).Select(result => new UserSearchDto
             {
                 UserId = result.User.Id,
-                Username = result.User.UserName
+                Username = result.User.UserName,
+                ProfilePicture = result.User.ProfilePictureData
             });
     }
 

@@ -130,7 +130,7 @@ const viewPost = (postId: string) => {
 };
 
 const createNewPost = () => {
-  router.push('/NewPost'); // Ensure this route exists in your router setup
+  router.push('/NewPost');
 };
 
 const getIconSource = () => {
