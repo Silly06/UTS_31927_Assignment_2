@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Hosting;
 using PetPlayApp.Server.Db;
 using PetPlayApp.Server.Models;
@@ -22,51 +23,61 @@ namespace PetPlayApp.Server.Services
 
 
 
-		public void NotifyCommentCreated(Guid postId, Guid userId)
+		public void NotifyCommentCreated(Guid postId, Guid creatorId, Guid subjectId)
 		{
 			var post = postRepository.GetById(postId);
-			var user = userRepository.GetById(userId);
+			var creator = userRepository.GetById(creatorId);
+			var subject = userRepository.GetById(subjectId);
 			notificationRepository.Add(new Notification
 			{
 				Id = Guid.NewGuid(),
-				SubjectId = userId,
 				Timestamp = DateTime.Now,
 				NotificationType = NotificationType.Comment,
 				PostId = postId,
 				Post = post,
-				Subject = user
+				Subject = subject,
+				SubjectId = creatorId,
+				CreatorId = creatorId,
+				Creator = creator
 			});
 		}
 
-		public void NotifyCommentLiked(Guid postId, Guid userId)
+		public void NotifyCommentLiked(Guid postId, Guid creatorId, Guid subjectId)
 		{
 			var post = postRepository.GetById(postId);
-			var user = userRepository.GetById(userId);
+			var creator = userRepository.GetById(creatorId);
+			var subject = userRepository.GetById(subjectId);
 			notificationRepository.Add(new Notification
 			{
 				Id = Guid.NewGuid(),
-				SubjectId = userId,
 				Timestamp = DateTime.Now,
 				NotificationType = NotificationType.CommentLike,
 				PostId = postId,
 				Post = post,
-				Subject = user
+				Subject = subject,
+				SubjectId = creatorId,
+				CreatorId = creatorId,
+				Creator = creator
 			});
 		}
 
-		public void NotifyPostLiked(Guid postId, Guid userId)
+		public void NotifyPostLiked(Guid postId, Guid creatorId, Guid subjectId)
 		{
 			var post = postRepository.GetById(postId);
-			var user = userRepository.GetById(userId);
+			var creator = userRepository.GetById(creatorId);
+			var subject = userRepository.GetById(subjectId);
 			notificationRepository.Add(new Notification
 			{
 				Id = Guid.NewGuid(),
-				SubjectId = userId,
 				Timestamp = DateTime.Now,
 				NotificationType = NotificationType.PostLike,
 				PostId = postId,
 				Post = post,
-				Subject = user
+				Subject = subject,
+				SubjectId = creatorId,
+				CreatorId = creatorId,
+				Creator = creator
+
 			});
 		}
 

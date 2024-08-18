@@ -37,7 +37,7 @@ namespace PetPlayApp.Server.Controllers
 		}
 
 		[HttpPost("NewPost")]
-		public async Task<IActionResult> NewPost([FromForm] IFormFile? image, [FromForm] string? description, [FromForm] Guid? postCreatorId)
+		public async Task<IActionResult> NewPost([FromForm] IFormFile? image, [FromForm] string? description, [FromForm] Guid postCreatorId)
 		{
 			if (image == null || image.Length == 0)
 				return BadRequest("Image is required");

@@ -15,6 +15,8 @@ namespace PetPlayApp.Server.Db
 		public DbSet<Story> Stories { get; set; }
 		// DbSet for comments table
 		public DbSet<Comment> Comments { get; set; }
+		public DbSet<Notification> Notifications { get; set; }
+
 		public string DbPath { get; }
 
 		public DatabaseContext()
@@ -71,6 +73,13 @@ namespace PetPlayApp.Server.Db
 				.HasOne(s => s.StoryCreator)
 				.WithMany(u => u.StoriesCreated)
 				.HasForeignKey(s => s.StoryCreatorId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			// Notification
+			modelBuilder.Entity<Notification>()
+				.HasOne(n => n.Subject)
+				.WithMany(u => u.Notifications)
+				.HasForeignKey(n => n.SubjectId)
 				.OnDelete(DeleteBehavior.Restrict);
 		}
 	}

@@ -6,11 +6,11 @@ namespace PetPlayApp.Server.Models
 	{
 		public Guid Id { get; set; }
 
-		public Guid NotificationCreatorId { get; set; }
-		public User? NotificationCreator { get; set; }
+		public Guid CreatorId { get; set; }
+		public User? Creator { get; set; }
 
 		public Guid PostId { get; set; }
-		public Post? Post { get; set; }
+		public Post Post { get; set; }
 
 		[Required]
 		public User? Subject { get; set; }

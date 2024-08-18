@@ -8,7 +8,7 @@ public class Post
 
 	public User? PostCreator { get; set; }
 
-	public Guid? PostCreatorId { get; set; }
+	public Guid PostCreatorId { get; set; }
 
 	public string? Description { get; set; }
 

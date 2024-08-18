@@ -15,6 +15,7 @@ namespace PetPlayApp.Server.Services
 		{
 			var post = _postRepository.GetById(postId) ?? throw new ArgumentException("Post not found");
 			var user = _userRepository.GetById(userId) ?? throw new ArgumentException("User not found");
+			var creator = _userRepository.GetById(post.PostCreatorId) ?? throw new ArgumentException("Post creator not found");
 			if (string.IsNullOrWhiteSpace(content))
 			{
 				throw new ArgumentException("Content was empty");
@@ -31,7 +32,7 @@ namespace PetPlayApp.Server.Services
 				CreatedAt = DateTime.UtcNow,
 				Likes = []
 			};
-			notificationService.NotifyCommentCreated(postId, userId);
+			notificationService.NotifyCommentCreated(postId, userId, post.PostCreatorId);
 			_commentRepository.Add(comment);
 		}
 
@@ -48,7 +49,7 @@ namespace PetPlayApp.Server.Services
 		{
 			var comment = _commentRepository.GetById(commentId) ?? throw new ArgumentException("Post not found");
 			var user = _userRepository.GetById(userId) ?? throw new ArgumentException("User not found");
-			notificationService.NotifyCommentLiked(comment.PostId, userId);
+			notificationService.NotifyCommentLiked(comment.PostId, userId, comment.UserId);
 			comment.Likes.Add(user);
 			_commentRepository.Update(comment);
 		}
