@@ -8,6 +8,8 @@ namespace PetPlayApp.Server.Models
     [PrimaryKey("User1Id", "User2Id")]
 	public class Match
 	{
+		[NotMapped]
+		public Guid Id { get; set; }
 		[ForeignKey("User1Id")]
 		public Guid User1Id { get; set; }
 		public User? User1 { get; set; }

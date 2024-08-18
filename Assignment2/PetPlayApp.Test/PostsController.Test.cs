@@ -71,7 +71,7 @@ namespace PetPlayApp.Test
 			mockPostService.Setup(service => service.GetPost(It.IsAny<Guid>())).Returns(post);
 
 			// Act
-			var result = postsController.GetPostDetails(post.Id) as OkObjectResult;
+			var result = postsController.GetPostDetails(post.Id, Guid.Empty) as OkObjectResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
