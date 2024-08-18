@@ -1,10 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PetPlayApp.Server.Models
 {
-    [PrimaryKey("CommentId", "UserId")]
+	[PrimaryKey("CommentId", "UserId")]
     public class CommentLike
     {
         [ForeignKey("Comment")]

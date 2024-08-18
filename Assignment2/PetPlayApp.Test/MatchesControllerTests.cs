@@ -1,7 +1,5 @@
 using Moq;
-using NUnit.Framework;
 using Microsoft.AspNetCore.Mvc;
-using PetPlayApp.Server.Controllers;
 using PetPlayApp.Server.Services.Abstractions;
 using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Dto;
