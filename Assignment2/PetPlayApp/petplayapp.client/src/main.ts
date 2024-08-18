@@ -33,7 +33,7 @@ const routes = [
     { path: '/NewStory', component: NewStory },
     { path: '/Notifications', component: Notifications, meta: { requiresAuth: true } },
     { path: '/PostComments/:id', component: PostComments },
-    { path: '/Profile', component: Profile, meta: { requiresAuth: true} },
+    { path: '/Profile/:id', component: Profile, meta: { requiresAuth: true} },
     { path: '/ResetPassword', component: ResetPassword },
     { path: '/Search', component: Search },
     { path: '/SignUp', component: SignUp },

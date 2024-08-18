@@ -38,6 +38,8 @@ import { computed } from 'vue';
 const router = useRouter();
 const route = useRoute();
 
+const userId = sessionStorage.getItem('userId');
+
 const navigateToHome = () => {
   router.push('/home');
 };
@@ -51,7 +53,7 @@ const navigateToNotifications = () => {
 };
 
 const navigateToProfile = () => {
-  router.push('/profile');
+  router.push(`/profile/${sessionStorage.getItem('userId')}`);
 };
 
 const logout = () => {

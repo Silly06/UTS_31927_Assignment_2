@@ -4,7 +4,7 @@
       <v-col cols="12" sm="6" md="4">
         <v-card>
           <v-card-title class="headline">{{ userDetails?.username }}</v-card-title>
-          <img :src="getIconSource()" alt="Profile Picture" style="width: 100%; height: auto;"/>
+          <img :src="`data:image/png;base64,${userDetails?.profilePicture}`" alt="Profile Picture" style="width: 100%; height: auto;"/>
           <v-card-text>
             <v-list>
               <v-list-item>
@@ -24,14 +24,15 @@
           </v-card-text>
           <v-card-actions class="justify-center">
             <v-btn @click="goBack" color="primary" class="bottom-buttons">Go Back</v-btn>
-            <v-btn @click="editProfile" color="secondary" class="bottom-buttons">Edit Profile</v-btn>
+            <!-- Conditionally render buttons based on ID match -->
+            <v-btn v-if="isUserProfile" @click="editProfile" color="secondary" class="bottom-buttons">Edit Profile</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
 
     <!-- New Post Button -->
-    <v-row justify="center" class="mt-4">
+    <v-row v-if="isUserProfile" justify="center" class="mt-4">
       <v-col cols="auto" class="text-center">
         <v-btn @click="createNewPost" color="primary" class="new-post-btn">
           <v-icon left>mdi-plus</v-icon>
@@ -52,16 +53,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { UserDetailsDto, UserInterest, UserStatus } from '@/types/models';
 
-const userId = sessionStorage.getItem('userId') || '';
+const route = useRoute();
+const router = useRouter();
+const userId = route.params.id as string;
+const sessionUserId = sessionStorage.getItem('userId') || '';
 const userDetails = ref<UserDetailsDto | null>(null);
 const posts = ref<any[]>([]);
 const errorMessage = ref('');
-const router = useRouter();
 
 const fetchUserDetails = async () => {
   if (!userId) {
@@ -86,7 +89,7 @@ const fetchPosts = async () => {
     });
     const postIds = response.data;
     if (postIds.length === 0) {
-      posts.value = []; // Assuming no dummy posts
+      posts.value = [];
     } else {
       const postDetailsPromises = postIds.map(fetchPostDetails);
       const postDetails = await Promise.all(postDetailsPromises);
@@ -101,7 +104,7 @@ const fetchPosts = async () => {
 const fetchPostDetails = async (postId: number) => {
   try {
     const response = await axios.get('/posts/GetPostDetails', {
-      params: { postid: postId, userId },
+      params: { postid: postId },
     });
     return response.data;
   } catch (error) {
@@ -163,37 +166,7 @@ const getStatusText = (status: UserStatus | undefined): string => {
   return status !== undefined ? UserStatus[status] : 'Unlisted';
 };
 
-const userStatus = () => {
-    const statusNum = userDetails?.value?.status;
-    switch (statusNum) {
-        case (0):
-            return 'Unlisted';
-        case (1):
-            return 'Matched';
-        case (2):
-            return 'Unmatched';
-        default:
-            return 'An error occured while retrieving this user\'s status';
-    }
-}
-
-const getInterest = () => {
-    const statusNum = userDetails?.value?.interest;
-    switch (statusNum) {
-        case (0):
-            return 'Unlisted';
-        case (1):
-            return 'Mammals';
-        case (2):
-            return 'Reptiles';
-        case (3):
-            return 'Amphibians';
-        case (4):
-            return 'Birds';
-        default:
-            return 'An error occured while retrieving this user\'s status';
-    }
-}
+const isUserProfile = computed(() => userId === sessionUserId);
 
 onMounted(() => {
   fetchUserDetails();
