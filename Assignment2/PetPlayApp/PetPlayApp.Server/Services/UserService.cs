@@ -88,6 +88,10 @@ public class UserService(IRepositoryProviderService repositoryProvider) : IUserS
             throw new Exception("User already exists");
         }
         imagedata ??= File.ReadAllBytes("Assets/SeededProfilePictures/DefaultProfile.png");
+        if (imagedata.Length == 0)
+        {
+            imagedata = File.ReadAllBytes("Assets/SeededProfilePictures/DefaultProfile.png");
+        }
 
         var user = new User
         {
