@@ -22,10 +22,13 @@ namespace PetPlayApp.Server.Models
 
 		public List<Post> LikedPosts { get; } = [];
 
-		[InverseProperty("PostCreator")]
-		public List<Post> CreatedPosts { get; } = [];
+		public List<Post> CreatedPosts { get; init; } = [];
 
-        public byte[]? ProfilePictureData { get; set; }
+		public List<Comment> CreatedComments { get; init; } = [];
+
+		public List<Comment> LikedComments { get; init; } = [];
+
+		public byte[]? ProfilePictureData { get; set; }
 
         public ICollection<Story>? StoriesCreated { get; set; } = [];
 	}

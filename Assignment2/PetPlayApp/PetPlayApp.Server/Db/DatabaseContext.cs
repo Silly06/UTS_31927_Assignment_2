@@ -13,8 +13,9 @@ namespace PetPlayApp.Server.Db
         public DbSet<Match> Matches { get; set; }
         // DbSet for stories table
         public DbSet<Story> Stories { get; set; }
-        
-        public string DbPath { get; }
+		// DbSet for comments table
+		public DbSet<Comment> Comments { get; set; }
+		public string DbPath { get; }
 
         public DatabaseContext()
         {
@@ -31,30 +32,41 @@ namespace PetPlayApp.Server.Db
         }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			// Post Creator
+			modelBuilder.Entity<Post>()
+				.HasOne(e => e.PostCreator)
+				.WithMany(e => e.CreatedPosts);
+			// Post Likes
 			modelBuilder.Entity<Post>()
 				.HasMany(e => e.Likes)
 				.WithMany(e => e.LikedPosts)
-				.UsingEntity<Like>();
+				.UsingEntity<PostLike>();
 
-            modelBuilder.Entity<Post>()
-                .HasOne(e => e.PostCreator)
-                .WithMany(e => e.CreatedPosts);
+			// Comment Creator
+			modelBuilder.Entity<Comment>()
+				.HasOne(c => c.User)
+				.WithMany(u => u.CreatedComments);
+			// Comment Likes
+			modelBuilder.Entity<Comment>()
+				.HasMany(c => c.Likes)
+				.WithMany(u => u.LikedComments)
+				.UsingEntity<CommentLike>();
 
+			// Match
 			modelBuilder.Entity<Match>()
 				.HasKey(m => new { m.User1Id, m.User2Id });
-
 			modelBuilder.Entity<Match>()
 				.HasOne(m => m.User1)
 				.WithMany(u => u.MatchesInitiated)
 				.HasForeignKey(m => m.User1Id)
 				.OnDelete(DeleteBehavior.Restrict);
-
 			modelBuilder.Entity<Match>()
 				.HasOne(m => m.User2)
 				.WithMany(u => u.MatchesReceived)
 				.HasForeignKey(m => m.User2Id)
 				.OnDelete(DeleteBehavior.Restrict);
 			
+			// Story Creator
 			modelBuilder.Entity<Story>()
 				.HasOne(s => s.StoryCreator)
 				.WithMany(u => u.StoriesCreated)

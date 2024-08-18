@@ -41,6 +41,8 @@ namespace PetPlayApp.Server.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
+
+
 	}
 	public class GetCommentRequest
 	{

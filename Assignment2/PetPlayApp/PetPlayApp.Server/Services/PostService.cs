@@ -1,27 +1,34 @@
 ﻿using PetPlayApp.Server.Db;
 using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Services.Abstractions;
+using System.ComponentModel.Design;
 
 namespace PetPlayApp.Server.Services
 {
     public class PostService : IPostService
     {
 		private readonly IRepository<Post> postRepository;
+		private readonly IRepository<User> userRepository;
 
 		public PostService(IRepositoryProviderService repositoryProvider)
 		{
 			postRepository = repositoryProvider.GetRepository<Post>();
+			userRepository = repositoryProvider.GetRepository<User>();
 		}
 
-		public void LikePost(Post post, User user)
+		public void LikePost(Guid postId, Guid userId)
         {
-            post.Likes.Add(user);
+			var post = postRepository.GetById(postId) ?? throw new ArgumentException("Post not found");
+			var user = userRepository.GetById(userId) ?? throw new ArgumentException("User not found");
+			post.Likes.Add(user);
 			postRepository.Update(post);
             CheckForMatch(post, user);
         }
 
-		public void UnlikePost(Post post, User user)
+		public void UnlikePost(Guid postId, Guid userId)
 		{
+			var post = postRepository.GetById(postId) ?? throw new ArgumentException("Post not found");
+			var user = userRepository.GetById(userId) ?? throw new ArgumentException("User not found");
 			post.Likes.Remove(user);
 			postRepository.Update(post);
 		}

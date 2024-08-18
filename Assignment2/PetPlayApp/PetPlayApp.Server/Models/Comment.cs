@@ -17,5 +17,7 @@ namespace PetPlayApp.Server.Models
 
         public Guid UserId { get; set; }
         public User? User { get; set; }
-    }
+
+		public List<User> Likes { get; init; } = [];
+	}
 }
