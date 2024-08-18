@@ -111,24 +111,32 @@ public class UserService(IRepositoryProviderService repositoryProvider) : IUserS
     
     public IEnumerable<UserSearchDto> SearchUsers(Guid currentUserId, string? query)
     {
-        var users = _userRepository.GetAll().Where(x => x.Id.ToString() != currentUserId.ToString());
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            return _userRepository.GetAll()
+                .Where(x => x.Id != currentUserId)
+                .Select(user => new UserSearchDto
+                {
+                    UserId = user.Id,
+                    Username = user.UserName,
+                    ProfilePicture = user.ProfilePictureData
+                });
+        }
+
+        var lowerCaseQuery = query.Trim().ToLower();
+        var users = _userRepository.GetAll().Where(x => x.Id != currentUserId);
 
         var userSearchResults = users
             .Select(user => new
             {
                 User = user,
-                Similarity = CalculateUserMatchScore(query, user.Bio, user.Interest)
+                Similarity = CalculateUserMatchScore(lowerCaseQuery, user.UserName?.ToLower(), user.Bio?.ToLower(), user.Interest)
             })
             .OrderByDescending(result => result.Similarity);
 
-        return string.IsNullOrWhiteSpace(query) 
-            ? userSearchResults.Select(result => new UserSearchDto
-            {
-                UserId = result.User.Id,
-                Username = result.User.UserName,
-                ProfilePicture = result.User.ProfilePictureData
-            })
-            : userSearchResults.Take(10).Select(result => new UserSearchDto
+        return userSearchResults
+            .Take(10)
+            .Select(result => new UserSearchDto
             {
                 UserId = result.User.Id,
                 Username = result.User.UserName,
@@ -148,22 +156,20 @@ public class UserService(IRepositoryProviderService repositoryProvider) : IUserS
         _userRepository.Update(user);
     }
 
-    private static double CalculateUserMatchScore(string? query, string? bio, UserInterest? interest)
+    private static double CalculateUserMatchScore(string query, string? username, string? bio, UserInterest? interest)
     {
-        if (string.IsNullOrWhiteSpace(query) || string.IsNullOrWhiteSpace(bio))
+        if (string.IsNullOrWhiteSpace(query))
         {
             return 0;
         }
 
         var querySet = new HashSet<string>(query.Split(' ', StringSplitOptions.RemoveEmptyEntries));
-        var bioSet = new HashSet<string>(bio.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+        var bioSet = bio?.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>();
 
-        var intersection = querySet.Intersect(bioSet).Count();
-        var union = querySet.Union(bioSet).Count();
-
-        var bioScore = (double)intersection / union;
+        var usernameMatch = username != null && username.Contains(query, StringComparison.OrdinalIgnoreCase) ? 0.5 : 0;
+        var bioScore = querySet.Count(term => bioSet.Contains(term)) / (double)(bioSet.Length + 1);
         var interestScore = interest.HasValue && query.Contains(interest.ToString() ?? string.Empty, StringComparison.OrdinalIgnoreCase) ? 0.2 : 0;
 
-        return bioScore + interestScore;
+        return usernameMatch + bioScore + interestScore;
     }
 }
