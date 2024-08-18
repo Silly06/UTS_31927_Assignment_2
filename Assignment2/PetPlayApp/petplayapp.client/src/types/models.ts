@@ -61,8 +61,8 @@ export class MatchDetailsDto {
     user1Name?: string;
     user2Name?: string;
     matchStatus?: number;
-    Response1?: number;
-    Response2?: number;
+    response1?: number;
+    response2?: number;
 }
 
 export class PostDetailsDto {

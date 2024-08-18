@@ -30,8 +30,8 @@ public class MatchesController : Controller
             matchDetails.Add(new MatchDetailsDto
             {
                 MatchId = new Guid(),
-                User1 = _userRepository.GetById(match.User1Id)?.UserName,
-                User2 = _userRepository.GetById(match.User2Id)?.UserName,
+                User1Name = _userRepository.GetById(match.User1Id)?.UserName,
+                User2Name = _userRepository.GetById(match.User2Id)?.UserName,
                 MatchStatus = match.OverallStatus,
                 Response1 = match.User1Response,
                 Response2 = match.User2Response
