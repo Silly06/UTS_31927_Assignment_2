@@ -42,16 +42,19 @@ namespace PetPlayApp.Test.Services
             var postId = Guid.NewGuid();
             var userId = Guid.NewGuid();
             var content = "Test comment";
-            var post = new Post { Id = postId };
+			var postCreatorId = Guid.NewGuid();
+			var postCreator = new User { Id = postCreatorId };
+			var post = new Post { Id = postId, PostCreatorId = postCreatorId, PostCreator = postCreator };
             var user = new User { Id = userId };
 
             _postRepositoryMock.Setup(r => r.GetById(postId)).Returns(post);
-            _userRepositoryMock.Setup(r => r.GetById(userId)).Returns(user);
+			_userRepositoryMock.Setup(r => r.GetById(postCreatorId)).Returns(postCreator);
+			_userRepositoryMock.Setup(r => r.GetById(userId)).Returns(user);
 
             _commentService.AddComment(postId, userId, content);
 
             _commentRepositoryMock.Verify(r => r.Add(It.IsAny<Comment>()), Times.Once);
-            _notificationServiceMock.Verify(n => n.NotifyCommentCreated(postId, userId), Times.Once);
+            _notificationServiceMock.Verify(n => n.NotifyCommentCreated(postId, userId, postCreatorId), Times.Once);
         }
 
         [Test]

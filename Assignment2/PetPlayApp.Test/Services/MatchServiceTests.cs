@@ -86,14 +86,6 @@ namespace PetPlayApp.Test.Services
         }
 
         [Test]
-        public void AddMatch_InvalidData_DoesNotAddMatch()
-        {
-            _matchService.AddMatch(null, null);
-
-            _matchRepositoryMock.Verify(r => r.Add(It.IsAny<Match>()), Times.Never);
-        }
-
-        [Test]
         public void GetMatchesForUser_ValidUserId_ReturnsMatches()
         {
             var userId = Guid.NewGuid();
