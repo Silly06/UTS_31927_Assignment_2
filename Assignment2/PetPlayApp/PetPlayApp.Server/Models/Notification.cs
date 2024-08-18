@@ -26,6 +26,5 @@ namespace PetPlayApp.Server.Models
 		PostLike,
 		Comment,
 		CommentLike,
-		CommentReply
 	}
 }

@@ -11,7 +11,7 @@ using PetPlayApp.Server.Db;
 namespace PetPlayApp.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240818143701_InitialCreate")]
+    [Migration("20240818153231_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -19,6 +19,21 @@ namespace PetPlayApp.Server.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
+
+            modelBuilder.Entity("CommentUser", b =>
+                {
+                    b.Property<Guid>("LikedCommentsId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("LikesId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("LikedCommentsId", "LikesId");
+
+                    b.HasIndex("LikesId");
+
+                    b.ToTable("CommentUser");
+                });
 
             modelBuilder.Entity("PetPlayApp.Server.Models.Comment", b =>
                 {
@@ -46,26 +61,6 @@ namespace PetPlayApp.Server.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("PetPlayApp.Server.Models.CommentLike", b =>
-                {
-                    b.Property<Guid>("CommentId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("LikedCommentsId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("CommentId", "UserId");
-
-                    b.HasIndex("LikedCommentsId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("CommentLike");
                 });
 
             modelBuilder.Entity("PetPlayApp.Server.Models.Match", b =>
@@ -206,19 +201,34 @@ namespace PetPlayApp.Server.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PostUser", b =>
+            modelBuilder.Entity("PostLike", b =>
                 {
-                    b.Property<Guid>("LikedPostsId")
+                    b.Property<Guid>("PostId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("LikesId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("LikedPostsId", "LikesId");
+                    b.HasKey("PostId", "UserId");
 
-                    b.HasIndex("LikesId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("PostUser");
+                    b.ToTable("PostLike");
+                });
+
+            modelBuilder.Entity("CommentUser", b =>
+                {
+                    b.HasOne("PetPlayApp.Server.Models.Comment", null)
+                        .WithMany()
+                        .HasForeignKey("LikedCommentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PetPlayApp.Server.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("LikesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PetPlayApp.Server.Models.Comment", b =>
@@ -236,31 +246,6 @@ namespace PetPlayApp.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("Post");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("PetPlayApp.Server.Models.CommentLike", b =>
-                {
-                    b.HasOne("PetPlayApp.Server.Models.Comment", "Comment")
-                        .WithMany()
-                        .HasForeignKey("CommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PetPlayApp.Server.Models.Comment", null)
-                        .WithMany()
-                        .HasForeignKey("LikedCommentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PetPlayApp.Server.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Comment");
 
                     b.Navigation("User");
                 });
@@ -332,17 +317,17 @@ namespace PetPlayApp.Server.Migrations
                     b.Navigation("StoryCreator");
                 });
 
-            modelBuilder.Entity("PostUser", b =>
+            modelBuilder.Entity("PostLike", b =>
                 {
                     b.HasOne("PetPlayApp.Server.Models.Post", null)
                         .WithMany()
-                        .HasForeignKey("LikedPostsId")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PetPlayApp.Server.Models.User", null)
                         .WithMany()
-                        .HasForeignKey("LikesId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

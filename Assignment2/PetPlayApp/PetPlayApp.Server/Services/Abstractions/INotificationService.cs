@@ -1,3 +1,4 @@
+using PetPlayApp.Server.Dto;
 using PetPlayApp.Server.Models;
 
 namespace PetPlayApp.Server.Services.Abstractions
@@ -7,7 +8,6 @@ namespace PetPlayApp.Server.Services.Abstractions
 		void NotifyCommentCreated(Guid postId, Guid creatorId, Guid subjectId);
 		void NotifyPostLiked(Guid postId, Guid creatorId, Guid subjectId);
 		void NotifyCommentLiked(Guid postId, Guid creatorId, Guid subjectId);
-		List<Guid> GetRecentNotifications(Guid userId);
-		public Notification? GetNotification(Guid notificationId);
+		List<NotificationDto> GetRecentNotifications(Guid userId);
 	}
 }

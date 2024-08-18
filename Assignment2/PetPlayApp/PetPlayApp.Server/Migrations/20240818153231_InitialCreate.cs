@@ -160,69 +160,52 @@ namespace PetPlayApp.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostUser",
+                name: "PostLike",
                 columns: table => new
                 {
-                    LikedPostsId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    LikesId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    PostId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UserId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostUser", x => new { x.LikedPostsId, x.LikesId });
+                    table.PrimaryKey("PK_PostLike", x => new { x.PostId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_PostUser_Posts_LikedPostsId",
-                        column: x => x.LikedPostsId,
+                        name: "FK_PostLike_Posts_PostId",
+                        column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostUser_Users_LikesId",
-                        column: x => x.LikesId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CommentLike",
-                columns: table => new
-                {
-                    CommentId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    LikedCommentsId = table.Column<Guid>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CommentLike", x => new { x.CommentId, x.UserId });
-                    table.ForeignKey(
-                        name: "FK_CommentLike_Comments_CommentId",
-                        column: x => x.CommentId,
-                        principalTable: "Comments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CommentLike_Comments_LikedCommentsId",
-                        column: x => x.LikedCommentsId,
-                        principalTable: "Comments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CommentLike_Users_UserId",
+                        name: "FK_PostLike_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_CommentLike_LikedCommentsId",
-                table: "CommentLike",
-                column: "LikedCommentsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CommentLike_UserId",
-                table: "CommentLike",
-                column: "UserId");
+            migrationBuilder.CreateTable(
+                name: "CommentUser",
+                columns: table => new
+                {
+                    LikedCommentsId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    LikesId = table.Column<Guid>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommentUser", x => new { x.LikedCommentsId, x.LikesId });
+                    table.ForeignKey(
+                        name: "FK_CommentUser_Comments_LikedCommentsId",
+                        column: x => x.LikedCommentsId,
+                        principalTable: "Comments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CommentUser_Users_LikesId",
+                        column: x => x.LikesId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",
@@ -233,6 +216,11 @@ namespace PetPlayApp.Server.Migrations
                 name: "IX_Comments_UserId",
                 table: "Comments",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommentUser_LikesId",
+                table: "CommentUser",
+                column: "LikesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Matches_User2Id",
@@ -255,14 +243,14 @@ namespace PetPlayApp.Server.Migrations
                 column: "SubjectId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PostLike_UserId",
+                table: "PostLike",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Posts_PostCreatorId",
                 table: "Posts",
                 column: "PostCreatorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PostUser_LikesId",
-                table: "PostUser",
-                column: "LikesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stories_StoryCreatorId",
@@ -274,7 +262,7 @@ namespace PetPlayApp.Server.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CommentLike");
+                name: "CommentUser");
 
             migrationBuilder.DropTable(
                 name: "Matches");
@@ -283,7 +271,7 @@ namespace PetPlayApp.Server.Migrations
                 name: "Notifications");
 
             migrationBuilder.DropTable(
-                name: "PostUser");
+                name: "PostLike");
 
             migrationBuilder.DropTable(
                 name: "Stories");

@@ -134,7 +134,11 @@ export default defineConfig({
             '^/matches/MatchResponse': {
                 target,
                 secure: false
-            }
+            },
+            '^/notifications/GetRecentNotifications': {
+                target,
+                secure: false
+            },
         },
         port: 5173,
         https: {

@@ -14,21 +14,14 @@ namespace PetPlayApp.Server.Controllers
 		}
 
 		[HttpGet("GetRecentNotifications")]
-		public ActionResult<IEnumerable<Guid>> GetRecentNotifications(Guid userId)
+		public ActionResult<IEnumerable<Guid>> GetRecentNotifications([FromQuery] Guid userId)
 		{
-			var notificationIds = _notificationService.GetRecentNotifications(userId);
-			if (notificationIds == null || notificationIds.Count == 0)
+			var notifications = _notificationService.GetRecentNotifications(userId);
+			if (notifications == null || notifications.Count == 0)
 			{
-				return NotFound();
+				return NoContent();
 			}
-			return Ok(notificationIds);
-		}
-
-		[HttpGet("GetNotificationDetails")]
-		public IActionResult GetNotificationDetails([FromQuery] Guid postid)
-		{
-			var notification = _notificationService.GetNotification(postid);
-			return Ok(notification);
+			return Ok(notifications);
 		}
 	}
 }

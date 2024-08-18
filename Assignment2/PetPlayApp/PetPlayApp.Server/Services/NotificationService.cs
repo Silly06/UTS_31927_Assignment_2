@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Hosting;
 using PetPlayApp.Server.Db;
+using PetPlayApp.Server.Dto;
 using PetPlayApp.Server.Models;
 using PetPlayApp.Server.Services.Abstractions;
 
@@ -81,19 +82,30 @@ namespace PetPlayApp.Server.Services
 			});
 		}
 
-		public List<Guid> GetRecentNotifications(Guid userId)
+		public List<NotificationDto> GetRecentNotifications(Guid userId)
 		{
 			return notificationRepository.GetAll()
 				.Where(n => n.SubjectId == userId)
 				.OrderBy(x => x.Timestamp)
-				.Select(x => x.Id)
+				.Select(x => 
+					new NotificationDto
+					{
+						PostId = x.PostId,
+						Content = GetContent(x),
+					})
 				.ToList();
 		}
 
-		public Notification? GetNotification(Guid notificationId)
+		private string GetContent(Notification notification)
 		{
-			var notification = notificationRepository.GetById(notificationId);
-			return notification;
+			var user = userRepository.GetById(notification.CreatorId) ?? throw new ArgumentNullException("User not found");
+			return notification.NotificationType switch
+			{
+				NotificationType.Comment => $"{user.UserName} commented on your post",
+				NotificationType.CommentLike => $"{user.UserName} liked your comment",
+				NotificationType.PostLike => $"{user.UserName} liked your post",
+				_ => throw new ArgumentException("Invalid notification type"),
+			};
 		}
 	}
 }
