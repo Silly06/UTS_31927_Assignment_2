@@ -5,15 +5,8 @@ using PetPlayApp.Server.Services.Abstractions;
 namespace PetPlayApp.Server.Controllers;
 
 [Route("users")]
-public class UserController : Controller
+public class UserController(IUserService userService) : Controller
 {
-    private readonly IUserService _userService;
-
-    public UserController(IUserService userService)
-    {
-        _userService = userService;
-    }
-
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginDto login)
     {
@@ -22,15 +15,15 @@ public class UserController : Controller
             return BadRequest("Username or password was empty or missing");
         }
 
-        if (!_userService.TryValidateUser(login.Username, login.Password, out var userId)) return Unauthorized();
-        var picture = _userService.GetUserPicture(userId);
+        if (!userService.TryValidateUser(login.Username, login.Password, out var userId)) return Unauthorized();
+        var picture = userService.GetUserPicture(userId);
         return Ok(new { UserId = userId, UserPfp = picture});
     }
 
     [HttpGet("GetUserDetails")]
     public IActionResult GetUserDetails([FromQuery] Guid userId)
     {
-        var userDetails = _userService.GetUserDetails(userId);
+        var userDetails = userService.GetUserDetails(userId);
         return Ok(userDetails);
     }
 
@@ -48,7 +41,7 @@ public class UserController : Controller
                     imageData = memoryStream.ToArray();
                 }
             }
-            _userService.UpdateUserDetails(userDetails.UserId, userDetails.Username, userDetails.Email, userDetails.Age, userDetails.Bio, userDetails.Status, userDetails.Interest, imageData);
+            userService.UpdateUserDetails(userDetails.UserId, userDetails.Username, userDetails.Email, userDetails.Age, userDetails.Bio, userDetails.Status, userDetails.Interest, imageData);
             return Ok("User details updated successfully.");
         }
         catch (Exception ex)
@@ -67,9 +60,9 @@ public class UserController : Controller
                 return BadRequest("Username or password cannot be empty.");
             }
 
-            _userService.CreateUser(createUser.Username, createUser.Password, createUser.Email, createUser.Age, createUser.Bio, createUser.ProfilePicture);
+            userService.CreateUser(createUser.Username, createUser.Password, createUser.Email, createUser.Age, createUser.Bio, createUser.ProfilePicture);
 
-            _userService.TryValidateUser(createUser.Username, createUser.Password, out var userId);
+            userService.TryValidateUser(createUser.Username, createUser.Password, out var userId);
             
             return Ok(new { UserId = userId });
         }
@@ -82,7 +75,7 @@ public class UserController : Controller
     [HttpGet("SearchUsers")]
     public IActionResult SearchUsers([FromQuery] Guid currentUserId, [FromQuery] string query)
     {
-        var searchResults = _userService.SearchUsers(currentUserId, query).ToList();
+        var searchResults = userService.SearchUsers(currentUserId, query).ToList();
         
         if (searchResults.Count == 0)
         {
@@ -95,7 +88,7 @@ public class UserController : Controller
     [HttpGet("GetUserPicture")]
     public IActionResult GetUserPicture([FromQuery] Guid userId)
     {
-        var picture = _userService.GetUserPicture(userId);
+        var picture = userService.GetUserPicture(userId);
         
         if (picture == null)
         {
@@ -113,7 +106,7 @@ public class UserController : Controller
             return BadRequest("Email, old password, or new password is missing.");
         }
 
-        _userService.ResetPassword(resetPasswordDto.Email, resetPasswordDto.OldPassword, resetPasswordDto.NewPassword);
+        userService.ResetPassword(resetPasswordDto.Email, resetPasswordDto.OldPassword, resetPasswordDto.NewPassword);
 
         return Ok("Password reset successfully.");
     }
